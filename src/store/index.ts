@@ -2,7 +2,7 @@
 import Vue from 'vue';
 import Vuex, { ActionTree, GetterTree, MutationTree } from 'vuex';
 
-import axios from 'axios';
+// import axios from 'axios';
 
 import { State } from '@/types/store';
 
@@ -28,6 +28,7 @@ const state: State = {
   videoLanguage: 'en',
   subtitleLanguage: 'nl',
   categories: [],
+  selectedVideo: null,
 };
 
 const getters: GetterTree<State, any> = {
@@ -58,19 +59,12 @@ const mutations: MutationTree<State> = {
   setSubtitleLanguage(state, value) {
     state.subtitleLanguage = value;
   },
-};
-
-const actions: ActionTree<State, any> = {
-  async fetchCredentials({ commit }) {
-    commit('setCredentials', []);
-    try {
-      const response = await axios.post('/api/auth/viewtoken');
-      commit('setCredentials', response.data);
-    } catch (error) {
-      console.error(error);
-    }
+  setSelectedVideo(state, value) {
+    state.selectedVideo = value;
   },
 };
+
+const actions: ActionTree<State, any> = {};
 
 export default new Vuex.Store({
   state,

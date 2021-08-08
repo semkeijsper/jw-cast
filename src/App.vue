@@ -39,20 +39,24 @@
         <VideoCategory categoryName="LatestVideos"></VideoCategory>
       </v-container>
     </v-main>
+    <VideoDialog></VideoDialog>
   </v-app>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Getter, Mutation, State } from 'vuex-class';
+
 import axios from 'axios';
 
 import VideoCategory from '@/components/VideoCategory.vue';
-import { Getter, Mutation, State } from 'vuex-class';
+import VideoDialog from '@/components/VideoDialog.vue';
 import { Language } from './types';
 
 @Component({
   components: {
     VideoCategory,
+    VideoDialog,
   },
 })
 export default class App extends Vue {

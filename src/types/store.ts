@@ -8,4 +8,5 @@ export interface State {
   videoLanguage: string;
   subtitleLanguage: string;
   categories: Category[];
+  selectedVideo: string | null;
 }

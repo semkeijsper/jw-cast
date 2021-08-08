@@ -1,13 +1,16 @@
 <template>
   <v-row>
     <v-col v-for="video in videos" :key="video.guid" sm="6" lg="4">
-      <v-card hover ripple>
+      <v-card hover ripple rounded @click="setSelectedVideo(video)">
         <v-img
           :src="video.images.lss.lg"
           class="white--text align-end"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
         >
-          <v-card-title v-text="video.title" style="word-break: normal"></v-card-title>
+          <v-card-title
+            v-text="video.title"
+            style="word-break: normal; user-select: none;"
+          ></v-card-title>
         </v-img>
       </v-card>
     </v-col>
@@ -16,6 +19,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Mutation } from 'vuex-class';
 
 import { Video } from '@/types';
 
@@ -23,5 +27,7 @@ import { Video } from '@/types';
 export default class VideoGrid extends Vue {
   @Prop({ required: true })
   videos!: Video[];
+
+  @Mutation setSelectedVideo!: (value: Video) => void;
 }
 </script>
