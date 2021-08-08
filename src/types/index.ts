@@ -4,9 +4,9 @@ export interface Language {
   locale: string;
   vernacular: string;
   name: string;
-  isLangPair: boolean;
-  isSignLanguage: boolean;
-  isRTL: boolean;
+  isLangPair?: boolean;
+  isSignLanguage?: boolean;
+  isRTL?: boolean;
 }
 
 export interface Category {

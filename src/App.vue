@@ -7,22 +7,9 @@
 
       <v-spacer></v-spacer>
 
-      <v-autocomplete
-        v-model="siteLanguage"
-        :items="languages"
-        class="mx-4"
-        flat
-        :dense="!this.$vuetify.breakpoint.mdAndUp"
-        hide-details
-        solo-inverted
-        prepend-icon="mdi-translate"
-        :item-text="item => `${item.name} (${item.vernacular})`"
-        item-value="code"
-      ></v-autocomplete>
-
-      <v-btn icon>
+      <!-- <v-btn icon>
         <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
+      </v-btn> -->
     </v-app-bar>
 
     <v-main>
@@ -33,13 +20,13 @@
             <v-row>
               <v-col sm="6" lg="4">
                 <v-autocomplete
-                  v-model="videoLanguage"
+                  v-model="siteLanguage"
                   :items="languages"
                   class="mt-4"
                   hide-details
                   prepend-icon="mdi-translate"
                   :item-text="item => `${item.name} (${item.vernacular})`"
-                  item-value="code"
+                  item-value="locale"
                   outlined
                   dense
                 ></v-autocomplete>
@@ -48,7 +35,8 @@
             <v-divider class="mt-8"></v-divider>
           </v-col>
         </v-row>
-        <VideoCategory :category="latestVideos"></VideoCategory>
+        <VideoCategory categoryName="JWB2021Convention" divider></VideoCategory>
+        <VideoCategory categoryName="LatestVideos"></VideoCategory>
       </v-container>
     </v-main>
   </v-app>
@@ -59,6 +47,8 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import axios from 'axios';
 
 import VideoCategory from '@/components/VideoCategory.vue';
+import { Getter, Mutation, State } from 'vuex-class';
+import { Language } from './types';
 
 @Component({
   components: {
@@ -66,45 +56,80 @@ import VideoCategory from '@/components/VideoCategory.vue';
   },
 })
 export default class App extends Vue {
-  baseUrl = 'https://b.jw-cdn.org/apis/mediator/v1';
-  siteLanguage = '';
-  videoLanguage = '';
-  languages = [];
   translations = [];
   latestVideos = {};
 
+  @State(state => state.route.params.language)
+  routeLanguage!: string;
+
+  @State baseUrl!: string;
+  @State languages!: Language[];
+
+  @Getter getSiteLanguage!: Language;
+  @Getter getVideoLanguage!: Language;
+  @Mutation setSiteLanguage!: (value: string) => void;
+  @Mutation setVideoLanguage!: (value: string) => void;
+  @Mutation setLanguages!: (value: Language[]) => void;
+
   async mounted() {
-    this.siteLanguage = 'O';
-    this.videoLanguage = 'O';
+    // Make sure languages/translations are fetched first
+    this.fetchTranslations().then(() => {
+      this.setSiteLanguage(this.routeLanguage);
+    });
   }
 
   get languagesUrl() {
-    return `${this.baseUrl}/languages/${this.siteLanguage}/all?clientType=www`;
+    return `${this.baseUrl}/languages/${this.getSiteLanguage.code}/all?clientType=www`;
   }
 
   get translationsUrl() {
-    return `${this.baseUrl}/translations/${this.siteLanguage}`;
+    return `${this.baseUrl}/translations/${this.getSiteLanguage.code}`;
   }
 
-  get latestVideosUrl() {
-    return `${this.baseUrl}/categories/${this.videoLanguage}/LatestVideos?detailed=1&clientType=www`;
+  get siteLanguage() {
+    return this.getSiteLanguage.locale;
+  }
+
+  set siteLanguage(language: string) {
+    this.setSiteLanguage(language);
+  }
+
+  get videoLanguage() {
+    return this.getVideoLanguage.locale;
+  }
+
+  set videoLanguage(language: string) {
+    this.setVideoLanguage(language);
+  }
+
+  @Watch('routeLanguage')
+  onRouteLanguageChange() {
+    this.setSiteLanguage(this.routeLanguage);
   }
 
   @Watch('siteLanguage')
   async onSiteLanguageChange() {
-    this.languages = (await axios.get(this.languagesUrl)).data.languages;
-    this.translations = (await axios.get(this.translationsUrl)).data.translations[
-      this.siteLanguage
-    ];
+    this.fetchTranslations();
+    this.$router.push({ name: 'Home', params: { language: this.siteLanguage } });
   }
 
-  @Watch('videoLanguage')
-  async onVideoLanguageChange() {
+  async fetchTranslations() {
     try {
-      this.latestVideos = (await axios.get(this.latestVideosUrl)).data.category;
+      // Pinning items to the top of a list has never been harder
+      const { languages } = (await axios.get<{ languages: Language[] }>(this.languagesUrl)).data;
+      const dutch = languages.filter(language => language.locale === 'nl')[0];
+      const english = languages.filter(language => language.locale === 'en')[0];
+      const remainder = languages.filter(
+        language => language.locale !== 'nl' && language.locale !== 'en',
+      );
+      remainder.unshift(dutch, english);
+      this.setLanguages(remainder);
     } catch (error) {
-      this.latestVideos = {};
+      // Give up, I guess.
     }
+    this.translations = (await axios.get(this.translationsUrl)).data.translations[
+      this.getSiteLanguage.code
+    ];
   }
 }
 </script>
