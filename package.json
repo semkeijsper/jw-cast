@@ -63,7 +63,10 @@
     "rules": {
       "lines-between-class-members": "off",
       "prettier/prettier": [
-        "error"
+        "error",
+        {
+          "endOfLine": "auto"
+        }
       ],
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": "error",
