@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col v-for="video in videos" :key="video.guid" sm="6" lg="4">
+    <v-col v-for="video in videos" :key="video.guid" sm="6" lg="4" cols="12">
       <v-card hover ripple rounded @click="setSelectedVideo(video)">
         <v-img
           :src="video.images.lss.lg"

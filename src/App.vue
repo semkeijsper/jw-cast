@@ -18,7 +18,7 @@
           <v-col class="mt-3" sm="12" xl="8">
             <strong class="text-h3 font-weight-bold" v-text="translations.hdgVideos"></strong>
             <v-row>
-              <v-col sm="6" lg="4">
+              <v-col xs="12" sm="6" lg="4" cols="12">
                 <v-autocomplete
                   v-model="siteLanguage"
                   :items="languages"
