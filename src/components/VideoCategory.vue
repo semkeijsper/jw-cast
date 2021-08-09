@@ -32,7 +32,7 @@ export default class VideoCategory extends Vue {
   category: Category | null = null;
 
   @State baseUrl!: string;
-  @Getter getSiteLanguage!: Language;
+  @Getter('getSiteLanguage') siteLanguage!: Language;
 
   mounted() {
     this.loadCategory();
@@ -47,11 +47,14 @@ export default class VideoCategory extends Vue {
   }
 
   get categoryUrl() {
-    return `${this.baseUrl}/categories/${this.getSiteLanguage.code}/${this.categoryName}?detailed=1&clientType=www`;
+    return `${this.baseUrl}/categories/${this.siteLanguage.code}/${this.categoryName}?detailed=1&clientType=www`;
   }
 
-  @Watch('getSiteLanguage')
-  onVideoLanguageChange() {
+  @Watch('siteLanguage')
+  onVideoLanguageChange(newLang: Language, oldLang: Language) {
+    if (newLang.locale === oldLang.locale) {
+      return;
+    }
     this.loadCategory();
   }
 }

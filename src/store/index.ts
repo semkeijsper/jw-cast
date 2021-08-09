@@ -16,14 +16,21 @@ const state: State = {
       locale: 'nl',
       vernacular: 'Nederlands',
       name: 'Nederlands',
+      isLangPair: false,
+      isSignLanguage: false,
+      isRTL: false,
     },
     {
       code: 'E',
       locale: 'en',
       vernacular: 'English',
       name: 'Engels',
+      isLangPair: false,
+      isSignLanguage: false,
+      isRTL: false,
     },
   ],
+  translations: {},
   siteLanguage: 'nl',
   videoLanguage: 'en',
   subtitleLanguage: 'nl',
@@ -49,6 +56,9 @@ const getters: GetterTree<State, any> = {
 const mutations: MutationTree<State> = {
   setLanguages(state, value) {
     state.languages = value;
+  },
+  setTranslations(state, value) {
+    state.translations = value;
   },
   setSiteLanguage(state, value) {
     state.siteLanguage = value;

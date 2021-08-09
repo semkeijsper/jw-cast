@@ -25,7 +25,7 @@
                   class="mt-4"
                   hide-details
                   prepend-icon="mdi-translate"
-                  :item-text="item => `${item.name} (${item.vernacular})`"
+                  :item-text="languageLabel"
                   item-value="locale"
                   outlined
                   dense
@@ -60,26 +60,30 @@ import { Language } from './types';
   },
 })
 export default class App extends Vue {
-  translations = [];
-  latestVideos = {};
-
-  @State(state => state.route.params.language)
-  routeLanguage!: string;
+  @State(state => state.route.params.language) routeLanguage!: string;
 
   @State baseUrl!: string;
   @State languages!: Language[];
+  @State translations!: { [key: string]: string };
 
   @Getter getSiteLanguage!: Language;
   @Getter getVideoLanguage!: Language;
   @Mutation setSiteLanguage!: (value: string) => void;
   @Mutation setVideoLanguage!: (value: string) => void;
+
   @Mutation setLanguages!: (value: Language[]) => void;
+  @Mutation setTranslations!: (value: { [key: string]: string }) => void;
 
   async mounted() {
     // Make sure languages/translations are fetched first
     this.fetchTranslations().then(() => {
       this.setSiteLanguage(this.routeLanguage);
     });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  languageLabel(item: Language) {
+    return item.name === item.vernacular ? item.name : `${item.name} (${item.vernacular})`;
   }
 
   get languagesUrl() {
@@ -131,9 +135,9 @@ export default class App extends Vue {
     } catch (error) {
       // Give up, I guess.
     }
-    this.translations = (await axios.get(this.translationsUrl)).data.translations[
-      this.getSiteLanguage.code
-    ];
+    this.setTranslations(
+      (await axios.get(this.translationsUrl)).data.translations[this.getSiteLanguage.code],
+    );
   }
 }
 </script>
