@@ -4,6 +4,7 @@
       <v-card hover ripple rounded @click="setSelectedVideo(video)">
         <v-img
           :src="video.images.lss.lg"
+          :aspect-ratio="2 / 1"
           class="white--text align-end"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
         >
