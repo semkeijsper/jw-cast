@@ -1,13 +1,11 @@
 <template>
-  <div>
-    <v-row v-if="category" justify="center">
-      <v-col sm="12" xl="8" cols="12">
-        <p class="text-h4 font-weight-medium mb-6" v-text="category.name"></p>
-        <VideoGrid :videos="category.media"></VideoGrid>
-        <v-divider v-if="divider" class="mt-8"></v-divider>
-      </v-col>
-    </v-row>
-  </div>
+  <v-row v-if="category" justify="center">
+    <v-col sm="12" xl="8" cols="12">
+      <p class="text-h4 font-weight-medium mb-6" v-text="category.name"></p>
+      <VideoGrid :videos="category.media"></VideoGrid>
+      <v-divider v-if="divider" class="mt-8"></v-divider>
+    </v-col>
+  </v-row>
 </template>
 
 <script lang="ts">

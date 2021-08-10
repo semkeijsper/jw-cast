@@ -7,9 +7,12 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
-      </v-btn>
+      <v-toolbar-items>
+        <v-btn text href="https://github.com/semkeijsper/jw-cast#handleiding" target="_blank">
+          <v-icon left>mdi-help</v-icon>
+          {{ translations.lnkHelpView }}
+        </v-btn>
+      </v-toolbar-items>
     </v-app-bar>
 
     <v-main>
@@ -118,7 +121,9 @@ export default class App extends Vue {
   @Watch('siteLanguage')
   async onSiteLanguageChange() {
     this.fetchTranslations();
-    this.$router.push({ name: 'Home', params: { language: this.siteLanguage } });
+    if (this.routeLanguage !== this.siteLanguage) {
+      this.$router.push({ name: 'Home', params: { language: this.siteLanguage } });
+    }
   }
 
   async fetchTranslations() {

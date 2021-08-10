@@ -34,7 +34,6 @@ const state: State = {
   siteLanguage: 'nl',
   videoLanguage: 'en',
   subtitleLanguage: 'nl',
-  categories: [],
   selectedVideo: null,
 };
 

@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { Category, Language } from '.';
+import { Language } from '.';
 
 export interface State {
   baseUrl: string;
@@ -8,6 +8,5 @@ export interface State {
   siteLanguage: string;
   videoLanguage: string;
   subtitleLanguage: string;
-  categories: Category[];
   selectedVideo: string | null;
 }

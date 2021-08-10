@@ -1,9 +1,10 @@
 ## JW Cast
+
 ### https://semkeijsper.github.io/jw-cast
 
 ---
 
-Deze site haalt videos op van jw.org en maakt het mogelijk om twee verschillende talen te kiezen voor video en ondertitels. Je kan dus bijvoorbeeld in het Engels het congres bekijken met Nederlandse ondertiteling!
+Deze site haalt videos op van [jw.org](https://jw.org) en maakt het mogelijk om twee verschillende talen te kiezen voor video en ondertitels. Je kan dus bijvoorbeeld het congres in het Engels bekijken met Nederlandse ondertiteling!
 
 # Handleiding
 
@@ -29,11 +30,20 @@ Je hebt nu twee opties: gebruik een [Chromecast](https://store.google.com/produc
 
 ---
 
+#### **Wat is het verschil tussen Chromecast en VLC?**
+
+1. Met een Chromecast stream je het direct van jw.org. Je hoeft het dus niet eerst te downloaden, wat wel het geval is met de VLC methode.
+2. Een Chromecast is aangesloten op een TV en kan direct een video daarop weergeven. Met VLC Media Player moet je een laptop verbinden via bijvoorbeeld een HDMI kabel om het op de TV te kijken.
+3. Een Chromecast kost 30-40 euro, VLC is gratis en vereist alleen een laptop (en eventueel een HDMI kabel)
+
+---
+
 ## Technische informatie
 
-Alle data (beschikbare videos, afbeeldingen, mp4/vtt links) wordt rechtstreeks van de jw.org API gehaald. Deze site is puur een interface om de data op een bruikbare manier te presenteren. Er wordt niks aan aangepast of veranderd.
+Alle data (beschikbare videos, afbeeldingen, mp4/vtt links) worden rechtstreeks van de jw.org API gehaald. Deze site is puur een interface om de data op een bruikbare manier te presenteren. Er wordt niks aan aangepast of veranderd.
 
 Als je de site zelf wilt bouwen, doe je dat zo:
+
 ```
 git clone https://github.com/semkeijsper/jw-cast.git
 cd jw-cast
