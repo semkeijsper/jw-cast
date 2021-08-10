@@ -55,3 +55,7 @@ yarn build
 ```
 
 Wil je de site op localhost starten, gebruik dan `yarn serve` in plaats van `yarn build`.
+
+De site is gehost op GitHub Pages, de bestanden zijn te vinden in de branch `gh-pages`. 
+
+Deployment gebeurd via een subtree d.m.v. `git subtree push --prefix dist origin gh-pages`.
