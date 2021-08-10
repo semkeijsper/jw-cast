@@ -35,7 +35,7 @@ Je hebt nu twee opties: gebruik een [Chromecast](https://store.google.com/produc
 
 #### **Wat is het verschil tussen Chromecast en VLC?**
 
-1. Met een Chromecast stream je het direct van jw.org. Je hoeft het dus niet eerst te downloaden, wat wel het geval is met de VLC methode.
+1. Met een Chromecast stream je direct van jw.org. Je hoeft een video dus niet eerst te downloaden, wat wel het geval is met de VLC methode.
 2. Een Chromecast is aangesloten op een TV en kan direct een video daarop weergeven. Met VLC Media Player moet je een laptop verbinden via bijvoorbeeld een HDMI kabel om het op de TV te kijken.
 3. Een Chromecast kost 30-40 euro, VLC is gratis en vereist alleen een laptop (en eventueel een HDMI kabel)
 
