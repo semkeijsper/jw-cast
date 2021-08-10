@@ -66,7 +66,7 @@
           </v-row>
         </v-container>
         <v-card-actions v-if="$vuetify.breakpoint.xsOnly">
-          <v-menu offset-y rounded="0">
+          <v-menu offset-y rounded="0" transition="slide-y-transition">
             <template v-slot:activator="{ on: menu, attrs }">
               <v-tooltip right>
                 <template v-slot:activator="{ on: tooltip }">
@@ -94,7 +94,7 @@
             </template>
             <v-list dense v-if="videoMedia">
               <v-list-item
-                v-for="file in videoMedia.files"
+                v-for="file in videoMedia.files.filter(f => f.label !== '144p')"
                 :key="file.checksum"
                 link
                 :href="getChromecastUrl(file)"
@@ -107,7 +107,7 @@
         </v-card-actions>
         <v-card-actions>
           <template v-if="!$vuetify.breakpoint.xsOnly">
-            <v-menu offset-y rounded="0">
+            <v-menu offset-y rounded="0" transition="slide-y-transition">
               <template v-slot:activator="{ on: menu, attrs }">
                 <v-tooltip right>
                   <template v-slot:activator="{ on: tooltip }">
@@ -135,7 +135,7 @@
               </template>
               <v-list dense v-if="videoMedia">
                 <v-list-item
-                  v-for="file in videoMedia.files"
+                  v-for="file in videoMedia.files.filter(f => f.label !== '144p')"
                   :key="file.checksum"
                   link
                   :href="getChromecastUrl(file)"
@@ -147,7 +147,7 @@
             </v-menu>
             <v-spacer></v-spacer>
           </template>
-          <v-menu offset-y rounded="0">
+          <v-menu offset-y rounded="0" transition="slide-y-transition">
             <template v-slot:activator="{ attrs, on }">
               <v-btn color="primary" v-bind="attrs" v-on="on" class="mr-2" :loading="!videoMedia">
                 <v-icon left>
@@ -159,12 +159,14 @@
 
             <v-list dense v-if="videoMedia">
               <v-list-item
-                v-for="file in videoMedia.files"
+                v-for="file in videoMedia.files.filter(f => f.label !== '144p')"
                 :key="file.checksum"
                 link
                 :href="file.progressiveDownloadURL"
               >
-                <v-list-item-title v-text="file.label"></v-list-item-title>
+                <v-list-item-title
+                  v-text="`${file.label} (${Math.floor(file.filesize / 1e6)} MB)`"
+                ></v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
