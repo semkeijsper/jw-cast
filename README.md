@@ -8,16 +8,19 @@ Deze site haalt videos op van [jw.org](https://jw.org) en maakt het mogelijk om 
 
 # Handleiding
 
-1. Klik op het filmpje wat je wilt kijken. De beschikbaarheid van filmpjes hangt af van welke taal je hebt geselecteerd
+1. Klik op het filmpje wat je wilt kijken
+    - De beschikbaarheid van filmpjes hangt af van welke taal je hebt geselecteerd
 2. Kies de taal van de audio bij het luidspreker-icoontje
-3. Kies de taal van de ondertiteling bij het ondertiteling-icoontje. Opmerking: Niet elke taal heeft ondertiteling beschikbaar!
+3. Kies de taal van de ondertiteling bij het ondertiteling-icoontje.
+    - Let op: sommige talen hebben geen ondertiteling!
 
 Je hebt nu twee opties: gebruik een [Chromecast](https://store.google.com/product/chromecast?hl=nl) of [VLC Media Player](https://www.videolan.org/vlc/):
 
 #### **Met een Chromecast**:
 
 4. Klik op `Afspelen` en kies de gewenste kwaliteit
-5. Een nieuwe pagina wordt geopend. Deze site heet SMPlayer, en maakt het mogelijk om de video naar je Chromecast te streamen. Klik op Connect to Chromecast, en daarna op Play on Chromecast
+5. Een nieuw tabblad wordt geopend. Deze site heet SMPlayer, en maakt het mogelijk om de video naar je Chromecast te streamen
+6. Klik op `Connect to Chromecast`, en daarna op `Play on Chromecast`
 
 #### **Met VLC Media Player**:
 
