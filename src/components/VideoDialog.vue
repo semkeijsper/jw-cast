@@ -245,7 +245,7 @@ export default class VideoDialog extends Vue {
   get jwOrgUrl() {
     const { locale } = this.getSiteLanguage;
     const { primaryCategory, languageAgnosticNaturalKey } = this.selectedVideo;
-    return `https://www.jw.org/${locale}/bibliotheek/videos/#${locale}/mediaitems/${primaryCategory}/${languageAgnosticNaturalKey}`;
+    return `https://www.jw.org/finder?locale=${locale}&category=${primaryCategory}&lank=${languageAgnosticNaturalKey}`;
   }
 
   get subtitleUrl() {
