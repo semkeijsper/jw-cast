@@ -302,18 +302,18 @@ export default class VideoDialog extends Vue {
 
   @Watch('selectedVideo')
   onSelectedVideoChange(video: Video) {
-    this.dialog = video !== null;
     if (video !== null) {
-      this.videoMedia = null;
-      this.subtitleMedia = null;
-      if (this.getSiteLanguage.locale === this.videoLanguage) {
-        this.videoMedia = video;
-      }
-      if (this.getSiteLanguage.locale === this.subtitleLanguage) {
-        this.subtitleMedia = video;
-      }
-      this.loadMediaItems();
+      return;
     }
+    this.videoMedia = null;
+    this.subtitleMedia = null;
+    if (this.getSiteLanguage.locale === this.videoLanguage) {
+      this.videoMedia = video;
+    }
+    if (this.getSiteLanguage.locale === this.subtitleLanguage) {
+      this.subtitleMedia = video;
+    }
+    this.loadMediaItems();
   }
 
   @Watch('videoLanguage')
