@@ -302,7 +302,7 @@ export default class VideoDialog extends Vue {
 
   @Watch('selectedVideo')
   onSelectedVideoChange(video: Video) {
-    if (video !== null) {
+    if (video === null) {
       return;
     }
     this.videoMedia = null;
