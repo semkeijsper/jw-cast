@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     v-model="dialog"
-    @click:outside="closeDialog"
+    @click:outside="dialog = false"
     max-width="900px"
     transition="dialog-bottom-transition"
     :fullscreen="$vuetify.breakpoint.smAndDown"
@@ -18,7 +18,7 @@
             </template>
             <span v-text="translations.lnkHome"></span>
           </v-tooltip>
-          <v-btn icon @click="closeDialog">
+          <v-btn icon @click="dialog = false">
             <v-icon>mdi-close</v-icon>
           </v-btn>
         </v-toolbar-items>
@@ -165,7 +165,7 @@
                 :href="file.progressiveDownloadURL"
               >
                 <v-list-item-title
-                  v-text="`${file.label} (${Math.floor(file.filesize / 1e6)} MB)`"
+                  v-text="`${file.label} (${Math.floor(file.filesize / 1048576)} MB)`"
                 ></v-list-item-title>
               </v-list-item>
             </v-list>
@@ -196,7 +196,6 @@ import axios from 'axios';
 
 @Component
 export default class VideoDialog extends Vue {
-  dialog = false;
   videoMedia: Video | null = null;
   subtitleMedia: Video | null = null;
 
@@ -204,7 +203,9 @@ export default class VideoDialog extends Vue {
   @State languages!: Language[];
   @State translations!: { [key: string]: string };
 
+  @State videoDialog!: boolean;
   @State selectedVideo!: Video;
+  @Mutation setVideoDialog!: (value: boolean) => void;
   @Mutation setSelectedVideo!: (value: Video | null) => void;
 
   @Getter getSiteLanguage!: Language;
@@ -212,10 +213,6 @@ export default class VideoDialog extends Vue {
   @Getter getSubtitleLanguage!: Language;
   @Mutation setVideoLanguage!: (value: string) => void;
   @Mutation setSubtitleLanguage!: (value: string) => void;
-
-  closeDialog() {
-    this.setSelectedVideo(null);
-  }
 
   // eslint-disable-next-line class-methods-use-this
   languageLabel(item: Language) {
@@ -262,6 +259,14 @@ export default class VideoDialog extends Vue {
     return this.languages.filter(language =>
       this.selectedVideo.availableLanguages.includes(language.code),
     );
+  }
+
+  get dialog() {
+    return this.videoDialog;
+  }
+
+  set dialog(value) {
+    this.setVideoDialog(value);
   }
 
   get videoLanguage() {

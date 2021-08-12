@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col v-for="video in videos" :key="video.guid" sm="6" lg="4" cols="12">
-      <v-card hover ripple rounded @click="setSelectedVideo(video)">
+      <v-card hover ripple rounded @click="onClickVideo(video)">
         <v-img
           :src="video.images.lss.lg"
           :aspect-ratio="2 / 1"
@@ -29,6 +29,12 @@ export default class VideoGrid extends Vue {
   @Prop({ required: true })
   videos!: Video[];
 
+  @Mutation setVideoDialog!: (value: boolean) => void;
   @Mutation setSelectedVideo!: (value: Video) => void;
+
+  onClickVideo(video: Video) {
+    this.setSelectedVideo(video);
+    this.setVideoDialog(true);
+  }
 }
 </script>

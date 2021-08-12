@@ -34,6 +34,7 @@ const state: State = {
   siteLanguage: 'nl',
   videoLanguage: 'en',
   subtitleLanguage: 'nl',
+  videoDialog: false,
   selectedVideo: null,
 };
 
@@ -67,6 +68,9 @@ const mutations: MutationTree<State> = {
   },
   setSubtitleLanguage(state, value) {
     state.subtitleLanguage = value;
+  },
+  setVideoDialog(state, value) {
+    state.videoDialog = value;
   },
   setSelectedVideo(state, value) {
     state.selectedVideo = value;
