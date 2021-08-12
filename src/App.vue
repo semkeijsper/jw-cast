@@ -1,16 +1,14 @@
 <template>
   <v-app id="inspire">
     <v-app-bar app dark color="primary">
-      <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
-
       <v-toolbar-title>JW Cast</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
         <v-btn text href="https://github.com/semkeijsper/jw-cast#handleiding" target="_blank">
-          <v-icon left>mdi-help</v-icon>
-          {{ translations.lnkHelpView }}
+          <v-icon left>mdi-book-open-blank-variant</v-icon>
+          {{ guideButtonText }}
         </v-btn>
       </v-toolbar-items>
     </v-app-bar>
@@ -54,7 +52,7 @@ import axios from 'axios';
 
 import VideoCategory from '@/components/VideoCategory.vue';
 import VideoDialog from '@/components/VideoDialog.vue';
-import { Language } from './types';
+import { Language, Translations } from './types';
 
 @Component({
   components: {
@@ -67,15 +65,13 @@ export default class App extends Vue {
 
   @State baseUrl!: string;
   @State languages!: Language[];
-  @State translations!: { [key: string]: string };
+  @State translations!: Translations;
 
   @Getter getSiteLanguage!: Language;
-  @Getter getVideoLanguage!: Language;
   @Mutation setSiteLanguage!: (value: string) => void;
-  @Mutation setVideoLanguage!: (value: string) => void;
 
   @Mutation setLanguages!: (value: Language[]) => void;
-  @Mutation setTranslations!: (value: { [key: string]: string }) => void;
+  @Mutation setTranslations!: (value: Translations) => void;
 
   async mounted() {
     // Make sure languages/translations are fetched first
@@ -105,12 +101,15 @@ export default class App extends Vue {
     this.setSiteLanguage(language);
   }
 
-  get videoLanguage() {
-    return this.getVideoLanguage.locale;
-  }
-
-  set videoLanguage(language: string) {
-    this.setVideoLanguage(language);
+  get guideButtonText() {
+    switch (this.siteLanguage) {
+      case 'nl':
+        return 'Handleiding';
+      case 'en':
+        return 'Guide';
+      default:
+        return this.translations.lnkHelpView;
+    }
   }
 
   @Watch('routeLanguage')
@@ -128,8 +127,9 @@ export default class App extends Vue {
 
   async fetchTranslations() {
     try {
+      type LanguagesRequest = { languages: Language[] };
+      const { languages } = (await axios.get<LanguagesRequest>(this.languagesUrl)).data;
       // Pinning items to the top of a list has never been harder
-      const { languages } = (await axios.get<{ languages: Language[] }>(this.languagesUrl)).data;
       const dutch = languages.filter(language => language.locale === 'nl')[0];
       const english = languages.filter(language => language.locale === 'en')[0];
       const remainder = languages.filter(
@@ -137,12 +137,14 @@ export default class App extends Vue {
       );
       remainder.unshift(dutch, english);
       this.setLanguages(remainder);
+
+      type TranslationsRequest = { translations: { [key: string]: Translations } };
+      const translationsRequest = await axios.get<TranslationsRequest>(this.translationsUrl);
+      const translations = translationsRequest.data.translations[this.getSiteLanguage.code];
+      this.setTranslations(translations);
     } catch (error) {
       // Give up, I guess.
     }
-    this.setTranslations(
-      (await axios.get(this.translationsUrl)).data.translations[this.getSiteLanguage.code],
-    );
   }
 }
 </script>

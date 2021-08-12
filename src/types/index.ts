@@ -9,6 +9,8 @@ export interface Language {
   isRTL?: boolean;
 }
 
+export type Translations = { [key: string]: string };
+
 export interface Category {
   key: string;
   type: string;

@@ -239,11 +239,6 @@ export default class VideoDialog extends Vue {
     return url;
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  downloadVideo(file: File) {
-    window.location.href = file.progressiveDownloadURL;
-  }
-
   get jwOrgUrl() {
     const { locale } = this.getSiteLanguage;
     const { primaryCategory, languageAgnosticNaturalKey } = this.selectedVideo;
