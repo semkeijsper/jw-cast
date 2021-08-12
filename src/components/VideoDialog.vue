@@ -24,8 +24,8 @@
         </v-toolbar-items>
       </v-toolbar>
       <v-img
-        :src="selectedVideo.images.pnr.lg"
-        :aspect-ratio="3 / 1"
+        :src="xsOnly ? selectedVideo.images.lss.lg : selectedVideo.images.pnr.lg"
+        :aspect-ratio="xsOnly ? 2 : 3 / 1"
         class="white--text align-end"
         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
       >
@@ -36,7 +36,7 @@
       </v-img>
       <v-card-text class="px-3 pb-3">
         <v-container>
-          <v-row :no-gutters="$vuetify.breakpoint.xsOnly">
+          <v-row :no-gutters="xsOnly">
             <v-col cols="12" sm="6">
               <v-autocomplete
                 v-model="videoLanguage"
@@ -65,7 +65,7 @@
             </v-col>
           </v-row>
         </v-container>
-        <v-card-actions v-if="$vuetify.breakpoint.xsOnly">
+        <v-card-actions v-if="xsOnly">
           <v-menu offset-y rounded="0" transition="slide-y-transition">
             <template v-slot:activator="{ on: menu, attrs }">
               <v-tooltip right>
@@ -106,7 +106,7 @@
           </v-menu>
         </v-card-actions>
         <v-card-actions>
-          <template v-if="!$vuetify.breakpoint.xsOnly">
+          <template v-if="!xsOnly">
             <v-menu offset-y rounded="0" transition="slide-y-transition">
               <template v-slot:activator="{ on: menu, attrs }">
                 <v-tooltip right>
@@ -237,6 +237,10 @@ export default class VideoDialog extends Vue {
       url += `&subtitles=${subtitles}`;
     }
     return url;
+  }
+
+  get xsOnly() {
+    return this.$vuetify.breakpoint.xsOnly;
   }
 
   get jwOrgUrl() {
