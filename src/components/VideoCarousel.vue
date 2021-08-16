@@ -1,7 +1,7 @@
 <template>
   <v-slide-group active-class="success" show-arrows="desktop">
     <v-slide-item v-for="video in videos" :key="video.guid">
-      <v-card hover ripple rounded @click="onClickVideo(video)" class="mr-3" width="343px">
+      <v-card hover ripple rounded @click="onClickVideo(video)" class="mr-3 mb-3" width="342px">
         <v-img
           :src="video.images.lss.lg"
           :aspect-ratio="2 / 1"

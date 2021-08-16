@@ -4,7 +4,7 @@
       <p class="text-h4 font-weight-medium mb-6" v-text="category.name"></p>
       <VideoGrid v-if="grid" :videos="category.media"></VideoGrid>
       <VideoCarousel v-else :videos="category.media"></VideoCarousel>
-      <v-divider v-if="divider" class="mt-8"></v-divider>
+      <v-divider v-if="divider" :class="grid ? 'mt-8' : 'mt-5'"></v-divider>
     </v-col>
   </v-row>
 </template>

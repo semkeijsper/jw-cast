@@ -37,7 +37,8 @@
           </v-col>
         </v-row>
         <VideoCategory categoryName="JWB2021Convention" grid divider></VideoCategory>
-        <VideoCategory categoryName="LatestVideos" class="mb-3" grid></VideoCategory>
+        <VideoCategory categoryName="LatestVideos" divider></VideoCategory>
+        <VideoCategory categoryName="StudioMonthlyPrograms" class="mb-3"></VideoCategory>
       </v-container>
     </v-main>
     <VideoDialog></VideoDialog>
@@ -78,6 +79,10 @@ export default class App extends Vue {
     });
   }
 
+  updateRoute() {
+    this.$router.push({ name: 'Home', params: { language: this.siteLanguage } });
+  }
+
   // eslint-disable-next-line class-methods-use-this
   languageLabel(item: Language) {
     return item.name === item.vernacular ? item.name : `${item.name} (${item.vernacular})`;
@@ -112,8 +117,6 @@ export default class App extends Vue {
 
   @Watch('routeLanguage')
   onRouteLanguageChange(newLang: string) {
-    console.log(newLang);
-
     if (!this.languages.some(language => language.locale === newLang)) {
       this.setSiteLanguage('en');
       this.fetchTranslations();
@@ -129,10 +132,6 @@ export default class App extends Vue {
     if (this.routeLanguage !== this.siteLanguage) {
       this.updateRoute();
     }
-  }
-
-  updateRoute() {
-    this.$router.push({ name: 'Home', params: { language: this.siteLanguage } });
   }
 
   async fetchTranslations() {
