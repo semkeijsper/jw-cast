@@ -36,8 +36,8 @@
             <v-divider class="mt-8"></v-divider>
           </v-col>
         </v-row>
-        <VideoCategory categoryName="JWB2021Convention" divider></VideoCategory>
-        <VideoCategory categoryName="LatestVideos"></VideoCategory>
+        <VideoCategory categoryName="JWB2021Convention" grid divider></VideoCategory>
+        <VideoCategory categoryName="LatestVideos" class="mb-3" grid></VideoCategory>
       </v-container>
     </v-main>
     <VideoDialog></VideoDialog>
@@ -45,13 +45,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
-import { Getter, Mutation, State } from 'vuex-class';
-
-import axios from 'axios';
-
 import VideoCategory from '@/components/VideoCategory.vue';
 import VideoDialog from '@/components/VideoDialog.vue';
+import axios from 'axios';
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Getter, Mutation, State } from 'vuex-class';
 import { Language, Translations } from './types';
 
 @Component({
@@ -94,7 +92,7 @@ export default class App extends Vue {
   }
 
   get siteLanguage() {
-    return this.getSiteLanguage.locale;
+    return this.getSiteLanguage?.locale ?? 'en';
   }
 
   set siteLanguage(language: string) {
@@ -113,16 +111,28 @@ export default class App extends Vue {
   }
 
   @Watch('routeLanguage')
-  onRouteLanguageChange() {
-    this.setSiteLanguage(this.routeLanguage);
+  onRouteLanguageChange(newLang: string) {
+    console.log(newLang);
+
+    if (!this.languages.some(language => language.locale === newLang)) {
+      this.setSiteLanguage('en');
+      this.fetchTranslations();
+      this.updateRoute();
+      return;
+    }
+    this.setSiteLanguage(newLang);
   }
 
   @Watch('siteLanguage')
   async onSiteLanguageChange() {
     this.fetchTranslations();
     if (this.routeLanguage !== this.siteLanguage) {
-      this.$router.push({ name: 'Home', params: { language: this.siteLanguage } });
+      this.updateRoute();
     }
+  }
+
+  updateRoute() {
+    this.$router.push({ name: 'Home', params: { language: this.siteLanguage } });
   }
 
   async fetchTranslations() {

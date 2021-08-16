@@ -8,7 +8,10 @@ const routes: Array<RouteConfig> = [
     path: '/:language',
     name: 'Home',
   },
-  { path: '/', redirect: '/nl' },
+  {
+    path: '/',
+    redirect: () => `/${navigator.language.split('-')[0]}` ?? 'nl',
+  },
 ];
 
 const router = new VueRouter({

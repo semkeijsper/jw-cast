@@ -2,7 +2,8 @@
   <v-row v-if="category" justify="center">
     <v-col sm="12" xl="8" cols="12">
       <p class="text-h4 font-weight-medium mb-6" v-text="category.name"></p>
-      <VideoGrid :videos="category.media"></VideoGrid>
+      <VideoGrid v-if="grid" :videos="category.media"></VideoGrid>
+      <VideoCarousel v-else :videos="category.media"></VideoCarousel>
       <v-divider v-if="divider" class="mt-8"></v-divider>
     </v-col>
   </v-row>
@@ -16,13 +17,17 @@ import axios from 'axios';
 import { Category, Language } from '@/types';
 
 import VideoGrid from './VideoGrid.vue';
+import VideoCarousel from './VideoCarousel.vue';
 
 @Component({
   components: {
     VideoGrid,
+    VideoCarousel,
   },
 })
 export default class VideoCategory extends Vue {
+  @Prop({ type: Boolean })
+  grid!: boolean;
   @Prop({ type: Boolean })
   divider!: boolean;
   @Prop({ required: true })
