@@ -46,12 +46,14 @@
 </template>
 
 <script lang="ts">
-import VideoCategory from '@/components/VideoCategory.vue';
-import VideoDialog from '@/components/VideoDialog.vue';
 import axios from 'axios';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { Getter, Mutation, State } from 'vuex-class';
+
 import { Language, Translations } from './types';
+
+import VideoDialog from '@/components/VideoDialog.vue';
+import VideoCategory from '@/components/VideoCategory.vue';
 
 @Component({
   components: {

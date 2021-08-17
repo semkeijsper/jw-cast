@@ -10,9 +10,9 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios';
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { Getter, State } from 'vuex-class';
-import axios from 'axios';
 
 import { Category, Language } from '@/types';
 

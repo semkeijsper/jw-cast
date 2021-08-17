@@ -188,11 +188,11 @@
 </template>
 
 <script lang="ts">
+import axios from 'axios';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { Getter, Mutation, State } from 'vuex-class';
 
 import { File, Language, Video } from '@/types';
-import axios from 'axios';
 
 @Component
 export default class VideoDialog extends Vue {

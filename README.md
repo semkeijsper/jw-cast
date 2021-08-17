@@ -9,10 +9,10 @@ Deze site haalt videos op van [jw.org](https://jw.org) en maakt het mogelijk om 
 # Handleiding
 
 1. Klik op het filmpje wat je wilt kijken
-    - De beschikbaarheid van filmpjes hangt af van welke taal je hebt geselecteerd
+   - De beschikbaarheid van filmpjes hangt af van welke taal je hebt geselecteerd
 2. Kies de taal van de audio bij het luidspreker-icoontje
 3. Kies de taal van de ondertiteling bij het ondertiteling-icoontje.
-    - Let op: sommige talen hebben geen ondertiteling!
+   - Let op: sommige talen hebben geen ondertiteling!
 
 Je hebt nu twee opties: gebruik een [Chromecast](https://store.google.com/product/chromecast?hl=nl) of [VLC Media Player](https://www.videolan.org/vlc/):
 
@@ -27,7 +27,7 @@ Je hebt nu twee opties: gebruik een [Chromecast](https://store.google.com/produc
 4. Klik op de downloadknop voor `Video` en kies de gewenste kwaliteit
 5. Klik op de downloadknop voor `Ondertitels`
 6. Open de gedownloade video (.mp4 bestand) met VLC Media Player
-7. In VLC, rechtsklik op de video: Ondertitels > Ondertitelbestand toevoegen
+7. In VLC, klik bovenaan op `Ondertitels`, en dan op `Ondertitelbestand toevoegen...`
 8. Selecteer het ondertitelbestand wat je hebt gedownload (.vtt bestand), en klik op openen
 9. De video speelt nu af met de gekozen ondertiteling
 
@@ -56,6 +56,6 @@ yarn build
 
 Wil je de site op localhost starten, gebruik dan `yarn serve` in plaats van `yarn build`.
 
-De site is gehost op GitHub Pages, de bestanden zijn te vinden in de branch `gh-pages`. 
+De site is gehost op GitHub Pages, de bestanden zijn te vinden in de branch `gh-pages`.
 
 Deployment gebeurd via een subtree d.m.v. `git subtree push --prefix dist origin gh-pages`.
