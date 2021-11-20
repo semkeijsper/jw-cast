@@ -32,6 +32,9 @@ export default class VideoCategory extends Vue {
   divider!: boolean;
   @Prop({ required: true })
   categoryName!: string;
+  @Prop({ type: Number })
+  limit!: number;
+
   category: Category | null = null;
 
   @State baseUrl!: string;
@@ -50,7 +53,9 @@ export default class VideoCategory extends Vue {
   }
 
   get categoryUrl() {
-    return `${this.baseUrl}/categories/${this.siteLanguage.code}/${this.categoryName}?detailed=1&clientType=www`;
+    return `${this.baseUrl}/categories/${this.siteLanguage.code}/${
+      this.categoryName
+    }?detailed=1&clientType=www${this.limit ? `&limit=${this.limit}` : ''}`;
   }
 
   @Watch('siteLanguage')

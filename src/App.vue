@@ -7,6 +7,10 @@
 
       <v-toolbar-items>
         <v-btn text href="https://github.com/semkeijsper/jw-cast#handleiding" target="_blank">
+          <v-icon left>mdi-magnify</v-icon>
+          {{ this.translations.lnkSearch }}
+        </v-btn>
+        <v-btn text href="https://github.com/semkeijsper/jw-cast#handleiding" target="_blank">
           <v-icon left>mdi-book-open-blank-variant</v-icon>
           {{ guideButtonText }}
         </v-btn>
@@ -36,9 +40,10 @@
             <v-divider class="mt-8"></v-divider>
           </v-col>
         </v-row>
-        <VideoCategory categoryName="JWB2021Convention" grid divider></VideoCategory>
-        <VideoCategory categoryName="LatestVideos" divider></VideoCategory>
-        <VideoCategory categoryName="StudioMonthlyPrograms" class="mb-3"></VideoCategory>
+        <VideoCategory categoryName="LatestVideos" grid divider></VideoCategory>
+        <VideoCategory categoryName="StudioMonthlyPrograms" :limit="18" divider></VideoCategory>
+        <VideoCategory categoryName="StudioTalks" :limit="10" divider></VideoCategory>
+        <VideoCategory categoryName="StudioNewsReports" :limit="10" class="mb-3"></VideoCategory>
       </v-container>
     </v-main>
     <VideoDialog></VideoDialog>
