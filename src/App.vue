@@ -21,7 +21,7 @@
       <v-container>
         <v-row justify="center">
           <v-col class="mt-3" sm="12" xl="8">
-            <strong class="text-h3 font-weight-bold" v-text="translations.hdgVideos"></strong>
+            <span class="text-h3 font-weight-bold" v-text="translations.hdgVideos"></span>
             <v-row>
               <v-col xs="12" sm="6" lg="4" cols="12">
                 <v-autocomplete
@@ -146,10 +146,9 @@ export default class App extends Vue {
   }
 
   async fetchTranslations() {
-    try {
-      type LanguagesRequest = { languages: Language[] };
-      const { languages } = (await axios.get<LanguagesRequest>(this.languagesUrl)).data;
-      // Pinning items to the top of a list has never been harder
+    type LanguagesRequest = { languages: Language[] };
+    axios.get<LanguagesRequest>(this.languagesUrl).then(response => {
+      const { languages } = response.data;
       const dutch = languages.filter(language => language.locale === 'nl')[0];
       const english = languages.filter(language => language.locale === 'en')[0];
       const remainder = languages.filter(
@@ -157,14 +156,13 @@ export default class App extends Vue {
       );
       remainder.unshift(dutch, english);
       this.setLanguages(remainder);
+    });
 
-      type TranslationsRequest = { translations: { [key: string]: Translations } };
-      const translationsRequest = await axios.get<TranslationsRequest>(this.translationsUrl);
-      const translations = translationsRequest.data.translations[this.getSiteLanguage.code];
+    type TranslationsRequest = { translations: { [key: string]: Translations } };
+    axios.get<TranslationsRequest>(this.translationsUrl).then(response => {
+      const translations = response.data.translations[this.getSiteLanguage.code];
       this.setTranslations(translations);
-    } catch (error) {
-      // Give up, I guess.
-    }
+    });
   }
 }
 </script>

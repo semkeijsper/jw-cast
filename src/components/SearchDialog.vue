@@ -38,6 +38,10 @@ export default class SearchDialog extends Vue {
   @State searchDialog!: boolean;
   @Mutation setSearchDialog!: (value: boolean) => void;
 
+  get xsOnly() {
+    return this.$vuetify.breakpoint.xsOnly;
+  }
+
   get dialog() {
     return this.searchDialog;
   }

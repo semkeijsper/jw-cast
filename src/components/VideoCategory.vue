@@ -30,7 +30,7 @@ export default class VideoCategory extends Vue {
   grid!: boolean;
   @Prop({ type: Boolean })
   divider!: boolean;
-  @Prop({ required: true })
+  @Prop({ type: String, required: true })
   categoryName!: string;
   @Prop({ type: Number })
   limit!: number;
