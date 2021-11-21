@@ -8,6 +8,7 @@ export interface State {
   siteLanguage: string;
   videoLanguage: string;
   subtitleLanguage: string;
+  searchDialog: boolean;
   videoDialog: boolean;
   selectedVideo: string | null;
 }

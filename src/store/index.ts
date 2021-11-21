@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import Vue from 'vue';
-import Vuex, { ActionTree, GetterTree, MutationTree } from 'vuex';
-
-// import axios from 'axios';
+import Vuex, { GetterTree, MutationTree } from 'vuex';
 
 import { State } from '@/types/store';
 
@@ -16,24 +14,19 @@ const state: State = {
       locale: 'nl',
       vernacular: 'Nederlands',
       name: 'Nederlands',
-      isLangPair: false,
-      isSignLanguage: false,
-      isRTL: false,
     },
     {
       code: 'E',
       locale: 'en',
       vernacular: 'English',
       name: 'Engels',
-      isLangPair: false,
-      isSignLanguage: false,
-      isRTL: false,
     },
   ],
   translations: {},
   siteLanguage: 'nl',
   videoLanguage: 'en',
   subtitleLanguage: 'nl',
+  searchDialog: false,
   videoDialog: false,
   selectedVideo: null,
 };
@@ -69,6 +62,9 @@ const mutations: MutationTree<State> = {
   setSubtitleLanguage(state, value) {
     state.subtitleLanguage = value;
   },
+  setSearchDialog(state, value) {
+    state.searchDialog = value;
+  },
   setVideoDialog(state, value) {
     state.videoDialog = value;
   },
@@ -77,11 +73,8 @@ const mutations: MutationTree<State> = {
   },
 };
 
-const actions: ActionTree<State, any> = {};
-
 export default new Vuex.Store({
   state,
   getters,
   mutations,
-  actions,
 });

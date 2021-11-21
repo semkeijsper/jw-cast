@@ -6,7 +6,7 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
-        <v-btn text href="https://github.com/semkeijsper/jw-cast#handleiding" target="_blank">
+        <v-btn text @click="setSearchDialog(true)">
           <v-icon left>mdi-magnify</v-icon>
           {{ this.translations.lnkSearch }}
         </v-btn>
@@ -46,6 +46,7 @@
         <VideoCategory categoryName="StudioNewsReports" :limit="10" class="mb-3"></VideoCategory>
       </v-container>
     </v-main>
+    <SearchDialog></SearchDialog>
     <VideoDialog></VideoDialog>
   </v-app>
 </template>
@@ -58,11 +59,13 @@ import { Getter, Mutation, State } from 'vuex-class';
 import { Language, Translations } from './types';
 
 import VideoDialog from '@/components/VideoDialog.vue';
+import SearchDialog from '@/components/SearchDialog.vue';
 import VideoCategory from '@/components/VideoCategory.vue';
 
 @Component({
   components: {
     VideoCategory,
+    SearchDialog,
     VideoDialog,
   },
 })
@@ -78,6 +81,7 @@ export default class App extends Vue {
 
   @Mutation setLanguages!: (value: Language[]) => void;
   @Mutation setTranslations!: (value: Translations) => void;
+  @Mutation setSearchDialog!: (value: boolean) => void;
 
   async mounted() {
     // Make sure languages/translations are fetched first
