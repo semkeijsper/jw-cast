@@ -2,29 +2,601 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://semkeijsper.github.io/jw-cast</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
     <loc>https://semkeijsper.github.io/jw-cast/#/en</loc>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="x-default" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="cmn-hans" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hant" hreflang="cmn-hant" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate"/>
-    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate"/>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/nl</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/ar</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/bn</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/cmn-hans</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/cmn-hant</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/de</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/el</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/es</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/fa</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/fr</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/hi</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/it</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/ja</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/ko</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/ko-cn</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/pa</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/pl</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/pt</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/pt-pt</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/ru</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
+  </url>
+  <url>
+    <loc>https://semkeijsper.github.io/jw-cast/#/tr</loc>
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast" hreflang="x-default" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/cmn-hans" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ko-cn" hreflang="ko-cn" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/pt-pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://semkeijsper.github.io/jw-cast/#/tr" hreflang="tr" rel="alternate" />
   </url>
 </urlset>
