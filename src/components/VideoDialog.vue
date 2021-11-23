@@ -65,122 +65,19 @@
             </v-col>
           </v-row>
         </v-container>
+        <!-- Button components use v-bind as props are the same name as the variables -->
+        <!-- For mobile -->
         <v-card-actions v-if="xsOnly">
-          <v-menu offset-y rounded="0" transition="slide-y-transition">
-            <template v-slot:activator="{ on: menu, attrs }">
-              <v-tooltip right>
-                <template v-slot:activator="{ on: tooltip }">
-                  <v-btn
-                    color="primary"
-                    v-bind="attrs"
-                    v-on="{ ...tooltip, ...menu }"
-                    class="mr-2"
-                    :loading="!videoMedia || !subtitleMedia"
-                  >
-                    <v-icon left>
-                      mdi-cast
-                    </v-icon>
-                    {{ translations.btnPlay }}
-                  </v-btn>
-                </template>
-                <span
-                  v-text="
-                    subtitleUrl
-                      ? translations.btnPlayWithSubtitles
-                      : translations.btnPlayWithoutSubtitles
-                  "
-                ></span>
-              </v-tooltip>
-            </template>
-            <v-list dense v-if="videoMedia">
-              <v-list-item
-                v-for="file in videoMedia.files.filter(f => f.label !== '144p')"
-                :key="file.checksum"
-                link
-                :href="getChromecastUrl(file)"
-                target="_blank"
-              >
-                <v-list-item-title v-text="file.label"></v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
+          <CastButton v-bind="{ videoMedia, subtitleMedia, subtitleUrl }"></CastButton>
         </v-card-actions>
         <v-card-actions>
+          <!-- For non-mobile -->
           <template v-if="!xsOnly">
-            <v-menu offset-y rounded="0" transition="slide-y-transition">
-              <template v-slot:activator="{ on: menu, attrs }">
-                <v-tooltip right>
-                  <template v-slot:activator="{ on: tooltip }">
-                    <v-btn
-                      color="primary"
-                      v-bind="attrs"
-                      v-on="{ ...tooltip, ...menu }"
-                      class="mr-2"
-                      :loading="!videoMedia || !subtitleMedia"
-                    >
-                      <v-icon left>
-                        mdi-cast
-                      </v-icon>
-                      {{ translations.btnPlay }}
-                    </v-btn>
-                  </template>
-                  <span
-                    v-text="
-                      subtitleUrl
-                        ? translations.btnPlayWithSubtitles
-                        : translations.btnPlayWithoutSubtitles
-                    "
-                  ></span>
-                </v-tooltip>
-              </template>
-              <v-list dense v-if="videoMedia">
-                <v-list-item
-                  v-for="file in videoMedia.files.filter(f => f.label !== '144p')"
-                  :key="file.checksum"
-                  link
-                  :href="getChromecastUrl(file)"
-                  target="_blank"
-                >
-                  <v-list-item-title v-text="file.label"></v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
+            <CastButton v-bind="{ videoMedia, subtitleMedia, subtitleUrl }"></CastButton>
             <v-spacer></v-spacer>
           </template>
-          <v-menu offset-y rounded="0" transition="slide-y-transition">
-            <template v-slot:activator="{ attrs, on }">
-              <v-btn color="primary" v-bind="attrs" v-on="on" class="mr-2" :loading="!videoMedia">
-                <v-icon left>
-                  mdi-download
-                </v-icon>
-                {{ translations.btnSearchFilterVideo }}
-              </v-btn>
-            </template>
-
-            <v-list dense v-if="videoMedia">
-              <v-list-item
-                v-for="file in videoMedia.files.filter(f => f.label !== '144p')"
-                :key="file.checksum"
-                link
-                :href="file.progressiveDownloadURL"
-              >
-                <v-list-item-title
-                  v-text="`${file.label} (${Math.floor(file.filesize / 1048576)} MB)`"
-                ></v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-          <v-btn
-            color="primary"
-            :loading="!subtitleMedia"
-            :disabled="subtitleUrl === null"
-            :href="subtitleUrl"
-          >
-            <v-icon left>
-              mdi-download
-            </v-icon>
-            {{ translations.hdgSubtitles }}
-          </v-btn>
+          <VideoButton v-bind="{ videoMedia }"></VideoButton>
+          <SubtitleButton v-bind="{ subtitleMedia, subtitleUrl }"></SubtitleButton>
         </v-card-actions>
       </v-card-text>
     </v-card>
@@ -192,9 +89,19 @@ import axios from 'axios';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { Getter, Mutation, State } from 'vuex-class';
 
-import { File, Language, Video } from '@/types';
+import { Language, Video } from '@/types';
 
-@Component
+import CastButton from './button/CastButton.vue';
+import VideoButton from './button/VideoButton.vue';
+import SubtitleButton from './button/SubtitleButton.vue';
+
+@Component({
+  components: {
+    CastButton,
+    VideoButton,
+    SubtitleButton,
+  },
+})
 export default class VideoDialog extends Vue {
   videoMedia: Video | null = null;
   subtitleMedia: Video | null = null;
@@ -217,23 +124,6 @@ export default class VideoDialog extends Vue {
   // eslint-disable-next-line class-methods-use-this
   languageLabel(item: Language) {
     return item.name === item.vernacular ? item.name : `${item.name} (${item.vernacular})`;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getChromecastUrl(file: File) {
-    const video = btoa(file.progressiveDownloadURL);
-    // sfgc: subtitle foreground color = #ffffff
-    let url = `https://chromecast.smplayer.info/index.php?sfgc=I2ZmZmZmZg==&url=${video}`;
-    try {
-      url += `&title=${btoa(this.selectedVideo.title.replaceAll('—', '-'))}`;
-    } catch (error) {
-      // No title then, I guess
-    }
-    if (this.subtitleUrl !== null) {
-      const subtitles = btoa(this.subtitleUrl);
-      url += `&subtitles=${subtitles}`;
-    }
-    return url;
   }
 
   get xsOnly() {
