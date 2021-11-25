@@ -40,10 +40,12 @@
             <v-divider class="mt-8"></v-divider>
           </v-col>
         </v-row>
-        <VideoCategory categoryName="LatestVideos" grid divider></VideoCategory>
-        <VideoCategory categoryName="StudioMonthlyPrograms" :limit="18" divider></VideoCategory>
-        <VideoCategory categoryName="StudioTalks" :limit="9" divider></VideoCategory>
-        <VideoCategory categoryName="StudioNewsReports" :limit="9" class="mb-3"></VideoCategory>
+        <template v-if="ready">
+          <VideoCategory categoryName="LatestVideos" grid divider></VideoCategory>
+          <VideoCategory categoryName="StudioMonthlyPrograms" :limit="18" divider></VideoCategory>
+          <VideoCategory categoryName="StudioTalks" :limit="9" divider></VideoCategory>
+          <VideoCategory categoryName="StudioNewsReports" :limit="9" class="mb-3"></VideoCategory>
+        </template>
       </v-container>
     </v-main>
     <SearchDialog></SearchDialog>
@@ -70,6 +72,8 @@ import VideoCategory from '@/components/VideoCategory.vue';
   },
 })
 export default class App extends Vue {
+  ready: boolean = false;
+
   @State(state => state.route.params.language) routeLanguage!: string;
 
   @State baseUrl!: string;
@@ -84,10 +88,10 @@ export default class App extends Vue {
   @Mutation setSearchDialog!: (value: boolean) => void;
 
   async mounted() {
-    // Make sure languages/translations are fetched first
-    this.fetchTranslations().then(() => {
-      this.setSiteLanguage(this.routeLanguage);
-    });
+    await this.fetchLanguages();
+    this.siteLanguage = this.routeLanguage;
+    this.ready = true;
+    if (this.routeLanguage === 'nl') this.fetchI18n();
   }
 
   updateRoute() {
@@ -99,8 +103,8 @@ export default class App extends Vue {
     return item.name === item.vernacular ? item.name : `${item.name} (${item.vernacular})`;
   }
 
-  get languagesUrl() {
-    return `${this.baseUrl}/languages/${this.getSiteLanguage.code}/all?clientType=www`;
+  languagesUrl(language: string) {
+    return `${this.baseUrl}/languages/${language}/all?clientType=www`;
   }
 
   get translationsUrl() {
@@ -127,42 +131,48 @@ export default class App extends Vue {
   }
 
   @Watch('routeLanguage')
-  onRouteLanguageChange(newLang: string) {
+  async onRouteLanguageChange(newLang: string) {
     if (!this.languages.some(language => language.locale === newLang)) {
-      this.setSiteLanguage('en');
-      this.fetchTranslations();
+      this.siteLanguage = 'en';
       this.updateRoute();
       return;
     }
-    this.setSiteLanguage(newLang);
+    this.siteLanguage = newLang;
   }
 
   @Watch('siteLanguage')
   async onSiteLanguageChange() {
-    this.fetchTranslations();
+    await this.fetchI18n();
     if (this.routeLanguage !== this.siteLanguage) {
       this.updateRoute();
     }
   }
 
-  async fetchTranslations() {
-    type LanguagesRequest = { languages: Language[] };
-    axios.get<LanguagesRequest>(this.languagesUrl).then(response => {
-      const { languages } = response.data;
-      const dutch = languages.filter(language => language.locale === 'nl')[0];
-      const english = languages.filter(language => language.locale === 'en')[0];
-      const remainder = languages.filter(
-        language => language.locale !== 'nl' && language.locale !== 'en',
-      );
-      remainder.unshift(dutch, english);
-      this.setLanguages(remainder);
-    });
+  async fetchI18n() {
+    await this.fetchLanguages();
+    await this.fetchTranslations();
+  }
 
+  async fetchLanguages() {
+    type LanguagesRequest = { languages: Language[] };
+    const url = this.languagesUrl(this.ready ? this.getSiteLanguage.code : '-');
+    const { languages } = (await axios.get<LanguagesRequest>(url)).data;
+
+    // Pinning items to the top of a list has never been harder
+    const dutch = languages.filter(language => language.locale === 'nl')[0];
+    const english = languages.filter(language => language.locale === 'en')[0];
+    const remainder = languages.filter(
+      language => language.locale !== 'nl' && language.locale !== 'en',
+    );
+    remainder.unshift(dutch, english);
+    this.setLanguages(remainder);
+  }
+
+  async fetchTranslations() {
     type TranslationsRequest = { translations: { [key: string]: Translations } };
-    axios.get<TranslationsRequest>(this.translationsUrl).then(response => {
-      const translations = response.data.translations[this.getSiteLanguage.code];
-      this.setTranslations(translations);
-    });
+    const response = await axios.get<TranslationsRequest>(this.translationsUrl);
+    const translations = response.data.translations[this.getSiteLanguage.code];
+    this.setTranslations(translations);
   }
 }
 </script>
