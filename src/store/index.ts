@@ -7,7 +7,9 @@ import { State } from '@/types/store';
 Vue.use(Vuex);
 
 const state: State = {
-  baseUrl: 'https://b.jw-cdn.org/apis/mediator/v1',
+  mediatorUrl: `https://b.jw-cdn.org/apis/mediator/v1`,
+  searchUrl: `https://b.jw-cdn.org/apis/search/results`,
+  tokenUrl: `https://b.jw-cdn.org/tokens/jworg.jwt`,
   languages: [
     {
       code: 'O',

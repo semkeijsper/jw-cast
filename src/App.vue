@@ -76,7 +76,7 @@ export default class App extends Vue {
 
   @State(state => state.route.params.language) routeLanguage!: string;
 
-  @State baseUrl!: string;
+  @State mediatorUrl!: string;
   @State languages!: Language[];
   @State translations!: Translations;
 
@@ -104,11 +104,11 @@ export default class App extends Vue {
   }
 
   languagesUrl(language: string) {
-    return `${this.baseUrl}/languages/${language}/all?clientType=www`;
+    return `${this.mediatorUrl}/languages/${language}/all?clientType=www`;
   }
 
   get translationsUrl() {
-    return `${this.baseUrl}/translations/${this.getSiteLanguage.code}`;
+    return `${this.mediatorUrl}/translations/${this.getSiteLanguage.code}`;
   }
 
   get siteLanguage() {

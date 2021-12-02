@@ -37,7 +37,7 @@ export default class VideoCategory extends Vue {
 
   category: Category | null = null;
 
-  @State baseUrl!: string;
+  @State mediatorUrl!: string;
   @Getter('getSiteLanguage') siteLanguage!: Language;
 
   mounted() {
@@ -53,7 +53,7 @@ export default class VideoCategory extends Vue {
   }
 
   get categoryUrl() {
-    return `${this.baseUrl}/categories/${this.siteLanguage.code}/${
+    return `${this.mediatorUrl}/categories/${this.siteLanguage.code}/${
       this.categoryName
     }?detailed=1&clientType=www${this.limit ? `&limit=${this.limit}` : ''}`;
   }

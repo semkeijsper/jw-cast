@@ -106,7 +106,7 @@ export default class VideoDialog extends Vue {
   videoMedia: Video | null = null;
   subtitleMedia: Video | null = null;
 
-  @State baseUrl!: string;
+  @State mediatorUrl!: string;
   @State languages!: Language[];
   @State translations!: { [key: string]: string };
 
@@ -176,7 +176,7 @@ export default class VideoDialog extends Vue {
   }
 
   getMediaUrl(language: Language) {
-    return `${this.baseUrl}/media-items/${language.code}/${this.selectedVideo.languageAgnosticNaturalKey}?clientType=www`;
+    return `${this.mediatorUrl}/media-items/${language.code}/${this.selectedVideo.languageAgnosticNaturalKey}?clientType=www`;
   }
 
   async loadMediaItems() {
