@@ -5,7 +5,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-toolbar-items>
+      <v-toolbar-items v-if="translations.lnkSearch">
         <v-btn v-if="!$vuetify.breakpoint.xsOnly" text @click="setSearchDialog(true)">
           <v-icon left>mdi-magnify</v-icon>
           {{ this.translations.lnkSearch }}
@@ -24,7 +24,10 @@
       <v-container>
         <v-row justify="center">
           <v-col class="mt-3" sm="12" xl="8">
-            <span class="text-h3 font-weight-bold" v-text="translations.hdgVideos"></span>
+            <span
+              class="text-h3 font-weight-bold"
+              v-text="translations.hdgVideos || '\u200D'"
+            ></span>
             <v-row>
               <v-col xs="12" sm="6" lg="4" cols="12">
                 <v-autocomplete
@@ -37,6 +40,7 @@
                   item-value="locale"
                   outlined
                   dense
+                  ref="langSelect"
                 ></v-autocomplete>
               </v-col>
             </v-row>
@@ -145,6 +149,7 @@ export default class App extends Vue {
 
   @Watch('siteLanguage')
   async onSiteLanguageChange() {
+    (this.$refs.langSelect as any).blur();
     await this.fetchI18n();
     if (this.routeLanguage !== this.siteLanguage) {
       this.updateRoute();
@@ -179,9 +184,3 @@ export default class App extends Vue {
   }
 }
 </script>
-
-<style>
-html {
-  overflow-y: auto !important;
-}
-</style>
