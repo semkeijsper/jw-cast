@@ -46,6 +46,10 @@ const getters: GetterTree<State, any> = {
     const language = state.subtitleLanguage;
     return state.languages.find(l => l.locale === language);
   },
+  findLanguageByCode: state => (code: string | undefined) =>
+    state.languages.find(language => language.code === code),
+  findLanguageByLocale: state => (locale: string | undefined) =>
+    state.languages.find(language => language.locale === locale?.replace('-', '_')),
 };
 
 const mutations: MutationTree<State> = {

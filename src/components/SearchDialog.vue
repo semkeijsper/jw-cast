@@ -17,6 +17,7 @@
           outlined
           dense
           clearable
+          autofocus
           class="mr-3"
         ></v-text-field>
         <v-toolbar-items>
@@ -28,7 +29,7 @@
       <v-card-text :class="[xsOnly ? 'px-0' : 'px-3', 'py-3', 'pt-3']">
         <v-container>
           <v-row v-if="response">
-            <v-col sm="6" lg="8" :class="[xsOnly ? 'pt-0' : undefined]">
+            <v-col sm="6" lg="8">
               <span v-text="searchMessage"></span>
               <div v-if="response.messages[1]" v-html="response.messages[1].message"></div>
             </v-col>
@@ -70,8 +71,12 @@
             </v-col>
           </v-row>
           <v-row v-else>
-            <v-col v-for="i in 3" :key="i" sm="6" lg="4" cols="12">
-              <v-skeleton-loader type="image" :boilerplate="!isLoading"></v-skeleton-loader>
+            <v-col v-for="i in columnCount" :key="i" sm="6" lg="4" cols="12">
+              <v-skeleton-loader
+                type="image"
+                max-height="189"
+                :boilerplate="!isLoading"
+              ></v-skeleton-loader>
             </v-col>
           </v-row>
         </v-container>
@@ -81,10 +86,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
-import { State, Getter, Mutation } from 'vuex-class';
-
 import axios, { AxiosRequestConfig } from 'axios';
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Getter, Mutation, State } from 'vuex-class';
 import { Language, Result, SearchResponse, Translations, Video } from '@/types';
 
 @Component
@@ -100,9 +104,11 @@ export default class SearchDialog extends Vue {
   @State tokenUrl!: string;
   @State searchUrl!: string;
   @State mediatorUrl!: string;
+  @State languages!: Language[];
   @State translations!: Translations;
 
   @Getter getSiteLanguage!: Language;
+  @Getter findLanguageByLocale!: (locale: string | undefined) => Language | undefined;
 
   @State searchDialog!: boolean;
   @Mutation setSearchDialog!: (value: boolean) => void;
@@ -170,14 +176,22 @@ export default class SearchDialog extends Vue {
     }));
   }
 
-  getMediaUrl(result: Result) {
-    return `${this.mediatorUrl}/media-items/${this.getSiteLanguage.code}/${result.lank}?clientType=www`;
+  get columnCount() {
+    switch (this.$vuetify.breakpoint.name) {
+      case 'xl':
+      case 'lg':
+        return 3;
+      case 'md':
+      case 'sm':
+        return 2;
+      case 'xs':
+      default:
+        return 1;
+    }
   }
 
   async onClickResult(result: Result) {
-    const [video] = (await axios.get(this.getMediaUrl(result))).data.media;
-    this.setSelectedVideo(video);
-    this.setVideoDialog(true);
+    this.fetchVideo(this.getSiteLanguage.code, result.lank);
   }
 
   @Watch('searchQuery')
@@ -187,21 +201,51 @@ export default class SearchDialog extends Vue {
       return;
     }
 
-    // is URL check
-    // jw\.org\/\w+\/.*#(?<locale>\w+)\/mediaitems\/(?<category>\w+)\/(?<lank>.*)
-    // jw\.org\/finder\?.*&.*
-    // wtlocale=(?<code>[A-Za-z]+)
-    // locale=(?<locale>[A-Za-z]+)
+    const finderRegex = /jw\.org\/finder\?.+&.+/;
+    const wtLocaleRegex = /wtlocale=(?<code>[A-Za-z]+)/;
+    const localeRegex = /locale=(?<locale>[A-Za-z]+)/;
+    const lankRegex = /lank=(?<lank>[\w-]+)/;
+    const mediaItemsRegex = /jw\.org\/[\w-]+\/.+#(?<locale>[\w-]+)\/mediaitems\/(?<category>[\w-]+)\/(?<lank>[\w-]+)/;
 
-    this.fetchVideos(value);
+    if (finderRegex.test(value)) {
+      const lang =
+        wtLocaleRegex.exec(value)?.groups?.code ??
+        this.findLanguageByLocale(localeRegex.exec(value)?.groups?.locale)?.code;
+      const lank = lankRegex.exec(value)?.groups?.lank;
+      await this.fetchVideo(lang, lank);
+      this.searchQuery = '';
+      return;
+    }
+    if (mediaItemsRegex.test(value)) {
+      const match = mediaItemsRegex.exec(value);
+      const lang = this.findLanguageByLocale(match?.groups?.locale)?.code;
+      const lank = match?.groups?.lank;
+      await this.fetchVideo(lang, lank);
+      this.searchQuery = '';
+      return;
+    }
+
+    this.fetchResponse(value);
+  }
+
+  async fetchVideo(langCode: string | undefined, lank: string | undefined) {
+    if (langCode === undefined || lank === undefined) {
+      // TODO: Invalid link message(?)
+      return;
+    }
+    const [video] = (
+      await axios.get(`${this.mediatorUrl}/media-items/${langCode}/${lank}?clientType=www`)
+    ).data.media;
+    this.setSelectedVideo(video);
+    this.setVideoDialog(true);
   }
 
   @Watch('sort')
   async onSortChange() {
-    this.fetchVideos(this.searchQuery);
+    this.fetchResponse(this.searchQuery);
   }
 
-  async fetchVideos(query: string) {
+  async fetchResponse(query: string) {
     this.isLoading = true;
     const url = `${this.searchUrl}/${this.getSiteLanguage.code}/videos?sort=${this.sort}&q=${query}`;
     const config: AxiosRequestConfig = {
@@ -223,6 +267,12 @@ export default class SearchDialog extends Vue {
     } finally {
       this.isLoading = false;
     }
+  }
+
+  @Watch('getSiteLanguage')
+  onSiteLanguageChange() {
+    this.searchQuery = '';
+    this.response = null;
   }
 }
 </script>
