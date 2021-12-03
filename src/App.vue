@@ -6,9 +6,12 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items>
-        <v-btn text @click="setSearchDialog(true)">
+        <v-btn v-if="!$vuetify.breakpoint.xsOnly" text @click="setSearchDialog(true)">
           <v-icon left>mdi-magnify</v-icon>
           {{ this.translations.lnkSearch }}
+        </v-btn>
+        <v-btn v-else icon @click="setSearchDialog(true)">
+          <v-icon>mdi-magnify</v-icon>
         </v-btn>
         <v-btn text href="https://github.com/semkeijsper/jw-cast#handleiding" target="_blank">
           <v-icon left>mdi-book-open-blank-variant</v-icon>

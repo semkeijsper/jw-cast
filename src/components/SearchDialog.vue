@@ -16,6 +16,7 @@
           single-line
           outlined
           dense
+          clearable
           class="mr-3"
         ></v-text-field>
         <v-toolbar-items>
@@ -24,16 +25,18 @@
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-      <v-card-text :class="[xsOnly ? 'px-0' : 'px-3', 'py-3', 'pt-6']">
+      <v-card-text :class="[xsOnly ? 'px-0' : 'px-3', 'py-3', 'pt-3']">
         <v-container>
           <v-row v-if="response">
             <v-col sm="6" lg="8" :class="[xsOnly ? 'pt-0' : undefined]">
-              <span v-text="response.pagination.label"></span>
+              <span v-text="searchMessage"></span>
+              <div v-if="response.messages[1]" v-html="response.messages[1].message"></div>
             </v-col>
-            <v-col sm="6" lg="4" class="pt-0">
+            <v-col v-if="response.sorts.length > 0" sm="6" lg="4">
               <v-select
                 v-model="sort"
-                :items="response.sorts"
+                :items="sorts"
+                item-value="key"
                 item-text="label"
                 prepend-icon="mdi-sort"
                 label="Sort"
@@ -46,7 +49,7 @@
           </v-row>
           <v-row v-else>
             <v-col sm="6" lg="4" cols="12">
-              <v-skeleton-loader type="text" boilerplate></v-skeleton-loader>
+              <v-skeleton-loader type="text" :boilerplate="!isLoading"></v-skeleton-loader>
             </v-col>
           </v-row>
           <v-row v-if="response">
@@ -68,7 +71,7 @@
           </v-row>
           <v-row v-else>
             <v-col v-for="i in 3" :key="i" sm="6" lg="4" cols="12">
-              <v-skeleton-loader type="image" max-height="186.25" boilerplate></v-skeleton-loader>
+              <v-skeleton-loader type="image" :boilerplate="!isLoading"></v-skeleton-loader>
             </v-col>
           </v-row>
         </v-container>
@@ -88,6 +91,8 @@ import { Language, Result, SearchResponse, Translations, Video } from '@/types';
 export default class SearchDialog extends Vue {
   jwt: string = '';
   sort: string = 'rel';
+  sortKeys: string[] = ['rel', 'newest', 'oldest'];
+  isLoading: boolean = false;
   searchQuery: string = '';
   debounce: number | null = null;
   response: SearchResponse | null = null;
@@ -151,6 +156,20 @@ export default class SearchDialog extends Vue {
     }
   }
 
+  get searchMessage() {
+    return this.response?.pagination?.label ?? this.response?.messages[0].message;
+  }
+
+  get sorts() {
+    if (!this.response?.sorts) {
+      return [];
+    }
+    return this.sortKeys.map(key => ({
+      key,
+      label: this.response?.sorts.find(sort => sort.link.includes(key))?.label,
+    }));
+  }
+
   getMediaUrl(result: Result) {
     return `${this.mediatorUrl}/media-items/${this.getSiteLanguage.code}/${result.lank}?clientType=www`;
   }
@@ -163,7 +182,7 @@ export default class SearchDialog extends Vue {
 
   @Watch('searchQuery')
   async onSearchQueryChange(value: string) {
-    if (value === '') {
+    if (value === null || value === '') {
       this.response = null;
       return;
     }
@@ -174,7 +193,17 @@ export default class SearchDialog extends Vue {
     // wtlocale=(?<code>[A-Za-z]+)
     // locale=(?<locale>[A-Za-z]+)
 
-    const url = `${this.searchUrl}/${this.getSiteLanguage.code}/videos?sort=${this.sort}&q=${value}`;
+    this.fetchVideos(value);
+  }
+
+  @Watch('sort')
+  async onSortChange() {
+    this.fetchVideos(this.searchQuery);
+  }
+
+  async fetchVideos(query: string) {
+    this.isLoading = true;
+    const url = `${this.searchUrl}/${this.getSiteLanguage.code}/videos?sort=${this.sort}&q=${query}`;
     const config: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${this.jwt}`,
@@ -191,6 +220,8 @@ export default class SearchDialog extends Vue {
       if (error.response?.status === 401) {
         this.fetchToken();
       }
+    } finally {
+      this.isLoading = false;
     }
   }
 }
