@@ -30,7 +30,9 @@ const state: State = {
   subtitleLanguage: 'nl',
   searchDialog: false,
   videoDialog: false,
+  transcriptDialog: false,
   selectedVideo: null,
+  subtitleMedia: null,
 };
 
 const getters: GetterTree<State, any> = {
@@ -74,8 +76,14 @@ const mutations: MutationTree<State> = {
   setVideoDialog(state, value) {
     state.videoDialog = value;
   },
+  setTranscriptDialog(state, value) {
+    state.transcriptDialog = value;
+  },
   setSelectedVideo(state, value) {
     state.selectedVideo = value;
+  },
+  setSubtitleMedia(state, value) {
+    state.subtitleMedia = value;
   },
 };
 

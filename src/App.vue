@@ -31,6 +31,7 @@
             <v-row>
               <v-col xs="12" sm="6" lg="4" cols="12">
                 <v-autocomplete
+                  ref="langSelect"
                   v-model="siteLanguage"
                   :items="languages"
                   class="mt-4"
@@ -40,7 +41,6 @@
                   item-value="locale"
                   outlined
                   dense
-                  ref="langSelect"
                 ></v-autocomplete>
               </v-col>
             </v-row>
@@ -49,7 +49,7 @@
         </v-row>
         <template v-if="ready">
           <VideoCategory categoryName="LatestVideos" grid divider></VideoCategory>
-          <VideoCategory categoryName="StudioMonthlyPrograms" :limit="18" divider></VideoCategory>
+          <VideoCategory categoryName="StudioMonthlyPrograms" :limit="12" divider></VideoCategory>
           <VideoCategory categoryName="StudioTalks" :limit="9" divider></VideoCategory>
           <VideoCategory categoryName="StudioNewsReports" :limit="9" class="mb-3"></VideoCategory>
         </template>
@@ -57,6 +57,7 @@
     </v-main>
     <SearchDialog></SearchDialog>
     <VideoDialog></VideoDialog>
+    <TranscriptDialog></TranscriptDialog>
   </v-app>
 </template>
 
@@ -70,12 +71,14 @@ import { Language, Translations } from './types';
 import VideoDialog from '@/components/VideoDialog.vue';
 import SearchDialog from '@/components/SearchDialog.vue';
 import VideoCategory from '@/components/VideoCategory.vue';
+import TranscriptDialog from '@/components/TranscriptDialog.vue';
 
 @Component({
   components: {
     VideoCategory,
     SearchDialog,
     VideoDialog,
+    TranscriptDialog,
   },
 })
 export default class App extends Vue {

@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { Language } from '.';
+import { Language, Video } from '.';
 
 export interface State {
   mediatorUrl: string;
@@ -12,5 +12,7 @@ export interface State {
   subtitleLanguage: string;
   searchDialog: boolean;
   videoDialog: boolean;
+  transcriptDialog: boolean;
   selectedVideo: string | null;
+  subtitleMedia: Video | null;
 }

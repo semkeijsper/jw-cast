@@ -1,20 +1,41 @@
 <template>
-  <v-btn
-    color="primary"
-    :loading="!subtitleMedia"
-    :disabled="subtitleUrl === null"
-    :href="subtitleUrl"
-  >
-    <v-icon left>
-      mdi-download
-    </v-icon>
-    {{ translations.hdgSubtitles }}
-  </v-btn>
+  <v-menu offset-y rounded="0" transition="slide-y-transition">
+    <template v-slot:activator="{ attrs, on }">
+      <v-btn
+        color="primary"
+        v-bind="attrs"
+        v-on="on"
+        class="ml-2"
+        :loading="!subtitleMedia"
+        :disabled="subtitleUrl === null"
+      >
+        <v-icon left>
+          mdi-download
+        </v-icon>
+        {{ translations.hdgSubtitles }}
+      </v-btn>
+    </template>
+
+    <v-list dense v-if="subtitleMedia">
+      <v-list-item :href="subtitleUrl">
+        <v-list-item-icon class="mr-4">
+          <v-icon>mdi-download</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title v-text="translations.btnDownload"></v-list-item-title>
+      </v-list-item>
+      <v-list-item link @click="onClick">
+        <v-list-item-icon class="mr-4">
+          <v-icon>mdi-text</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Transcript</v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-menu>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { State } from 'vuex-class';
+import { Mutation, State } from 'vuex-class';
 
 import { Video } from '@/types';
 
@@ -26,5 +47,13 @@ export default class SubtitleButton extends Vue {
   subtitleUrl!: string | null;
 
   @State translations!: { [key: string]: string };
+
+  @Mutation setSubtitleMedia!: (value: Video | null) => void;
+  @Mutation setTranscriptDialog!: (value: boolean) => void;
+
+  onClick() {
+    this.setSubtitleMedia(this.subtitleMedia);
+    this.setTranscriptDialog(true);
+  }
 }
 </script>

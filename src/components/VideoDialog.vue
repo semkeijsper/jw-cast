@@ -39,6 +39,7 @@
           <v-row :no-gutters="xsOnly">
             <v-col cols="12" sm="6">
               <v-autocomplete
+                ref="vidLangSelect"
                 v-model="videoLanguage"
                 :items="availableLanguages"
                 class="mt-4"
@@ -52,6 +53,7 @@
             </v-col>
             <v-col cols="12" sm="6">
               <v-autocomplete
+                ref="subLangSelect"
                 v-model="subtitleLanguage"
                 :items="availableLanguages"
                 class="mt-4"
@@ -208,12 +210,14 @@ export default class VideoDialog extends Vue {
 
   @Watch('videoLanguage')
   onVideoLanguageChange() {
+    (this.$refs.vidLangSelect as any).blur();
     this.videoMedia = null;
     this.loadMediaItems();
   }
 
   @Watch('subtitleLanguage')
   onSubtitleLanguageChange() {
+    (this.$refs.subLangSelect as any).blur();
     this.subtitleMedia = null;
     this.loadMediaItems();
   }

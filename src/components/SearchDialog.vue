@@ -5,9 +5,10 @@
     max-width="1100px"
     transition="dialog-bottom-transition"
     :fullscreen="$vuetify.breakpoint.smAndDown"
+    scrollable
   >
     <v-card>
-      <v-toolbar color="primary" dark>
+      <v-toolbar color="primary" dark class="flex-grow-0">
         <v-text-field
           v-model="query"
           prepend-inner-icon="mdi-magnify"
@@ -26,7 +27,7 @@
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-      <v-card-text :class="[xsOnly ? 'px-0' : 'px-3', 'py-3', 'pt-3']">
+      <v-card-text :class="[xsOnly ? 'px-0' : 'px-3', 'py-3']">
         <v-container>
           <v-row v-if="response">
             <v-col sm="6" lg="8">
@@ -257,6 +258,9 @@ export default class SearchDialog extends Vue {
     try {
       const response = await axios.get<SearchResponse>(url, config);
       this.response = response.data;
+      this.response.results = this.response.results.filter(
+        result => result.subtype !== 'videoCategory',
+      );
     } catch (error) {
       if (!axios.isAxiosError(error)) {
         return;
