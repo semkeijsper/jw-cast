@@ -257,10 +257,10 @@ export default class SearchDialog extends Vue {
 
     try {
       const response = await axios.get<SearchResponse>(url, config);
-      this.response = response.data;
-      this.response.results = this.response.results.filter(
+      response.data.results = response.data.results.filter(
         result => result.subtype !== 'videoCategory',
       );
+      this.response = response.data;
     } catch (error) {
       if (!axios.isAxiosError(error)) {
         return;

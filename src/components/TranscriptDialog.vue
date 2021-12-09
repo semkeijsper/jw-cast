@@ -42,7 +42,7 @@ import { Mutation, State } from 'vuex-class';
 import { Language, Video } from '@/types';
 
 @Component
-export default class SubtitleDialog extends Vue {
+export default class TranscriptDialog extends Vue {
   subtitles: string | null = null;
 
   @State languages!: Language[];
@@ -75,7 +75,6 @@ export default class SubtitleDialog extends Vue {
   }
 
   @Watch('subtitleUrl')
-  // eslint-disable-next-line class-methods-use-this
   async onSubtitleUrlChange(url: string | null) {
     if (url === null) {
       return;
