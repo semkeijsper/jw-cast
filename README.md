@@ -4,15 +4,16 @@
 
 ---
 
-Deze site haalt videos op van [jw.org](https://jw.org) en maakt het mogelijk om twee verschillende talen te kiezen voor video en ondertitels. Je kan dus bijvoorbeeld het congres in het Engels bekijken met Nederlandse ondertiteling!
+Deze site haalt videos op van [jw.org](https://jw.org) en maakt het mogelijk om twee verschillende talen te kiezen voor video en ondertitels. Je kan dus bijvoorbeeld de Broadcasting in het Engels bekijken met Nederlandse ondertiteling!
 
 # Handleiding
 
-1. Klik op het filmpje wat je wilt kijken
-   - De beschikbaarheid van filmpjes hangt af van welke taal je hebt geselecteerd
+1. Klik op de video die je wilt kijken
+   - De beschikbaarheid van videos hangt af van welke taal je hebt geselecteerd
+   - Via de knop `Zoeken` kan je elke video vinden die op jw.org staat
 2. Kies de taal van de audio bij het luidspreker-icoontje
 3. Kies de taal van de ondertiteling bij het ondertiteling-icoontje.
-   - Let op: sommige talen hebben geen ondertiteling!
+   - Let op: sommige videos of talen hebben geen ondertiteling!
 
 Je hebt nu twee opties: gebruik een [Chromecast](https://store.google.com/product/chromecast?hl=nl) of [VLC Media Player](https://www.videolan.org/vlc/):
 
@@ -25,7 +26,7 @@ Je hebt nu twee opties: gebruik een [Chromecast](https://store.google.com/produc
 #### **Met VLC Media Player**:
 
 4. Klik op de downloadknop voor `Video` en kies de gewenste kwaliteit
-5. Klik op de downloadknop voor `Ondertitels`
+5. Klik op de downloadknop voor `Ondertitels` en daarna op `Downloaden`
 6. Open de gedownloade video (.mp4 bestand) met VLC Media Player
 7. In VLC, klik bovenaan op `Ondertitels`, en dan op `Ondertitelbestand toevoegen...`
 8. Selecteer het ondertitelbestand wat je hebt gedownload (.vtt bestand), en klik op openen
