@@ -1,5 +1,6 @@
 <template>
   <v-dialog
+    :key="subtitleUrl"
     v-model="dialog"
     @click:outside="dialog = false"
     max-width="800px"
@@ -43,7 +44,7 @@ import { Language, Video } from '@/types';
 
 @Component
 export default class TranscriptDialog extends Vue {
-  subtitles: string | null = null;
+  vtt: string | null = null;
 
   @State languages!: Language[];
 
@@ -80,13 +81,21 @@ export default class TranscriptDialog extends Vue {
       return;
     }
     const response = await axios.get(url);
-    this.subtitles = this.parseVtt(response.data);
+    this.vtt = response.data;
   }
 
   // eslint-disable-next-line class-methods-use-this
-  parseVtt(input: string): string {
-    let vtt = input;
-    if (vtt.length === 0) {
+  get testCase() {
+    let bigstring = '';
+    for (let index = 0; index < 2000; index += 1) {
+      bigstring += `yeah this is a beautiful line number ${index} dude why does this not work i'm going to defenestrate myself fr fr\n`;
+    }
+    return bigstring;
+  }
+
+  get subtitles() {
+    let { vtt } = this;
+    if (!vtt || vtt.length === 0) {
       return '';
     }
     vtt = vtt.replace(/.+ --> .+/g, '');
@@ -102,8 +111,7 @@ export default class TranscriptDialog extends Vue {
     lines = lines.filter((line, index, total) => line !== total[index + 1]);
 
     // TODO: solve text being cut off
-    const lineJoin = new RegExp(/(\.\.\.\n|\. \. \.\n|(?<!\.)\n)/g);
-    return lines.join('\n').replaceAll(lineJoin, ' ');
+    return lines.join('\n').replace(/(\.\.\.\n|\. \. \.\n|([^.])\n)/g, '$2 ');
   }
 }
 </script>
