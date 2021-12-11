@@ -166,6 +166,7 @@ export default class VideoDialog extends Vue {
   }
 
   set videoLanguage(language: string) {
+    if (language === null) return;
     this.setVideoLanguage(language);
   }
 
@@ -174,6 +175,7 @@ export default class VideoDialog extends Vue {
   }
 
   set subtitleLanguage(language: string) {
+    if (language === null) return;
     this.setSubtitleLanguage(language);
   }
 

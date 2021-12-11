@@ -126,6 +126,7 @@ export default class App extends Vue {
   }
 
   set siteLanguage(language: string) {
+    if (language === null) return;
     this.setSiteLanguage(language);
   }
 
