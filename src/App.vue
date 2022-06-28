@@ -48,6 +48,7 @@
           </v-col>
         </v-row>
         <template v-if="ready">
+          <VideoCategory categoryName="2022Convention" grid divider></VideoCategory>
           <VideoCategory categoryName="LatestVideos" grid divider></VideoCategory>
           <VideoCategory categoryName="StudioMonthlyPrograms" :limit="12" divider></VideoCategory>
           <VideoCategory categoryName="StudioTalks" :limit="9" divider></VideoCategory>
