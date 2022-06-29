@@ -1,6 +1,6 @@
 ## JW Cast
 
-### https://semkeijsper.github.io/jw-cast
+### https://jwcast.semdev.nl
 
 ---
 
