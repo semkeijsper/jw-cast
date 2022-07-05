@@ -8,7 +8,7 @@
       <v-toolbar-items v-if="translations.lnkSearch">
         <v-btn v-if="!$vuetify.breakpoint.xsOnly" text @click="setSearchDialog(true)">
           <v-icon left>mdi-magnify</v-icon>
-          {{ this.translations.lnkSearch }}
+          {{ translations.lnkSearch }}
         </v-btn>
         <v-btn v-else icon @click="setSearchDialog(true)">
           <v-icon>mdi-magnify</v-icon>
@@ -48,7 +48,18 @@
           </v-col>
         </v-row>
         <template v-if="ready">
-          <VideoCategory categoryName="2022Convention" grid divider></VideoCategory>
+          <VideoCategory
+            categoryName="2022Convention"
+            grid
+            divider
+            :filter="/pub-co-r22_\d{1,2}_VIDEO/"
+          ></VideoCategory>
+          <VideoCategory
+            categoryName="2022Convention"
+            hideTitle
+            divider
+            :filter="/^(?!pub-co-r22_\d{1,2}_VIDEO).*$/"
+          ></VideoCategory>
           <VideoCategory categoryName="LatestVideos" grid divider></VideoCategory>
           <VideoCategory categoryName="StudioMonthlyPrograms" :limit="12" divider></VideoCategory>
           <VideoCategory categoryName="StudioTalks" :limit="9" divider></VideoCategory>
