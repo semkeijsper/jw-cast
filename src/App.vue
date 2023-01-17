@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <v-app-bar app color="primary">
+    <v-app-bar app dark color="primary">
       <v-toolbar-title>JW Cast</v-toolbar-title>
 
       <v-spacer></v-spacer>
