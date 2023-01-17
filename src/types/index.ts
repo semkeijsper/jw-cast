@@ -42,6 +42,8 @@ export interface Video {
 
 export interface File {
   progressiveDownloadURL: string;
+  checksum: string;
+  filesize: number;
   modifiedDatetime: Date;
   duration: number;
   label: string;
