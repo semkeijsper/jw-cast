@@ -189,12 +189,15 @@ export default class VideoDialog extends Vue {
   }
 
   get videoPoster() {
-    return this.xsOnly ? this.selectedVideo.images.lss.lg : this.selectedVideo.images.pnr.lg;
+    return this.xsOnly
+      ? (this.selectedVideo ?? this.videoMedia)?.images.lss.lg
+      : (this.selectedVideo ?? this.videoMedia)?.images.pnr.lg;
   }
 
   get jwOrgUrl() {
     const { locale } = this.getSiteLanguage;
-    const { primaryCategory, languageAgnosticNaturalKey } = this.selectedVideo;
+    const { primaryCategory, languageAgnosticNaturalKey } =
+      this.selectedVideo ?? this.videoMedia ?? {};
     return `https://www.jw.org/finder?locale=${locale}&category=${primaryCategory}&lank=${languageAgnosticNaturalKey}`;
   }
 
@@ -227,8 +230,12 @@ export default class VideoDialog extends Vue {
     this.setVideoDialog(value);
   }
 
+  get videoParam() {
+    return this.$route.query.video;
+  }
+
   get videoLanguage() {
-    return this.getVideoLanguage.locale;
+    return this.getVideoLanguage.locale ?? this.getSiteLanguage.locale;
   }
 
   set videoLanguage(language: string) {
@@ -237,7 +244,7 @@ export default class VideoDialog extends Vue {
   }
 
   get subtitleLanguage() {
-    return this.getSubtitleLanguage.locale;
+    return this.getSubtitleLanguage.locale ?? 'nl';
   }
 
   set subtitleLanguage(language: string) {
@@ -246,13 +253,17 @@ export default class VideoDialog extends Vue {
   }
 
   getMediaUrl(language: Language) {
-    return `${this.mediatorUrl}/media-items/${language.code}/${this.selectedVideo.languageAgnosticNaturalKey}?clientType=www`;
+    return `${this.mediatorUrl}/media-items/${language.code}/${this.selectedVideo
+      ?.languageAgnosticNaturalKey ?? this.videoParam}?clientType=www`;
   }
 
   async loadMediaItems() {
     this.loading = true;
     if (this.videoMedia === null) {
       [this.videoMedia] = (await axios.get(this.getMediaUrl(this.getVideoLanguage))).data.media;
+      if (this.selectedVideo === null) {
+        this.setSelectedVideo(this.videoMedia);
+      }
     }
     if (this.subtitleMedia === null) {
       [this.subtitleMedia] = (
@@ -264,8 +275,12 @@ export default class VideoDialog extends Vue {
 
   @Watch('videoDialog')
   onVideoDialogChange(active: boolean) {
-    if (!active && this.player) {
-      this.player.pause();
+    if (active && this.videoParam) {
+      this.loadMediaItems();
+    }
+    if (!active) {
+      if (this.player) this.player.pause();
+      this.$router.replace({ query: { video: undefined } });
     }
   }
 

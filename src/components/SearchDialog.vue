@@ -239,6 +239,7 @@ export default class SearchDialog extends Vue {
     ).data.media;
     this.setSelectedVideo(video);
     this.setVideoDialog(true);
+    this.$router.replace({ query: { video: video.languageAgnosticNaturalKey } });
   }
 
   @Watch('sort')
