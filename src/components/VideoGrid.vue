@@ -35,6 +35,7 @@ export default class VideoGrid extends Vue {
   onClickVideo(video: Video) {
     this.setSelectedVideo(video);
     this.setVideoDialog(true);
+    this.$router.replace({ query: { video: video.languageAgnosticNaturalKey } });
   }
 }
 </script>
