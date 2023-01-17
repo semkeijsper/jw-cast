@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    <v-app-bar app dark color="primary">
+    <v-app-bar app color="primary">
       <v-toolbar-title>JW Cast</v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -98,6 +98,7 @@ export default class App extends Vue {
   @Mutation setSearchDialog!: (value: boolean) => void;
 
   async mounted() {
+    this.$vuetify.theme.dark = window.matchMedia('(prefers-color-scheme:dark)').matches;
     await this.fetchLanguages();
     this.siteLanguage = this.routeLanguage;
     this.ready = true;
