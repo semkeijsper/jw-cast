@@ -24,7 +24,7 @@
         </v-toolbar-items>
       </v-toolbar>
       <v-img
-        v-if="loading"
+        v-if="loading || !videoMedia"
         :src="videoPoster"
         :aspect-ratio="xsOnly ? 2 : 3 / 1"
         class="white--text align-end"
@@ -39,38 +39,7 @@
           style="word-break: normal; user-select: none;"
         ></v-card-title>
       </v-img>
-      <video-player
-        v-else-if="videoMedia"
-        width="100%"
-        :options="videoOptions"
-        @ready="player = $event"
-      />
-      <!--
-      <video v-else-if="videoMedia" controls :poster="videoPoster" style="width: 100%">
-        <source
-          v-for="file in videoMedia.files"
-          :key="file.label"
-          :src="file.progressiveDownloadURL"
-          :type="file.mimetype"
-          :label="file.label"
-          :res="file.label.slice(0, -1)"
-        />
-        <track
-          v-if="captionUrl"
-          :src="captionUrl"
-          kind="captions"
-          :srclang="getVideoLanguage.locale"
-          :label="languageLabel(getVideoLanguage)"
-        />
-        <track
-          v-if="subtitleUrl"
-          :src="subtitleUrl"
-          kind="subtitles"
-          :srclang="getSubtitleLanguage.locale"
-          :label="languageLabel(getSubtitleLanguage)"
-        />
-        Your browser does not support the video tag.
-      </video>-->
+      <video-player v-else width="100%" :options="videoOptions" @ready="player = $event" />
       <v-card-text class="px-3 pb-3">
         <v-container>
           <v-row :no-gutters="xsOnly">
@@ -196,8 +165,6 @@ export default class VideoDialog extends Vue {
         this.videoMedia?.files
           .sort((a, b) => parseInt(b.label.slice(0, -1), 10) - parseInt(a.label.slice(0, -1), 10))
           .map(file => ({
-            title: this.selectedVideo.title,
-            subs: this.subtitleUrl,
             src: file.progressiveDownloadURL,
             type: file.mimetype,
             label: file.label,
