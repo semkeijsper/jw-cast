@@ -47,6 +47,7 @@ export interface File {
   modifiedDatetime: Date;
   duration: number;
   label: string;
+  mimetype: string;
   subtitled: boolean;
   subtitles: {
     url: string;

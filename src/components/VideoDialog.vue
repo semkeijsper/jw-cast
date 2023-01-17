@@ -24,16 +24,53 @@
         </v-toolbar-items>
       </v-toolbar>
       <v-img
-        :src="xsOnly ? selectedVideo.images.lss.lg : selectedVideo.images.pnr.lg"
+        v-if="loading"
+        :src="videoPoster"
         :aspect-ratio="xsOnly ? 2 : 3 / 1"
         class="white--text align-end"
+        :class="{ 'img-loading': loading }"
         gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
       >
+        <v-row v-if="loading" class="fill-height ma-0" justify="center">
+          <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+        </v-row>
         <v-card-title
           v-text="`${selectedVideo.title} (${selectedVideo.durationFormattedHHMM})`"
           style="word-break: normal; user-select: none;"
         ></v-card-title>
       </v-img>
+      <video-player
+        v-else-if="videoMedia"
+        width="100%"
+        :options="videoOptions"
+        @ready="player = $event"
+      />
+      <!--
+      <video v-else-if="videoMedia" controls :poster="videoPoster" style="width: 100%">
+        <source
+          v-for="file in videoMedia.files"
+          :key="file.label"
+          :src="file.progressiveDownloadURL"
+          :type="file.mimetype"
+          :label="file.label"
+          :res="file.label.slice(0, -1)"
+        />
+        <track
+          v-if="captionUrl"
+          :src="captionUrl"
+          kind="captions"
+          :srclang="getVideoLanguage.locale"
+          :label="languageLabel(getVideoLanguage)"
+        />
+        <track
+          v-if="subtitleUrl"
+          :src="subtitleUrl"
+          kind="subtitles"
+          :srclang="getSubtitleLanguage.locale"
+          :label="languageLabel(getSubtitleLanguage)"
+        />
+        Your browser does not support the video tag.
+      </video>-->
       <v-card-text class="px-3 pb-3">
         <v-container>
           <v-row :no-gutters="xsOnly">
@@ -91,6 +128,8 @@ import axios from 'axios';
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { Getter, Mutation, State } from 'vuex-class';
 
+// @ts-ignore
+import { videoPlayer } from 'vue-video-player';
 import { Language, Video } from '@/types';
 
 import CastButton from './button/CastButton.vue';
@@ -99,12 +138,15 @@ import SubtitleButton from './button/SubtitleButton.vue';
 
 @Component({
   components: {
+    videoPlayer,
     CastButton,
     VideoButton,
     SubtitleButton,
   },
 })
 export default class VideoDialog extends Vue {
+  loading: boolean = true;
+  player: any = null;
   videoMedia: Video | null = null;
   subtitleMedia: Video | null = null;
 
@@ -132,10 +174,67 @@ export default class VideoDialog extends Vue {
     return this.$vuetify.breakpoint.xsOnly;
   }
 
+  get videoOptions() {
+    return {
+      controls: true,
+      poster: this.videoPoster,
+      language: this.getVideoLanguage.locale,
+      controlBar: {
+        children: [
+          'playToggle',
+          'volumePanel',
+          'currentTimeDisplay',
+          'timeDivider',
+          'durationDisplay',
+          'progressControl',
+          'subsCapsButton',
+          'qualitySelector',
+          'fullscreenToggle',
+        ],
+      },
+      sources:
+        this.videoMedia?.files
+          .sort((a, b) => parseInt(b.label.slice(0, -1), 10) - parseInt(a.label.slice(0, -1), 10))
+          .map(file => ({
+            title: this.selectedVideo.title,
+            subs: this.subtitleUrl,
+            src: file.progressiveDownloadURL,
+            type: file.mimetype,
+            label: file.label,
+            res: file.label.slice(0, -1),
+          })) ?? [],
+      tracks: [
+        {
+          src: this.captionUrl,
+          kind: 'captions',
+          srclang: this.getVideoLanguage.locale,
+          label: this.languageLabel(this.getVideoLanguage),
+        },
+        {
+          src: this.subtitleUrl,
+          kind: 'subtitles',
+          srclang: this.getSubtitleLanguage.locale,
+          label: this.languageLabel(this.getSubtitleLanguage),
+          default: true,
+        },
+      ],
+    };
+  }
+
+  get videoPoster() {
+    return this.xsOnly ? this.selectedVideo.images.lss.lg : this.selectedVideo.images.pnr.lg;
+  }
+
   get jwOrgUrl() {
     const { locale } = this.getSiteLanguage;
     const { primaryCategory, languageAgnosticNaturalKey } = this.selectedVideo;
     return `https://www.jw.org/finder?locale=${locale}&category=${primaryCategory}&lank=${languageAgnosticNaturalKey}`;
+  }
+
+  get captionUrl() {
+    const found = this.videoMedia?.files.find(file => file?.subtitles?.url !== undefined);
+    if (found === undefined) return null;
+    return found.subtitles.url;
   }
 
   get subtitleUrl() {
@@ -184,6 +283,7 @@ export default class VideoDialog extends Vue {
   }
 
   async loadMediaItems() {
+    this.loading = true;
     if (this.videoMedia === null) {
       [this.videoMedia] = (await axios.get(this.getMediaUrl(this.getVideoLanguage))).data.media;
     }
@@ -191,6 +291,14 @@ export default class VideoDialog extends Vue {
       [this.subtitleMedia] = (
         await axios.get(this.getMediaUrl(this.getSubtitleLanguage))
       ).data.media;
+    }
+    this.loading = false;
+  }
+
+  @Watch('videoDialog')
+  onVideoDialogChange(active: boolean) {
+    if (!active && this.player) {
+      this.player.pause();
     }
   }
 
@@ -225,3 +333,20 @@ export default class VideoDialog extends Vue {
   }
 }
 </script>
+<style lang="scss">
+.img-loading {
+  .v-image__image {
+    filter: blur(5px);
+  }
+}
+
+.video-player > div {
+  width: 100%;
+
+  .vjs-big-play-button {
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+  }
+}
+</style>
