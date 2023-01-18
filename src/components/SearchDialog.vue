@@ -17,6 +17,7 @@
           single-line
           outlined
           dense
+          color="white"
           clearable
           autofocus
           class="mr-3"
