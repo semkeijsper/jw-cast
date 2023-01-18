@@ -44,7 +44,40 @@
           style="word-break: normal; user-select: none;"
         ></v-card-title>
       </v-img>
-      <video-player v-else width="100%" :options="videoOptions" @ready="player = $event" />
+      <video
+        v-else-if="videoMedia"
+        id="player"
+        controls
+        crossorigin
+        playsinline
+        :poster="videoPoster"
+        style="width: 100%; object-fit: cover;"
+      >
+        <source
+          v-for="file in videoMedia.files.slice().reverse()"
+          :key="file.label"
+          :src="file.progressiveDownloadURL"
+          :type="file.mimetype"
+          :label="file.label"
+          :size="file.label.slice(0, -1)"
+        />
+        <track
+          v-if="captionUrl"
+          :src="captionUrl"
+          kind="captions"
+          :srclang="getVideoLanguage.locale"
+          :label="languageLabel(getVideoLanguage)"
+        />
+        <track
+          v-if="subtitleUrl"
+          :src="subtitleUrl"
+          kind="subtitles"
+          :default="true"
+          :srclang="getSubtitleLanguage.locale"
+          :label="languageLabel(getSubtitleLanguage)"
+        />
+        Your browser does not support the video tag.
+      </video>
       <v-card-text class="px-3 pb-3">
         <v-container>
           <v-row :no-gutters="xsOnly">
@@ -103,7 +136,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import { Getter, Mutation, State } from 'vuex-class';
 
 // @ts-ignore
-import { videoPlayer } from 'vue-video-player';
+import Plyr, { Track } from 'plyr';
 import { Language, Video } from '@/types';
 
 import CastButton from './button/CastButton.vue';
@@ -112,17 +145,22 @@ import SubtitleButton from './button/SubtitleButton.vue';
 
 @Component({
   components: {
-    videoPlayer,
     CastButton,
     VideoButton,
     SubtitleButton,
   },
 })
 export default class VideoDialog extends Vue {
+  player: Plyr | null = null;
   loading: boolean = true;
-  player: any = null;
   videoMedia: Video | null = null;
   subtitleMedia: Video | null = null;
+  videoOptions = {
+    quality: {
+      default: 720,
+      options: [720, 480, 360, 240, 144],
+    },
+  };
 
   @State mediatorUrl!: string;
   @State languages!: Language[];
@@ -148,49 +186,8 @@ export default class VideoDialog extends Vue {
     return this.$vuetify.breakpoint.xsOnly;
   }
 
-  get videoOptions() {
-    return {
-      controls: true,
-      poster: this.videoPoster,
-      language: this.getVideoLanguage.locale,
-      controlBar: {
-        children: [
-          'playToggle',
-          'volumePanel',
-          'currentTimeDisplay',
-          'timeDivider',
-          'durationDisplay',
-          'progressControl',
-          'subsCapsButton',
-          'qualitySelector',
-          'fullscreenToggle',
-        ],
-      },
-      sources:
-        this.videoMedia?.files
-          .sort((a, b) => parseInt(b.label.slice(0, -1), 10) - parseInt(a.label.slice(0, -1), 10))
-          .map(file => ({
-            src: file.progressiveDownloadURL,
-            type: file.mimetype,
-            label: file.label,
-            res: file.label.slice(0, -1),
-          })) ?? [],
-      tracks: [
-        {
-          src: this.captionUrl,
-          kind: 'captions',
-          srclang: this.getVideoLanguage.locale,
-          label: this.languageLabel(this.getVideoLanguage),
-        },
-        {
-          src: this.subtitleUrl,
-          kind: 'subtitles',
-          srclang: this.getSubtitleLanguage.locale,
-          label: this.languageLabel(this.getSubtitleLanguage),
-          default: true,
-        },
-      ],
-    };
+  get videoTitle() {
+    return (this.selectedVideo ?? this.videoMedia)?.title;
   }
 
   get videoPoster() {
@@ -262,19 +259,56 @@ export default class VideoDialog extends Vue {
       ?.languageAgnosticNaturalKey ?? this.videoParam}?clientType=www`;
   }
 
+  loadPlayer() {
+    if (this.player) {
+      this.player.destroy();
+    }
+    this.player = new Plyr('#player', this.videoOptions);
+    const tracks: Track[] = [];
+    if (this.captionUrl) {
+      tracks.push({
+        kind: 'captions',
+        label: this.languageLabel(this.getVideoLanguage),
+        srcLang: this.getVideoLanguage.locale,
+        src: this.captionUrl,
+      });
+    }
+    if (this.subtitleUrl) {
+      tracks.push({
+        kind: 'subtitles',
+        label: this.languageLabel(this.getSubtitleLanguage),
+        srcLang: this.getSubtitleLanguage.locale,
+        src: this.subtitleUrl,
+      });
+    }
+    this.player.source = {
+      type: 'video',
+      poster: this.videoPoster,
+      title: this.selectedVideo.title,
+      sources:
+        this.videoMedia?.files.map(file => ({
+          src: file.progressiveDownloadURL,
+          type: file.mimetype,
+          size: parseInt(file.label.slice(0, -1), 10),
+        })) ?? [],
+      tracks,
+    };
+  }
+
   async loadMediaItems() {
     this.loading = true;
     if (this.videoMedia === null) {
       [this.videoMedia] = (await axios.get(this.getMediaUrl(this.getVideoLanguage))).data.media;
-      if (this.selectedVideo === null) {
-        this.setSelectedVideo(this.videoMedia);
-      }
+    }
+    if (this.selectedVideo === null) {
+      this.setSelectedVideo(this.videoMedia);
     }
     if (this.subtitleMedia === null) {
       [this.subtitleMedia] = (
         await axios.get(this.getMediaUrl(this.getSubtitleLanguage))
       ).data.media;
     }
+    this.loadPlayer();
     this.loading = false;
   }
 
@@ -284,7 +318,12 @@ export default class VideoDialog extends Vue {
       this.loadMediaItems();
     }
     if (!active) {
-      if (this.player) this.player.pause();
+      // @ts-ignore
+      if (this.player?.media) {
+        this.player.stop();
+      } else {
+        document.querySelector('video')?.pause();
+      }
       this.$router.replace({ query: { video: undefined } });
     }
   }
@@ -327,13 +366,7 @@ export default class VideoDialog extends Vue {
   }
 }
 
-.video-player > div {
-  width: 100%;
-
-  .vjs-big-play-button {
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%);
-  }
+.plyr__poster {
+  background-size: cover !important;
 }
 </style>
