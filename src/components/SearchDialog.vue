@@ -145,6 +145,7 @@ export default class SearchDialog extends Vue {
 
   set query(value) {
     if (this.debounce) clearTimeout(this.debounce);
+    // @ts-ignore
     this.debounce = setTimeout(() => {
       this.searchQuery = value;
     }, 400);

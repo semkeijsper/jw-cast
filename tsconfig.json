@@ -1,4 +1,7 @@
 {
+  "vueCompilerOptions": {
+    "target": 2
+  },
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
@@ -12,7 +15,7 @@
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": ["webpack-env"],
+    "types": ["@types/node", "webpack-env"],
     "paths": {
       "@/*": ["src/*"]
     },
