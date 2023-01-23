@@ -232,10 +232,6 @@ export default class VideoDialog extends Vue {
     this.setVideoDialog(value);
   }
 
-  get videoParam() {
-    return this.$route.query.video;
-  }
-
   get videoLanguage() {
     return this.getVideoLanguage.locale ?? this.getSiteLanguage.locale;
   }
@@ -255,14 +251,14 @@ export default class VideoDialog extends Vue {
   }
 
   getMediaUrl(language: Language) {
-    return `${this.mediatorUrl}/media-items/${language.code}/${this.selectedVideo
-      ?.languageAgnosticNaturalKey ?? this.videoParam}?clientType=www`;
+    return `${this.mediatorUrl}/media-items/${language.code}/${this.selectedVideo?.languageAgnosticNaturalKey}?clientType=www`;
   }
 
   loadPlayer() {
     if (this.player) {
       this.player.destroy();
     }
+
     this.player = new Plyr('#player', this.videoOptions);
     const tracks: Track[] = [];
     if (this.captionUrl) {
@@ -308,15 +304,20 @@ export default class VideoDialog extends Vue {
         await axios.get(this.getMediaUrl(this.getSubtitleLanguage))
       ).data.media;
     }
-    this.loadPlayer();
     this.loading = false;
+  }
+
+  @Watch('loading')
+  onLoadingChange(loading: boolean) {
+    if (!loading) {
+      this.$nextTick(() => {
+        this.loadPlayer();
+      });
+    }
   }
 
   @Watch('videoDialog')
   onVideoDialogChange(active: boolean) {
-    if (active && this.videoParam) {
-      this.loadMediaItems();
-    }
     if (!active) {
       // @ts-ignore
       if (this.player?.media) {
@@ -324,7 +325,6 @@ export default class VideoDialog extends Vue {
       } else {
         document.querySelector('video')?.pause();
       }
-      this.$router.replace({ query: { video: undefined } });
     }
   }
 
