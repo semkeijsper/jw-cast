@@ -93,7 +93,6 @@ export default class App extends Vue {
   @Getter getSiteLanguage!: Language;
   @Mutation setSiteLanguage!: (value: string) => void;
 
-  @Mutation setVideoDialog!: (value: boolean) => void;
   @Mutation setLanguages!: (value: Language[]) => void;
   @Mutation setTranslations!: (value: Translations) => void;
   @Mutation setSearchDialog!: (value: boolean) => void;
@@ -104,9 +103,6 @@ export default class App extends Vue {
     this.siteLanguage = this.routeLanguage;
     this.ready = true;
     if (this.routeLanguage === 'nl') this.fetchI18n();
-    if (this.videoParam) {
-      this.setVideoDialog(true);
-    }
   }
 
   updateRoute() {
@@ -120,10 +116,6 @@ export default class App extends Vue {
 
   languagesUrl(language: string) {
     return `${this.mediatorUrl}/languages/${language}/all?clientType=www`;
-  }
-
-  get videoParam() {
-    return this.$route.query.video;
   }
 
   get translationsUrl() {
