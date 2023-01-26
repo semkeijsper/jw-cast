@@ -12,10 +12,17 @@ Deze site haalt videos op van [jw.org](https://jw.org) en maakt het mogelijk om 
    - De beschikbaarheid van videos hangt af van welke taal je hebt geselecteerd
    - Via de knop `Zoeken` kan je elke video vinden die op jw.org staat
 2. Kies de taal van de audio bij het luidspreker-icoontje
-3. Kies de taal van de ondertiteling bij het ondertiteling-icoontje.
+3. Kies de taal van de ondertiteling bij het ondertiteling-icoontje
    - Let op: sommige videos of talen hebben geen ondertiteling!
 
-Je hebt nu twee opties: gebruik een [Chromecast](https://store.google.com/product/chromecast?hl=nl) of [VLC Media Player](https://www.videolan.org/vlc/):
+Je hebt nu drie opties: Kijk op de site zelf, gebruik een [Chromecast](https://store.google.com/product/chromecast?hl=nl), of gebruik [VLC Media Player](https://www.videolan.org/vlc/):
+
+#### (NIEUW) **Kijk op de site zelf**:
+
+4. Klik op play!
+   - Je kan ondertiteling in/uitschakelen met het `[CC]`-icoontje
+   - Je kan bij het tandwielicoontje de gewenste kwaliteit veranderen (en meer!)
+   - Let op: deze videospeler kan niet direct casten. Dit moet nog steeds via de oude methode
 
 #### **Met een Chromecast**:
 
@@ -32,7 +39,15 @@ Je hebt nu twee opties: gebruik een [Chromecast](https://store.google.com/produc
 8. Selecteer het ondertitelbestand wat je hebt gedownload (.vtt bestand), en klik op openen
 9. De video speelt nu af met de gekozen ondertiteling
 
----
+# FAQ
+
+#### **Hoe bekijk ik een video op mijn TV?**
+
+- Met een Chromecast:
+  - Een Chromecast is direct aangesloten op je TV, dus je hoeft alleen de stappen te volgen.
+- Met een laptop en een HDMI kabel:
+  - Heb je internet? Kijk de video op de site zelf.
+  - Geen internet als je de video wilt kijken? Download hem eerst en gebruik dan VLC Media Player.
 
 #### **Wat is het verschil tussen Chromecast en VLC?**
 
