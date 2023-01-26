@@ -9,7 +9,7 @@
     <v-card v-if="selectedVideo">
       <v-toolbar dense>
         <v-toolbar-title
-          v-if="!loading && videoMedia"
+          v-if="selectedVideo"
           v-text="`${selectedVideo.title} (${selectedVideo.durationFormattedHHMM})`"
           style="word-break: normal; user-select: none;"
         ></v-toolbar-title>
@@ -28,56 +28,50 @@
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
-      <v-img
-        v-if="loading || !videoMedia"
-        :src="videoPoster"
-        :aspect-ratio="xsOnly ? 2 : 3 / 1"
-        class="white--text align-end"
-        :class="{ 'img-loading': loading }"
-        gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-      >
-        <v-row v-if="loading" class="fill-height ma-0" justify="center">
-          <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-        </v-row>
-        <v-card-title
-          v-text="`${selectedVideo.title} (${selectedVideo.durationFormattedHHMM})`"
-          style="word-break: normal; user-select: none;"
-        ></v-card-title>
-      </v-img>
-      <video
-        v-else-if="videoMedia"
-        id="player"
-        controls
-        crossorigin
-        playsinline
-        :poster="videoPoster"
-        style="width: 100%; object-fit: cover;"
-      >
-        <source
-          v-for="file in videoMedia.files.slice().reverse()"
-          :key="file.label"
-          :src="file.progressiveDownloadURL"
-          :type="file.mimetype"
-          :label="file.label"
-          :size="file.label.slice(0, -1)"
-        />
-        <track
-          v-if="captionUrl"
-          :src="captionUrl"
-          kind="captions"
-          :srclang="getVideoLanguage.locale"
-          :label="languageLabel(getVideoLanguage)"
-        />
-        <track
-          v-if="subtitleUrl"
-          :src="subtitleUrl"
-          kind="subtitles"
-          :default="true"
-          :srclang="getSubtitleLanguage.locale"
-          :label="languageLabel(getSubtitleLanguage)"
-        />
-        Your browser does not support the video tag.
-      </video>
+      <v-responsive v-if="loading || !videoMedia" :aspect-ratio="16 / 9" key="loading">
+        <v-container fill-height fluid>
+          <v-row justify="center">
+            <v-col align="center">
+              <v-progress-circular indeterminate color="primary" size="48"></v-progress-circular>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-responsive>
+      <v-responsive v-else-if="videoMedia" :aspect-ratio="16 / 9" key="video">
+        <video
+          id="player"
+          controls
+          crossorigin
+          playsinline
+          :poster="videoPoster"
+          style="width: 100%; height: 100%; object-fit: cover;"
+        >
+          <source
+            v-for="file in videoMedia.files.slice().reverse()"
+            :key="file.label"
+            :src="file.progressiveDownloadURL"
+            :type="file.mimetype"
+            :label="file.label"
+            :size="file.label.slice(0, -1)"
+          />
+          <track
+            v-if="captionUrl"
+            :src="captionUrl"
+            kind="captions"
+            :srclang="getVideoLanguage.locale"
+            :label="languageLabel(getVideoLanguage)"
+          />
+          <track
+            v-if="subtitleUrl"
+            :src="subtitleUrl"
+            kind="subtitles"
+            :default="true"
+            :srclang="getSubtitleLanguage.locale"
+            :label="languageLabel(getSubtitleLanguage)"
+          />
+          Your browser does not support the video tag.
+        </video>
+      </v-responsive>
       <v-card-text class="px-3 pb-3">
         <v-container>
           <v-row :no-gutters="xsOnly">
@@ -155,12 +149,6 @@ export default class VideoDialog extends Vue {
   loading: boolean = true;
   videoMedia: Video | null = null;
   subtitleMedia: Video | null = null;
-  videoOptions = {
-    quality: {
-      default: 720,
-      options: [720, 480, 360, 240, 144],
-    },
-  };
 
   @State mediatorUrl!: string;
   @State languages!: Language[];
@@ -191,9 +179,7 @@ export default class VideoDialog extends Vue {
   }
 
   get videoPoster() {
-    return this.xsOnly
-      ? (this.selectedVideo ?? this.videoMedia)?.images.lss.lg
-      : (this.selectedVideo ?? this.videoMedia)?.images.pnr.lg;
+    return (this.selectedVideo ?? this.videoMedia)?.images.wss.lg;
   }
 
   get jwOrgUrl() {
@@ -248,6 +234,20 @@ export default class VideoDialog extends Vue {
   set subtitleLanguage(language: string) {
     if (language === null) return;
     this.setSubtitleLanguage(language);
+  }
+
+  get videoOptions(): Plyr.Options {
+    return {
+      quality: {
+        default: 720,
+        options: [720, 480, 360, 240, 144],
+      },
+      captions: {
+        active: true,
+        language: this.getSubtitleLanguage.locale,
+        update: true,
+      },
+    };
   }
 
   getMediaUrl(language: Language) {
@@ -364,6 +364,10 @@ export default class VideoDialog extends Vue {
   .v-image__image {
     filter: blur(5px);
   }
+}
+
+.plyr {
+  height: 100%;
 }
 
 .plyr__poster {
