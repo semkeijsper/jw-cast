@@ -368,6 +368,7 @@ export default class VideoDialog extends Vue {
 
 .plyr {
   height: 100%;
+  --plyr-font-size-xlarge: 40px;
 }
 
 .plyr__poster {
