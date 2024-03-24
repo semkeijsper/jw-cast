@@ -54,7 +54,8 @@ export default class CastButton extends Vue {
   getChromecastUrl(file: File) {
     const videoUrl = btoa(file.progressiveDownloadURL);
     // sfgc: subtitle foreground color = #ffffff
-    let url = `https://chromecast.smplayer.info/index.php?sfgc=I2ZmZmZmZg==&url=${videoUrl}`;
+    // ss: subtitle size = 1.1
+    let url = `https://chromecast.smplayer.info/index.php?sfgc=I2ZmZmZmZg==&ss=MS4x&url=${videoUrl}`;
     try {
       url += `&title=${btoa(this.selectedVideo.title.replaceAll('—', '-'))}`;
     } catch (error) {
