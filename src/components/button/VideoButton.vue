@@ -15,9 +15,9 @@
         :key="file.checksum"
         :href="file.progressiveDownloadURL"
       >
-        <v-list-item-title
-          v-text="`${file.label} (${Math.floor(file.filesize / 1048576)} MB)`"
-        ></v-list-item-title>
+        <v-list-item-title>
+          {{ `${file.label} (${Math.floor(file.filesize / 1048576)} MB)` }}
+        </v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>

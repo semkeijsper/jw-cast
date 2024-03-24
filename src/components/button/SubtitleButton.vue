@@ -21,7 +21,9 @@
         <v-list-item-icon class="mr-4">
           <v-icon>mdi-download</v-icon>
         </v-list-item-icon>
-        <v-list-item-title v-text="translations.btnDownload"></v-list-item-title>
+        <v-list-item-title>
+          {{ translations.btnDownload }}
+        </v-list-item-title>
       </v-list-item>
       <v-list-item link @click="onClick">
         <v-list-item-icon class="mr-4">

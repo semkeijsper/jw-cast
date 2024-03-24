@@ -26,7 +26,7 @@
         :href="getChromecastUrl(file)"
         target="_blank"
       >
-        <v-list-item-title v-text="file.label"></v-list-item-title>
+        <v-list-item-title>{{ file.label }}</v-list-item-title>
       </v-list-item>
     </v-list>
   </v-menu>

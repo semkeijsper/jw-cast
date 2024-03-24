@@ -8,11 +8,9 @@
   >
     <v-card v-if="selectedVideo">
       <v-toolbar dense>
-        <v-toolbar-title
-          v-if="selectedVideo"
-          v-text="`${selectedVideo.title} (${selectedVideo.durationFormattedHHMM})`"
-          style="word-break: normal; user-select: none;"
-        ></v-toolbar-title>
+        <v-toolbar-title v-if="selectedVideo" style="word-break: normal; user-select: none;">
+          {{ `${selectedVideo.title} (${selectedVideo.durationFormattedHHMM})` }}
+        </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <v-tooltip bottom>
