@@ -188,3 +188,21 @@ export default class App extends Vue {
   }
 }
 </script>
+<style lang="scss">
+* {
+  scrollbar-width: thin;
+}
+
+html {
+  overflow-y: hidden;
+}
+
+.v-main {
+  height: 100dvh;
+}
+
+.v-main__wrap {
+  overflow-y: auto;
+  height: 100%;
+}
+</style>
