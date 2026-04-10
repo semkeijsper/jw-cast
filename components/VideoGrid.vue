@@ -19,12 +19,9 @@ import type { Video } from '~/types';
 defineProps<{ videos: Video[] }>();
 
 const store = useAppStore();
-const route = useRoute();
-const router = useRouter();
 
 function onClickVideo(video: Video) {
   store.setSelectedVideo(video);
   store.setVideoDialog(true);
-  router.push(`/${route.params.language}/${video.languageAgnosticNaturalKey}`);
 }
 </script>

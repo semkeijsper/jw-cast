@@ -40,6 +40,13 @@
 import axios from 'axios';
 import type { Language, Translations, Video } from '~/types';
 
+definePageMeta({
+  // Keep the same component instance when only videoId changes (e.g. opening/closing a video
+  // dialog). Without this, Nuxt generates different page keys for /:language and
+  // /:language/:videoId, causing a full remount and visible grid flicker on every dialog open.
+  key: (route) => route.params.language as string,
+});
+
 const store = useAppStore();
 const route = useRoute();
 const router = useRouter();

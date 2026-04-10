@@ -34,8 +34,6 @@ import type { Video } from '~/types';
 defineProps<{ videos: Video[] }>();
 
 const store = useAppStore();
-const route = useRoute();
-const router = useRouter();
 const { mdAndUp } = useDisplay();
 
 const modules = [Navigation, Scrollbar, FreeMode];
@@ -43,7 +41,6 @@ const modules = [Navigation, Scrollbar, FreeMode];
 function onClickVideo(video: Video) {
   store.setSelectedVideo(video);
   store.setVideoDialog(true);
-  router.push(`/${route.params.language}/${video.languageAgnosticNaturalKey}`);
 }
 </script>
 
