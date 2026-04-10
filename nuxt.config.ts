@@ -54,6 +54,10 @@ export default defineNuxtConfig({
           async: true,
         },
         {
+          // Early Cast callback — captures SDK readiness before Vue mounts
+          innerHTML: `window.__onGCastApiAvailable=function(a){window.__castApiReady=a;};`,
+        },
+        {
           // Google Cast Sender SDK — calls window.__onGCastApiAvailable when ready
           src: 'https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1',
           async: true,

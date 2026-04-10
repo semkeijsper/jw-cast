@@ -11,6 +11,7 @@
 // Cast SDK types (minimal, avoids a large @types package)
 interface CastWindow {
   __onGCastApiAvailable?: (isAvailable: boolean) => void;
+  __castApiReady?: boolean;
   cast?: {
     framework: {
       CastContext: {
@@ -25,7 +26,6 @@ interface CastWindow {
   chrome?: {
     cast: {
       media: {
-        DEFAULT_MEDIA_RECEIVER_APP_ID: string;
         MediaInfo: new (url: string, contentType: string) => MediaInfo;
         LoadRequest: new (mediaInfo: MediaInfo) => LoadRequest;
         Track: new (id: number, type: string) => MediaTrack;
@@ -74,16 +74,32 @@ const isAvailable = ref(false);
 export function useCast() {
   function initCast() {
     if (typeof window === 'undefined') return;
+    const w = window as unknown as CastWindow;
 
-    (window as unknown as CastWindow).__onGCastApiAvailable = (available: boolean) => {
-      if (!available) return;
-      const w = window as unknown as CastWindow;
-      w.cast?.framework.CastContext.getInstance().setOptions({
-        receiverApplicationId: w.chrome?.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
-        autoJoinPolicy: w.chrome?.cast.AutoJoinPolicy.ORIGIN_SCOPED,
-      });
-      isAvailable.value = true;
+    const configureCast = () => {
+      if (isAvailable.value) return;
+      try {
+        w.cast!.framework.CastContext.getInstance().setOptions({
+          receiverApplicationId: 'CC1AD845',
+          autoJoinPolicy: w.chrome!.cast.AutoJoinPolicy.ORIGIN_SCOPED,
+        });
+        isAvailable.value = true;
+      } catch {
+        // Cast API present but configuration failed
+      }
     };
+
+    // Register callback for when the SDK loads (replaces the early inline stub)
+    w.__onGCastApiAvailable = (available: boolean) => {
+      if (!available) return;
+      configureCast();
+    };
+
+    // Handle race condition: SDK may have already loaded and called the
+    // early inline __onGCastApiAvailable before Vue mounted
+    if (w.__castApiReady && w.cast?.framework && w.chrome?.cast) {
+      configureCast();
+    }
   }
 
   /**
