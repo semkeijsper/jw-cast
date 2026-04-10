@@ -101,7 +101,7 @@
 </template>
 
 <script setup lang="ts">
-import axios, { type AxiosRequestConfig } from 'axios';
+import { FetchError } from 'ofetch';
 import { useDisplay } from 'vuetify';
 import type { SearchResponse, SearchResult, Video } from '~/types';
 
@@ -181,16 +181,15 @@ const currentPage = computed({
 });
 
 async function fetchToken() {
-  const { data } = await axios.get<string>(store.tokenUrl);
-  jwt.value = data;
+  jwt.value = await $fetch<string>(store.tokenUrl, { responseType: 'text' });
 }
 
 async function fetchVideo(langCode: string | undefined, lank: string | undefined) {
   if (!langCode || !lank) return;
-  const { data } = await axios.get<{ media: Video[] }>(
+  const { media } = await $fetch<{ media: Video[] }>(
     `${store.mediatorUrl}/media-items/${langCode}/${lank}?clientType=www`,
   );
-  const [video] = data.media;
+  const [video] = media;
   store.setSelectedVideo(video!);
   store.setVideoDialog(true);
 }
@@ -198,14 +197,15 @@ async function fetchVideo(langCode: string | undefined, lank: string | undefined
 async function fetchResponse(query: string) {
   isLoading.value = true;
   const url = `${store.searchUrl}/${store.getSiteLanguage!.code}/videos?sort=${sort.value}&offset=${offset.value}&limit=${limit}&q=${encodeURIComponent(query)}`;
-  const config: AxiosRequestConfig = { headers: { Authorization: `Bearer ${jwt.value}` } };
   try {
-    const { data } = await axios.get<SearchResponse>(url, config);
+    const data = await $fetch<SearchResponse>(url, {
+      headers: { Authorization: `Bearer ${jwt.value}` },
+    });
     // Filter out category results — only show individual videos
     data.results = data.results.filter((r) => r.subtype !== 'videoCategory');
     response.value = data;
   } catch (err) {
-    if (axios.isAxiosError(err) && err.response?.status === 401) {
+    if (err instanceof FetchError && err.response?.status === 401) {
       await fetchToken();
       await fetchResponse(query); // retry once after token refresh
     }

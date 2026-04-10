@@ -37,7 +37,6 @@
 </template>
 
 <script setup lang="ts">
-import axios from 'axios';
 import type { Language, Translations, Video } from '~/types';
 
 const store = useAppStore();
@@ -66,7 +65,7 @@ function languageLabel(item: Language): string {
 async function fetchLanguages() {
   const code = ready.value ? store.getSiteLanguage!.code : '-';
   const url = `${store.mediatorUrl}/languages/${code}/all?clientType=www`;
-  const { languages } = (await axios.get<{ languages: Language[] }>(url)).data;
+  const { languages } = await $fetch<{ languages: Language[] }>(url);
 
   // Pin Dutch and English at the top
   const nl = languages.find((l) => l.locale === 'nl');
@@ -80,18 +79,18 @@ async function fetchLanguages() {
 
 async function fetchTranslations() {
   const url = `${store.mediatorUrl}/translations/${store.getSiteLanguage!.code}`;
-  const response = await axios.get<{ translations: { [key: string]: Translations } }>(url);
-  const translations = response.data.translations[store.getSiteLanguage!.code];
+  const response = await $fetch<{ translations: { [key: string]: Translations } }>(url);
+  const translations = response.translations[store.getSiteLanguage!.code];
   if (translations) store.setTranslations(translations);
 }
 
 async function openVideoFromUrl(lank: string) {
   try {
     const langCode = store.getSiteLanguage?.code ?? 'E';
-    const { data } = await axios.get<{ media: Video[] }>(
+    const { media } = await $fetch<{ media: Video[] }>(
       `${store.mediatorUrl}/media-items/${langCode}/${lank}?clientType=www`,
     );
-    const [video] = data.media;
+    const [video] = media;
     if (video) {
       store.setSelectedVideo(video);
       store.setVideoDialog(true);

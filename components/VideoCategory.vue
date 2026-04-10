@@ -10,7 +10,6 @@
 </template>
 
 <script setup lang="ts">
-import axios from 'axios';
 import type { Category, Video } from '~/types';
 
 const props = defineProps<{
@@ -38,7 +37,7 @@ const categoryUrl = computed(() => {
 
 async function loadCategory() {
   try {
-    category.value = (await axios.get<{ category: Category }>(categoryUrl.value)).data.category;
+    category.value = (await $fetch<{ category: Category }>(categoryUrl.value)).category;
   } catch {
     category.value = null;
   }

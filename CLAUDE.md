@@ -23,7 +23,7 @@ This file provides guidance for AI assistants working in this repository.
 | Video player | Plyr (dynamic import, client-only) |
 | Chromecast | Google Cast Web Sender SDK (Default Media Receiver) |
 | Carousel | Swiper 11 via `swiper/vue` |
-| HTTP client | Axios 1.x |
+| HTTP client | `$fetch` (Nuxt built-in, via ofetch) |
 | Package manager | pnpm (node >= 22) |
 | Linting | ESLint v9 flat config via `@nuxt/eslint` + Prettier |
 
@@ -207,7 +207,7 @@ The `VideoDialog` component manages the URL pushes in its `watch(() => store.vid
 
 ## API Integration
 
-All HTTP calls use axios directly inside components. No service layer abstraction. Calls follow `async/await`. Key endpoints (stored as constants in the Pinia store):
+All HTTP calls use `$fetch` (Nuxt's built-in fetch, auto-imported) directly inside components. No service layer abstraction. Calls follow `async/await`. Key endpoints (stored as constants in the Pinia store):
 
 - `mediatorUrl` — `/categories/:code/:name`, `/media-items/:code/:lank`, `/languages/:code/all`, `/translations/:code`
 - `searchUrl` — `/:code/videos?q=&sort=&offset=&limit=`
@@ -235,7 +235,7 @@ git subtree push --prefix .output/public origin gh-pages
 - **Do not use the Options API or Class Components** — `<script setup>` is the standard
 - **Do not add Vuex** — the project uses Pinia
 - **Do not add a test framework** unless explicitly requested
-- **Do not abstract API calls** into a service layer — direct axios in components is the pattern
+- **Do not abstract API calls** into a service layer — direct `$fetch` in components is the pattern
 - **Do not downgrade to Vue 2 / Vuetify 2** — this is a Vue 3 / Vuetify 3 project
 - **Do not add SSR** — the app is intentionally client-side only (`ssr: false`)
 - **Do not add comments** to self-explanatory code

@@ -34,7 +34,6 @@
 </template>
 
 <script setup lang="ts">
-import axios from 'axios';
 import { useDisplay } from 'vuetify';
 
 const store = useAppStore();
@@ -81,7 +80,6 @@ watch(subtitleUrl, async (url) => {
     vtt.value = null;
     return;
   }
-  const { data } = await axios.get<string>(url);
-  vtt.value = data;
+  vtt.value = await $fetch<string>(url, { responseType: 'text' });
 });
 </script>

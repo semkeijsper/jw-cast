@@ -95,7 +95,6 @@
 </template>
 
 <script setup lang="ts">
-import axios from 'axios';
 import type { Track } from 'plyr';
 import { useDisplay } from 'vuetify';
 import type { Language, MediaFile, Video } from '~/types';
@@ -175,23 +174,19 @@ async function loadMediaItems() {
 
   if (!videoMedia.value) {
     requests.push(
-      axios
-        .get<{ media: Video[] }>(mediaUrl(store.getVideoLanguage!))
-        .then(({ data }) => {
-          const [media] = data.media;
-          if (media) videoMedia.value = media;
-          if (!store.selectedVideo && media) store.setSelectedVideo(media);
-        }),
+      $fetch<{ media: Video[] }>(mediaUrl(store.getVideoLanguage!)).then((result) => {
+        const [media] = result.media;
+        if (media) videoMedia.value = media;
+        if (!store.selectedVideo && media) store.setSelectedVideo(media);
+      }),
     );
   }
   if (!subtitleMedia.value) {
     requests.push(
-      axios
-        .get<{ media: Video[] }>(mediaUrl(store.getSubtitleLanguage!))
-        .then(({ data }) => {
-          const [media] = data.media;
-          if (media) subtitleMedia.value = media;
-        }),
+      $fetch<{ media: Video[] }>(mediaUrl(store.getSubtitleLanguage!)).then((result) => {
+        const [media] = result.media;
+        if (media) subtitleMedia.value = media;
+      }),
     );
   }
 
