@@ -238,7 +238,7 @@ export default class VideoDialog extends Vue {
     return {
       quality: {
         default: 1080,
-        options: [1080, 720, 480, 360, 240, 144],
+        options: [1080, 720, 480, 360, 240],
       },
       captions: {
         active: true,
