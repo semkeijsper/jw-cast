@@ -237,8 +237,8 @@ export default class VideoDialog extends Vue {
   get videoOptions(): Plyr.Options {
     return {
       quality: {
-        default: 720,
-        options: [720, 480, 360, 240, 144],
+        default: 1080,
+        options: [1080, 720, 480, 360, 240, 144],
       },
       captions: {
         active: true,
