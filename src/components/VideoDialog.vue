@@ -245,6 +245,7 @@ export default class VideoDialog extends Vue {
         language: this.getSubtitleLanguage.locale,
         update: true,
       },
+      speed: { selected: 1, options: [0.75, 1, 1.25, 1.5] },
     };
   }
 
