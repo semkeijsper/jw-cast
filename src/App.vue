@@ -48,7 +48,14 @@
           </v-col>
         </v-row>
         <template v-if="ready">
-          <VideoCategory categoryName="LatestVideos" grid divider></VideoCategory>
+          <VideoCategory categoryName="LatestVideos" grid divider>
+            <template v-if="whatsappChannel" #title-actions>
+              <v-btn outlined color="primary" @click="setGetNotifiedDialog(true)">
+                <v-icon :left="!$vuetify.breakpoint.xsOnly">mdi-bell</v-icon>
+                <span class="d-none d-sm-inline">{{ whatsappChannel.ctaLabel }}</span>
+              </v-btn>
+            </template>
+          </VideoCategory>
           <VideoCategory categoryName="StudioMonthlyPrograms" :limit="12" divider></VideoCategory>
           <VideoCategory categoryName="StudioTalks" :limit="9" divider></VideoCategory>
           <VideoCategory categoryName="StudioNewsReports" :limit="9" class="mb-3"></VideoCategory>
@@ -58,6 +65,7 @@
     <SearchDialog></SearchDialog>
     <VideoDialog></VideoDialog>
     <TranscriptDialog></TranscriptDialog>
+    <GetNotifiedDialog></GetNotifiedDialog>
   </v-app>
 </template>
 
@@ -67,11 +75,13 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import { Getter, Mutation, State } from 'vuex-class';
 
 import { Language, Translations } from './types';
+import { whatsappChannels } from '@/config/whatsappChannels';
 
 import VideoDialog from '@/components/VideoDialog.vue';
 import SearchDialog from '@/components/SearchDialog.vue';
 import VideoCategory from '@/components/VideoCategory.vue';
 import TranscriptDialog from '@/components/TranscriptDialog.vue';
+import GetNotifiedDialog from '@/components/GetNotifiedDialog.vue';
 
 @Component({
   components: {
@@ -79,6 +89,7 @@ import TranscriptDialog from '@/components/TranscriptDialog.vue';
     SearchDialog,
     VideoDialog,
     TranscriptDialog,
+    GetNotifiedDialog,
   },
 })
 export default class App extends Vue {
@@ -96,6 +107,7 @@ export default class App extends Vue {
   @Mutation setLanguages!: (value: Language[]) => void;
   @Mutation setTranslations!: (value: Translations) => void;
   @Mutation setSearchDialog!: (value: boolean) => void;
+  @Mutation setGetNotifiedDialog!: (value: boolean) => void;
 
   async mounted() {
     this.$vuetify.theme.dark = window.matchMedia('(prefers-color-scheme:dark)').matches;
@@ -129,6 +141,10 @@ export default class App extends Vue {
   set siteLanguage(language: string) {
     if (language === null) return;
     this.setSiteLanguage(language);
+  }
+
+  get whatsappChannel() {
+    return whatsappChannels[this.siteLanguage];
   }
 
   get guideButtonText() {

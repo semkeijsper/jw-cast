@@ -13,6 +13,7 @@ export interface State {
   searchDialog: boolean;
   videoDialog: boolean;
   transcriptDialog: boolean;
+  getNotifiedDialog: boolean;
   selectedVideo: string | null;
   subtitleMedia: Video | null;
 }

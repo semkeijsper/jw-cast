@@ -36,6 +36,7 @@ const state: State = {
   searchDialog: false,
   videoDialog: false,
   transcriptDialog: false,
+  getNotifiedDialog: false,
   selectedVideo: null,
   subtitleMedia: null,
 };
@@ -85,6 +86,9 @@ const mutations: MutationTree<State> = {
   },
   setTranscriptDialog(state, value) {
     state.transcriptDialog = value;
+  },
+  setGetNotifiedDialog(state, value) {
+    state.getNotifiedDialog = value;
   },
   setSelectedVideo(state, value) {
     state.selectedVideo = value;
