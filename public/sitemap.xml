@@ -4,551 +4,551 @@
   <url>
     <loc>https://jwcast.semdev.nl</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/en</loc>
+    <loc>https://jwcast.semdev.nl/en</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/nl</loc>
+    <loc>https://jwcast.semdev.nl/nl</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/ar</loc>
+    <loc>https://jwcast.semdev.nl/ar</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/bn</loc>
+    <loc>https://jwcast.semdev.nl/bn</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/cmn_hans</loc>
+    <loc>https://jwcast.semdev.nl/cmn_hans</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/cmn_hant</loc>
+    <loc>https://jwcast.semdev.nl/cmn_hant</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/de</loc>
+    <loc>https://jwcast.semdev.nl/de</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/el</loc>
+    <loc>https://jwcast.semdev.nl/el</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/es</loc>
+    <loc>https://jwcast.semdev.nl/es</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/fa</loc>
+    <loc>https://jwcast.semdev.nl/fa</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/fr</loc>
+    <loc>https://jwcast.semdev.nl/fr</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/hi</loc>
+    <loc>https://jwcast.semdev.nl/hi</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/it</loc>
+    <loc>https://jwcast.semdev.nl/it</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/ja</loc>
+    <loc>https://jwcast.semdev.nl/ja</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/ko</loc>
+    <loc>https://jwcast.semdev.nl/ko</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/pa</loc>
+    <loc>https://jwcast.semdev.nl/pa</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/pl</loc>
+    <loc>https://jwcast.semdev.nl/pl</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/pt</loc>
+    <loc>https://jwcast.semdev.nl/pt</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/pt_pt</loc>
+    <loc>https://jwcast.semdev.nl/pt_pt</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/ru</loc>
+    <loc>https://jwcast.semdev.nl/ru</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
   <url>
-    <loc>https://jwcast.semdev.nl/#/tr</loc>
+    <loc>https://jwcast.semdev.nl/tr</loc>
     <xhtml:link href="https://jwcast.semdev.nl" hreflang="x-default" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/en" hreflang="en" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/nl" hreflang="nl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ar" hreflang="ar" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/bn" hreflang="bn" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hans" hreflang="zh-hans" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/cmn_hant" hreflang="zh-hant" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/de" hreflang="de" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/el" hreflang="el" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/es" hreflang="es" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fa" hreflang="fa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/fr" hreflang="fr" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/hi" hreflang="hi" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/it" hreflang="it" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ja" hreflang="ja" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ko" hreflang="ko" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pa" hreflang="pa" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pl" hreflang="pl" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt" hreflang="pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/pt_pt" hreflang="pt-pt" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/ru" hreflang="ru" rel="alternate" />
-    <xhtml:link href="https://jwcast.semdev.nl/#/tr" hreflang="tr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/en" hreflang="en" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/nl" hreflang="nl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ar" hreflang="ar" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/bn" hreflang="bn" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hans" hreflang="zh-hans" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/cmn_hant" hreflang="zh-hant" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/de" hreflang="de" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/el" hreflang="el" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/es" hreflang="es" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fa" hreflang="fa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/fr" hreflang="fr" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/hi" hreflang="hi" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/it" hreflang="it" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ja" hreflang="ja" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ko" hreflang="ko" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pa" hreflang="pa" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pl" hreflang="pl" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt" hreflang="pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/pt_pt" hreflang="pt-pt" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/ru" hreflang="ru" rel="alternate" />
+    <xhtml:link href="https://jwcast.semdev.nl/tr" hreflang="tr" rel="alternate" />
   </url>
 </urlset>

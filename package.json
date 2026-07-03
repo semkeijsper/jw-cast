@@ -27,7 +27,7 @@
     "eslint": "^10.2.0",
     "eslint-config-vuetify": "^4.6.0",
     "eslint-plugin-import-lite": "^0.5.2",
-    "sass": "^1.98.0",
+    "sass-embedded": "^1.100.0",
     "typescript": "^6.0.2"
   },
   "engines": {

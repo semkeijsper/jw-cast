@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row justify="center">
-      <v-col class="mt-3" cols="12">
+      <v-col class="mt-3" cols="12" sm="12" xl="8">
         <!-- Page title — zero-width space keeps layout stable while loading -->
         <span class="text-display-medium font-weight-bold">
           {{ store.translations.hdgVideos || '\u200D' }}
@@ -28,7 +28,15 @@
     </v-row>
 
     <template v-if="ready">
-      <VideoCategory category-name="LatestVideos" divider grid />
+      <VideoCategory category-name="LatestVideos" divider grid>
+        <template v-if="whatsappChannel" #title-actions>
+          <v-btn color="primary" variant="outlined" @click="store.setGetNotifiedDialog(true)">
+            <v-icon :start="!xs">mdi-bell</v-icon>
+            <span class="d-none d-sm-inline">{{ whatsappChannel.ctaLabel }}</span>
+          </v-btn>
+        </template>
+      </VideoCategory>
+
       <VideoCategory category-name="StudioMonthlyPrograms" divider :limit="12" />
       <VideoCategory category-name="StudioTalks" divider :limit="9" />
       <VideoCategory category-name="StudioNewsReports" class="mb-3" :limit="9" />
@@ -38,6 +46,8 @@
 
 <script setup lang="ts">
 import type { Language, Translations, Video } from '~/types';
+import { useDisplay } from 'vuetify';
+import { whatsappChannels } from '~/config/whatsappChannels';
 
 definePageMeta({
   // Keep the same component instance when only videoId changes (e.g. opening/closing a video
@@ -49,8 +59,11 @@ definePageMeta({
 const store = useAppStore();
 const route = useRoute();
 const router = useRouter();
+const { xs } = useDisplay();
 
 const ready = ref(false);
+
+const whatsappChannel = computed(() => whatsappChannels[store.siteLanguage]);
 
 const language = computed(() => route.params.language as string);
 const videoId = computed(() => route.params.videoId as string | undefined);

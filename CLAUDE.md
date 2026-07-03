@@ -17,15 +17,15 @@ This file provides guidance for AI assistants working in this repository.
 | Meta-framework | Nuxt 4 (`ssr: false`) |
 | Framework | Vue 3 |
 | Language | TypeScript 6 (strict mode) |
-| UI Library | Vuetify 3 via `vuetify-nuxt-module@1.0.0-beta.2` |
+| UI Library | Vuetify 4 via `vuetify-nuxt-module` (sass variables in `app/assets/styles/settings.scss`) |
 | State | Pinia (composition store, no modules) |
 | Routing | Vue Router 4 via Nuxt pages/ |
 | Video player | Plyr (dynamic import, client-only) |
 | Chromecast | Google Cast Web Sender SDK (Default Media Receiver) |
-| Carousel | Swiper 11 via `swiper/vue` |
+| Carousel | Swiper 12 via `swiper/vue` |
 | HTTP client | `$fetch` (Nuxt built-in, via ofetch) |
 | Package manager | pnpm (node >= 22) |
-| Linting | ESLint v9 flat config via `@nuxt/eslint` + Prettier |
+| Linting | ESLint flat config: `eslint-config-vuetify` + `@nuxt/eslint` (stylistic rules, no Prettier) |
 
 ## Development Commands
 
@@ -42,31 +42,37 @@ pnpm preview          # Preview the built output
 ## Repository Structure
 
 ```
-app.vue                          # Root: v-app shell, app bar, global dialogs
-pages/
-├── index.vue                    # Redirect / → /:browser-language
-└── [language]/
-    └── [[videoId]].vue          # Main page: language selector + 4 category rows
-                                 # videoId is optional — opens that video on load
-components/
-├── VideoCategory.vue            # Fetches one named category and renders it
-├── VideoDialog.vue              # Full-screen video player modal (Plyr + Cast)
-├── VideoSwiper.vue              # Horizontal Swiper carousel for a category
-├── VideoGrid.vue                # Responsive grid (used for LatestVideos)
-├── SearchDialog.vue             # Search UI with pagination
-├── TranscriptDialog.vue         # Renders VTT subtitle file as plain text
-└── button/
-    ├── CastButton.vue           # Chromecast (native Cast SDK, SMPlayer fallback)
-    ├── SubtitleButton.vue       # Download subtitle / open transcript
-    └── VideoButton.vue          # Download video file
-stores/
-└── app.ts                       # Single flat Pinia composition store
-composables/
-└── useCast.ts                   # Google Cast SDK wrapper
-types/
-└── index.ts                     # Domain interfaces: Language, Video, Category, etc.
+app/
+├── app.vue                      # Root: v-app shell, app bar, global dialogs
+├── assets/styles/settings.scss  # Vuetify SASS variable overrides (styles.configFile)
+├── pages/
+│   ├── index.vue                # Redirect / → /:browser-language
+│   └── [language]/
+│       └── [[videoId]].vue      # Main page: language selector + 4 category rows
+│                                # videoId is optional — opens that video on load
+├── components/
+│   ├── VideoCategory.vue        # Fetches one named category and renders it
+│   ├── VideoDialog.vue          # Full-screen video player modal (Plyr + Cast)
+│   ├── VideoSwiper.vue          # Horizontal Swiper carousel for a category
+│   ├── VideoGrid.vue            # Responsive grid (used for LatestVideos)
+│   ├── SearchDialog.vue         # Search UI with pagination
+│   ├── TranscriptDialog.vue     # Renders VTT subtitle file as plain text
+│   ├── GetNotifiedDialog.vue    # WhatsApp channel promo dialog
+│   └── button/                  # Used as <ButtonCast> etc. (directory-prefixed)
+│       ├── Cast.vue             # Chromecast (native Cast SDK, SMPlayer fallback)
+│       ├── Subtitle.vue         # Download subtitle / open transcript
+│       └── Video.vue            # Download video file
+├── config/
+│   └── whatsappChannels.ts      # Per-language WhatsApp channel links (not auto-imported)
+├── stores/
+│   └── app.ts                   # Single flat Pinia composition store
+├── composables/
+│   └── useCast.ts               # Google Cast SDK wrapper
+└── types/
+    └── index.ts                 # Domain interfaces: Language, Video, Category, etc.
 public/
 ├── 404.html                     # GitHub Pages SPA redirect trick
+├── sitemap.xml, robots.txt, CNAME
 └── assets/                      # Favicons, PWA manifest
 ```
 
@@ -135,16 +141,16 @@ Key differences from Vuetify 2 used in this codebase:
 
 ### Formatting
 
-Enforced by Prettier (`.prettierrc`) and ESLint (`eslint.config.mjs`):
+Enforced by ESLint stylistic rules (`eslint.config.js`, no Prettier):
 
 - Single quotes
 - Semicolons
 - Trailing commas everywhere
-- Print width: 100 characters
+- Stroustrup brace style
 - LF line endings
 - Indent: 2 spaces
 
-Run `pnpm lint` before committing.
+Run `pnpm lint` (or `pnpm lint:fix`) before committing.
 
 ### TypeScript
 
@@ -163,12 +169,13 @@ Run `pnpm lint` before committing.
 | `tokenUrl` | URL for stream JWT tokens |
 | `languages` | All available languages (seeded with Dutch + English) |
 | `siteLanguage` | Selected UI/content language locale |
-| `videoLanguage` | Selected audio language for video |
-| `subtitleLanguage` | Selected subtitle language |
+| `videoLanguage` | Selected audio language for video (persisted in `jw_videoLanguage` cookie) |
+| `subtitleLanguage` | Selected subtitle language (persisted in `jw_subtitleLanguage` cookie) |
 | `translations` | Fetched translation strings from jw.org API |
 | `searchDialog` | Search dialog open state |
 | `videoDialog` | Video player dialog open state |
 | `transcriptDialog` | Transcript dialog open state |
+| `getNotifiedDialog` | WhatsApp channel dialog open state |
 | `selectedVideo` | Currently focused `Video` object |
 | `subtitleMedia` | Subtitle `Video` object used by TranscriptDialog |
 
@@ -193,7 +200,7 @@ The `VideoDialog` component manages the URL pushes in its `watch(() => store.vid
 - `castMedia(url, title, subtitleUrl?)` — casts MP4 with optional VTT subtitles
 - `getSmPlayerUrl(...)` — builds an SMPlayer fallback URL for when Cast isn't available
 
-`CastButton.vue` tries native Cast first; if it fails or Cast is unavailable, opens SMPlayer in a new tab.
+`button/Cast.vue` tries native Cast first; if it fails or Cast is unavailable, opens SMPlayer in a new tab.
 
 ## Search Pagination
 

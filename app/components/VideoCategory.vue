@@ -1,7 +1,11 @@
 <template>
   <v-row v-if="category" justify="center">
-    <v-col cols="12">
-      <p v-if="!hideTitle" class="text-headline-large font-weight-medium mb-6">{{ category.name }}</p>
+    <v-col cols="12" sm="12" xl="8">
+      <div v-if="!hideTitle" class="d-flex align-center justify-space-between mb-6">
+        <span class="text-headline-large font-weight-medium">{{ category.name }}</span>
+        <slot name="title-actions" />
+      </div>
+
       <VideoGrid v-if="grid" :videos="media" />
       <VideoSwiper v-else :videos="media" />
       <v-divider v-if="divider" :class="grid ? 'mt-8' : 'mt-5'" />

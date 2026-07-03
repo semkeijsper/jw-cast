@@ -1,7 +1,7 @@
 # Nuxt build output
 .nuxt/
 .output/
-dist/
+dist
 
 # pnpm
 node_modules/

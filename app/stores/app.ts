@@ -14,12 +14,18 @@ export const useAppStore = defineStore('app', () => {
 
   const translations = ref<Translations>({});
   const siteLanguage = ref('nl');
-  const videoLanguage = ref('en');
-  const subtitleLanguage = ref('nl');
+
+  // Remember the last selected audio/subtitle language for a year
+  const cookieOptions = { maxAge: 60 * 60 * 24 * 365 };
+  const videoLanguageCookie = useCookie<string>('jw_videoLanguage', cookieOptions);
+  const subtitleLanguageCookie = useCookie<string>('jw_subtitleLanguage', cookieOptions);
+  const videoLanguage = ref(videoLanguageCookie.value || 'en');
+  const subtitleLanguage = ref(subtitleLanguageCookie.value || 'nl');
 
   const searchDialog = ref(false);
   const videoDialog = ref(false);
   const transcriptDialog = ref(false);
+  const getNotifiedDialog = ref(false);
   const selectedVideo = ref<Video | null>(null);
   const subtitleMedia = ref<Video | null>(null);
 
@@ -60,9 +66,11 @@ export const useAppStore = defineStore('app', () => {
   }
   function setVideoLanguage(value: string) {
     videoLanguage.value = value;
+    videoLanguageCookie.value = value;
   }
   function setSubtitleLanguage(value: string) {
     subtitleLanguage.value = value;
+    subtitleLanguageCookie.value = value;
   }
   function setSearchDialog(value: boolean) {
     searchDialog.value = value;
@@ -72,6 +80,9 @@ export const useAppStore = defineStore('app', () => {
   }
   function setTranscriptDialog(value: boolean) {
     transcriptDialog.value = value;
+  }
+  function setGetNotifiedDialog(value: boolean) {
+    getNotifiedDialog.value = value;
   }
   function setSelectedVideo(value: Video | null) {
     selectedVideo.value = value;
@@ -92,6 +103,7 @@ export const useAppStore = defineStore('app', () => {
     searchDialog,
     videoDialog,
     transcriptDialog,
+    getNotifiedDialog,
     selectedVideo,
     subtitleMedia,
     getSiteLanguage,
@@ -107,6 +119,7 @@ export const useAppStore = defineStore('app', () => {
     setSearchDialog,
     setVideoDialog,
     setTranscriptDialog,
+    setGetNotifiedDialog,
     setSelectedVideo,
     setSubtitleMedia,
   };

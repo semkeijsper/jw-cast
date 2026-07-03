@@ -1,5 +1,7 @@
-// Vuetify SASS variable overrides
+// Vuetify SASS variable overrides, injected into every Vuetify component style
+// via vuetify-nuxt-module's `styles.configFile` option.
+// https://nuxt.vuetifyjs.com/guide/styling/sass
 // https://vuetifyjs.com/features/sass-variables/
-// @use 'vuetify/settings' with (
-//   $color-pack: false
-// );
+@forward 'vuetify/settings' with (
+  $button-text-transform: uppercase
+);

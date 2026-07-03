@@ -42,6 +42,7 @@
         <video
           ref="playerEl"
           controls
+          crossorigin="anonymous"
           playsinline
           :poster="videoPoster"
           style="width: 100%; height: 100%; object-fit: cover"
@@ -240,8 +241,10 @@ async function loadPlayer() {
   }
 
   player = new Plyr(playerEl.value, {
-    quality: { default: 720, options: [720, 480, 360, 240, 144] },
+    quality: { default: 1080, options: [1080, 720, 480, 360, 240] },
     captions: { active: true, language: store.getSubtitleLanguage!.locale, update: true },
+    // Few enough options that the settings menu can't soft-lock
+    speed: { selected: 1, options: [0.75, 1, 1.25, 1.5] },
   });
 
   player.source = {

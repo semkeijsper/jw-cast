@@ -87,11 +87,6 @@ export default defineNuxtConfig({
       icons: {
         defaultSet: 'mdi',
       },
-      defaults: {
-        VBtn: {
-          style: 'text-transform: uppercase;',
-        },
-      },
     },
   },
 
