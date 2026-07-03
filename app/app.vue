@@ -52,14 +52,6 @@ const { initCast } = useCast();
 onMounted(() => {
   theme.name.value = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   initCast();
-
-  // GitHub Pages SPA: restore path encoded by 404.html
-  const search = window.location.search;
-  if (search.startsWith('?p=/')) {
-    const path = search.slice(3).replace(/~and~/g, '&');
-    const url = path + (search.includes('&q=') ? '' : '');
-    window.history.replaceState(null, '', url || '/');
-  }
 });
 
 const guideButtonText = computed(() => {
