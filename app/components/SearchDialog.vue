@@ -11,7 +11,7 @@
         <v-text-field
           v-model="query"
           autofocus
-          class="mx-3"
+          class="ml-4 mr-3"
           clearable
           density="compact"
           hide-details
@@ -30,7 +30,7 @@
       </v-toolbar>
 
       <v-card-text :class="[xs ? 'px-0' : 'px-3', 'py-3']">
-        <v-container>
+        <v-container class="pa-3" fluid>
           <!-- Result info + sort -->
           <v-row v-if="response">
             <v-col cols="12" lg="8" sm="6">
@@ -51,8 +51,7 @@
                 item-title="label"
                 item-value="key"
                 :items="sortItems"
-                label="Sort"
-                prepend-inner-icon="mdi-sort"
+                prepend-icon="mdi-sort"
                 variant="outlined"
               />
             </v-col>

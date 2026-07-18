@@ -11,7 +11,12 @@ export default defineNuxtConfig({
     'pinia-plugin-persistedstate/nuxt',
     '@nuxt/eslint',
     '@nuxt/fonts',
+    'nuxt-gtag',
   ],
+
+  gtag: {
+    id: 'G-EBSJ0TYTPY',
+  },
 
   devtools: { enabled: true },
 
@@ -51,14 +56,6 @@ export default defineNuxtConfig({
           // entry script boots Vue Router — restoring it any later (e.g. onMounted)
           // loses the race against the router resolving "/" and redirecting.
           innerHTML: String.raw`(function(l){var m=/^\?p=(\/[^&]*)(?:&q=([^&]*))?/.exec(l.search);if(m){var p=m[1].replace(/~and~/g,'&');var q=m[2]?'?'+m[2].replace(/~and~/g,'&'):'';window.history.replaceState(null,'',p+q+l.hash);}})(window.location);`,
-        },
-        {
-          // Google Analytics
-          innerHTML: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-EBSJ0TYTPY');`,
-        },
-        {
-          src: 'https://www.googletagmanager.com/gtag/js?id=G-EBSJ0TYTPY',
-          async: true,
         },
         {
           // Early Cast callback — captures SDK readiness before Vue mounts

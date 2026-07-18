@@ -27,7 +27,7 @@
       </v-toolbar>
 
       <!-- Loading state -->
-      <v-responsive v-if="loading || !videoMedia" :aspect-ratio="16 / 9">
+      <v-responsive v-if="loading || !videoMedia" :aspect-ratio="16 / 9" class="player-frame">
         <v-container fill-height fluid>
           <v-row justify="center">
             <v-col class="d-flex justify-center">
@@ -38,7 +38,7 @@
       </v-responsive>
 
       <!-- Player -->
-      <v-responsive v-else :aspect-ratio="16 / 9">
+      <v-responsive v-else :aspect-ratio="16 / 9" class="player-frame">
         <video
           ref="playerEl"
           controls
@@ -330,6 +330,12 @@ watch(
 </script>
 
 <style>
+/* v-responsive defaults to flex: 1 0 auto; inside the fullscreen dialog's
+   flex-column card it grows past its 16:9 sizer on tall mobile viewports,
+   which makes the covered video look stretched. */
+.player-frame {
+  flex-grow: 0;
+}
 .plyr {
   height: 100%;
   --plyr-font-size-xlarge: 36px;
