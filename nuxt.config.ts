@@ -100,6 +100,17 @@ export default defineNuxtConfig({
       styles: { configFile: 'assets/styles/settings.scss' },
     },
     vuetifyOptions: {
+      // Vuetify 2 breakpoints; keep in sync with $grid-breakpoints in settings.scss
+      display: {
+        thresholds: {
+          xs: 0,
+          sm: 600,
+          md: 960,
+          lg: 1264,
+          xl: 1904,
+          xxl: 2560,
+        },
+      },
       theme: {
         themes: {
           light: { colors: { primary: '#4a6da7' } },

@@ -34,6 +34,8 @@
       <NuxtPage />
     </v-main>
 
+    <CastBar />
+
     <SearchDialog />
     <VideoDialog />
     <TranscriptDialog />

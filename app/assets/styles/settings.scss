@@ -3,5 +3,31 @@
 // https://nuxt.vuetifyjs.com/guide/styling/sass
 // https://vuetifyjs.com/features/sass-variables/
 @forward 'vuetify/settings' with (
-  $button-text-transform: uppercase
+  $button-text-transform: uppercase,
+
+  // Vuetify 4 switched to Material 3 window classes (md 840 / lg 1145 / xl 1545),
+  // which makes a 1920px desktop hit the xl="8" columns and shrink the whole
+  // layout. Restore the Vuetify 2 breakpoints and container widths the app was
+  // designed around. Keep in sync with `display.thresholds` in nuxt.config.ts.
+  $grid-breakpoints: (
+    'xs': 0,
+    'sm': 600px,
+    'md': 960px,
+    'lg': 1264px,
+    'xl': 1904px,
+    'xxl': 2560px,
+  ),
+  $container-max-widths: (
+    'md': 900px,
+    'lg': 1185px,
+    'xl': 1785px,
+    'xxl': 1785px,
+  ),
+
+  // Vuetify 2 card title (1.25rem / 500) instead of Material 3 title-large
+  // (1.375rem / 400) — used as overlay text on the video thumbnails.
+  $card-title-font-size: 1.25rem,
+  $card-title-font-weight: 500,
+  $card-title-letter-spacing: 0.0125em,
+  $card-title-line-height: 2rem,
 );
