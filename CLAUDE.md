@@ -58,8 +58,9 @@ app/
 │   ├── SearchDialog.vue         # Search UI with pagination
 │   ├── TranscriptDialog.vue     # Renders VTT subtitle file as plain text
 │   ├── GetNotifiedDialog.vue    # WhatsApp channel promo dialog
+│   ├── CastBar.vue              # Global Chromecast control bar (fixed bottom)
 │   └── button/                  # Used as <ButtonCast> etc. (directory-prefixed)
-│       ├── Cast.vue             # Chromecast (native Cast SDK, SMPlayer fallback)
+│       ├── Cast.vue             # Chromecast (native Cast SDK)
 │       ├── Subtitle.vue         # Download subtitle / open transcript
 │       └── Video.vue            # Download video file
 ├── config/
@@ -196,11 +197,11 @@ The `VideoDialog` component manages the URL pushes in its `watch(() => store.vid
 
 - Uses the **Default Media Receiver** (`CC1AD845`) — no app registration required
 - Loaded via `<script>` in `nuxt.config.ts`; calls `window.__onGCastApiAvailable` when ready
-- `isAvailable` is a shared `ref` across all component instances
-- `castMedia(url, title, subtitleUrl?)` — casts MP4 with optional VTT subtitles
-- `getSmPlayerUrl(...)` — builds an SMPlayer fallback URL for when Cast isn't available
+- Shared `ref` state across all component instances: `isAvailable`, `isConnecting`, and `RemotePlayer`-synced playback state (`isPaused`, `currentTime`, `duration`, volume, device name, …)
+- `castMedia(url, title, subtitleUrl?)` — casts MP4 with optional VTT subtitles (explicit sans-serif `TextTrackStyle`); reuses a running session to switch videos
+- Playback control actions (`togglePlay`, `seekTo`, `skip`, `setVolume`, `toggleMute`, `toggleCaptions`, `stopCasting`) drive `CastBar.vue`, a global control bar in `app.vue`
 
-`button/Cast.vue` tries native Cast first; if it fails or Cast is unavailable, opens SMPlayer in a new tab.
+`button/Cast.vue` is disabled when the Cast SDK is unavailable (e.g. non-Chromium browsers).
 
 ## Search Pagination
 

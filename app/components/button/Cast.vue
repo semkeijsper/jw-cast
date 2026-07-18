@@ -6,6 +6,7 @@
           <v-btn
             class="mr-2"
             color="primary"
+            :disabled="!castAvailable"
             :loading="!videoMedia || !subtitleMedia"
             prepend-icon="mdi-cast"
             v-bind="{ ...menuProps, ...tooltipProps }"
@@ -17,14 +18,12 @@
     </template>
 
     <v-list v-if="videoMedia" density="compact">
-      <v-list-subheader>
-        {{ castAvailable ? 'Chromecast' : 'SMPlayer (Chromecast)' }}
-      </v-list-subheader>
+      <v-list-subheader>Chromecast</v-list-subheader>
 
       <v-list-item
         v-for="file in filteredFiles"
         :key="file.checksum"
-        :prepend-icon="castAvailable ? 'mdi-cast' : 'mdi-open-in-new'"
+        prepend-icon="mdi-cast"
         :title="file.label"
         @click="onSelectFile(file)"
       />
@@ -42,7 +41,7 @@ const props = defineProps<{
 }>();
 
 const store = useAppStore();
-const { isAvailable: castAvailable, castMedia, getSmPlayerUrl } = useCast();
+const { isAvailable: castAvailable, castMedia } = useCast();
 
 const filteredFiles = computed(
   () => props.videoMedia?.files.filter(f => f.label !== '144p') ?? [],
@@ -56,16 +55,6 @@ const tooltipText = computed(() =>
 
 async function onSelectFile(file: MediaFile) {
   const title = store.selectedVideo?.title ?? '';
-
-  if (castAvailable.value) {
-    const ok = await castMedia(file.progressiveDownloadURL, title, props.subtitleUrl);
-    if (!ok) {
-      // Fall back to SMPlayer if casting failed (e.g. user dismissed the picker)
-      window.open(getSmPlayerUrl(file.progressiveDownloadURL, title, props.subtitleUrl), '_blank');
-    }
-  }
-  else {
-    window.open(getSmPlayerUrl(file.progressiveDownloadURL, title, props.subtitleUrl), '_blank');
-  }
+  await castMedia(file.progressiveDownloadURL, title, props.subtitleUrl);
 }
 </script>

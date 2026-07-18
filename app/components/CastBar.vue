@@ -1,13 +1,28 @@
 <template>
   <v-slide-y-reverse-transition>
     <v-card
-      v-if="isCastConnected && isMediaLoaded"
+      v-if="(isCastConnected && isMediaLoaded) || isConnecting"
       class="cast-bar"
       :class="{ 'cast-bar-desktop': mdAndUp }"
       elevation="8"
     >
       <div class="d-flex align-center px-4 pt-2">
-        <v-icon class="mr-2" color="primary" icon="mdi-cast-connected" size="small" />
+        <v-progress-circular
+          v-if="isConnecting"
+          class="mr-2"
+          color="primary"
+          indeterminate
+          size="16"
+          width="2"
+        />
+
+        <v-icon
+          v-else
+          class="mr-2"
+          color="primary"
+          icon="mdi-cast-connected"
+          size="small"
+        />
 
         <div class="text-truncate text-body-2">
           <span class="font-weight-medium">{{ castTitle }}</span>
@@ -25,7 +40,11 @@
         />
       </div>
 
-      <div class="d-flex align-center px-4">
+      <div v-if="isConnecting" class="d-flex align-center px-4 seek-row">
+        <v-progress-linear color="primary" indeterminate rounded />
+      </div>
+
+      <div v-else class="d-flex align-center px-4 seek-row">
         <span class="time-label text-caption text-medium-emphasis">{{ formatTime(displayTime) }}</span>
 
         <v-slider
@@ -123,6 +142,7 @@ const {
   castTitle,
   hasCaptions,
   captionsEnabled,
+  isConnecting,
   togglePlay,
   toggleMute,
   setVolume,
@@ -133,11 +153,25 @@ const {
 } = useCast();
 
 // While the user drags the seek slider, show the drag position instead of
-// the (still updating) playback position; only seek on release.
+// the (still updating) playback position; only seek on release. After release,
+// keep showing the target position until the receiver reports a playback
+// position near it — otherwise the slider bounces back for a moment.
 const seeking = ref(false);
 const seekPosition = ref(0);
+const pendingSeek = ref<number | null>(null);
 
-const displayTime = computed(() => (seeking.value ? seekPosition.value : currentTime.value));
+const displayTime = computed(() => {
+  if (seeking.value) {
+    return seekPosition.value;
+  }
+  return pendingSeek.value ?? currentTime.value;
+});
+
+watch(currentTime, time => {
+  if (pendingSeek.value !== null && Math.abs(time - pendingSeek.value) < 3) {
+    pendingSeek.value = null;
+  }
+});
 
 function onSeekStart(value: number) {
   seeking.value = true;
@@ -152,7 +186,12 @@ function onSeekInput(value: number) {
 
 function onSeekEnd(value: number) {
   seeking.value = false;
+  pendingSeek.value = value;
   seekTo(value);
+  // Failsafe: never show a stale target for more than a few seconds
+  setTimeout(() => {
+    pendingSeek.value = null;
+  }, 5000);
 }
 
 function formatTime(totalSeconds: number) {
@@ -176,8 +215,14 @@ function formatTime(totalSeconds: number) {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 2000;
+  /* Above Vuetify overlays (~2400) so the bar stays visible over the
+     fullscreen video dialog, where casting is started from */
+  z-index: 10000;
   border-radius: 0;
+}
+
+.seek-row {
+  min-height: 32px;
 }
 
 .cast-bar-desktop {

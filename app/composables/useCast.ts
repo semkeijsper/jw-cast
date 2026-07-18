@@ -20,8 +20,11 @@ interface CastWindow {
       RemotePlayer: new () => RemotePlayer;
       RemotePlayerController: new (player: RemotePlayer) => RemotePlayerController;
       RemotePlayerEventType: { ANY_CHANGE: string };
+      CastContextEventType: { SESSION_STATE_CHANGED: string };
       SessionState: {
+        SESSION_STARTING: string;
         SESSION_STARTED: string;
+        SESSION_START_FAILED: string;
         SESSION_ENDED: string;
       };
     };
@@ -50,6 +53,7 @@ interface CastContextInstance {
   requestSession: () => Promise<void>;
   getCurrentSession: () => CastSession | null;
   endCurrentSession: (stopCasting: boolean) => void;
+  addEventListener: (type: string, handler: (event: { sessionState: string }) => void) => void;
 }
 
 interface CastSession {
@@ -128,6 +132,8 @@ const castDeviceName = ref('');
 const castTitle = ref('');
 const hasCaptions = ref(false);
 const captionsEnabled = ref(false);
+// True from device selection until media is loaded on the receiver
+const isConnecting = ref(false);
 
 let remotePlayer: RemotePlayer | null = null;
 let remotePlayerController: RemotePlayerController | null = null;
@@ -137,6 +143,10 @@ export function useCast() {
     if (!remotePlayer) {
       return;
     }
+    // When switching videos the old media stays loaded for a moment, so only
+    // a false → true transition marks the *new* media as loaded and ends the
+    // connecting state
+    const mediaJustLoaded = !isMediaLoaded.value && remotePlayer.isMediaLoaded;
     isCastConnected.value = remotePlayer.isConnected;
     isMediaLoaded.value = remotePlayer.isMediaLoaded;
     isPaused.value = remotePlayer.isPaused;
@@ -146,8 +156,16 @@ export function useCast() {
     duration.value = remotePlayer.duration;
     canSeek.value = remotePlayer.canSeek;
     canPause.value = remotePlayer.canPause;
-    castDeviceName.value = remotePlayer.displayName;
-    castTitle.value = remotePlayer.title;
+    // While connecting, the receiver still reports the previous media's title
+    // (or none at all) — keep the locally set title of the media being loaded
+    // until the new media has actually landed
+    if (!isConnecting.value || mediaJustLoaded) {
+      castDeviceName.value = remotePlayer.displayName || castDeviceName.value;
+      castTitle.value = remotePlayer.title || castTitle.value;
+    }
+    if (mediaJustLoaded) {
+      isConnecting.value = false;
+    }
   }
 
   function initCast() {
@@ -161,7 +179,8 @@ export function useCast() {
         return;
       }
       try {
-        w.cast!.framework.CastContext.getInstance().setOptions({
+        const context = w.cast!.framework.CastContext.getInstance();
+        context.setOptions({
           receiverApplicationId: 'CC1AD845',
           autoJoinPolicy: w.chrome!.cast.AutoJoinPolicy.ORIGIN_SCOPED,
         });
@@ -170,6 +189,23 @@ export function useCast() {
         remotePlayerController.addEventListener(
           w.cast!.framework.RemotePlayerEventType.ANY_CHANGE,
           syncRemotePlayer,
+        );
+        // SESSION_STARTING fires once the user picks a device — from there
+        // until the media is actually loaded the bar shows a connecting state
+        context.addEventListener(
+          w.cast!.framework.CastContextEventType.SESSION_STATE_CHANGED,
+          event => {
+            const sessionState = w.cast!.framework.SessionState;
+            if (event.sessionState === sessionState.SESSION_STARTING) {
+              isConnecting.value = true;
+            }
+            else if (
+              event.sessionState === sessionState.SESSION_START_FAILED
+              || event.sessionState === sessionState.SESSION_ENDED
+            ) {
+              isConnecting.value = false;
+            }
+          },
         );
         isAvailable.value = true;
       }
@@ -205,10 +241,18 @@ export function useCast() {
     if (!isAvailable.value) {
       return false;
     }
+    castTitle.value = title;
     try {
       const w = window as unknown as CastWindow;
       const context = w.cast!.framework.CastContext.getInstance();
-      await context.requestSession();
+      if (context.getCurrentSession()) {
+        // Already casting — load the new media into the running session.
+        // No SESSION_STARTING event fires here, so flag the switch manually.
+        isConnecting.value = true;
+      }
+      else {
+        await context.requestSession();
+      }
 
       const mediaInfo = new w.chrome!.cast.media.MediaInfo(videoUrl, 'video/mp4');
       const metadata = new w.chrome!.cast.media.GenericMediaMetadata();
@@ -241,12 +285,16 @@ export function useCast() {
       }
 
       const session = context.getCurrentSession();
+      // Resolves when the receiver accepts the load request, which can be well
+      // before the media is actually loaded — isConnecting is cleared by
+      // syncRemotePlayer once the receiver reports isMediaLoaded
       await session!.loadMedia(request);
       hasCaptions.value = !!subtitleUrl;
       captionsEnabled.value = !!subtitleUrl;
       return true;
     }
     catch {
+      isConnecting.value = false;
       return false;
     }
   }
@@ -305,26 +353,6 @@ export function useCast() {
     w.cast?.framework.CastContext.getInstance().endCurrentSession(true);
   }
 
-  /**
-   * Fallback: build an SMPlayer Chromecast URL.
-   * Used when the native Cast SDK is unavailable.
-   */
-  function getSmPlayerUrl(videoUrl: string, title: string, subtitleUrl?: string | null): string {
-    const encodedVideo = btoa(videoUrl);
-    // sfgc = subtitle foreground colour (#ffffff), ss = subtitle size (1.1)
-    let url = `https://chromecast.smplayer.info/index.php?sfgc=I2ZmZmZmZg==&ss=MS4x&url=${encodedVideo}`;
-    try {
-      url += `&title=${btoa(title.replaceAll('—', '-'))}`;
-    }
-    catch {
-      // non-Latin title — skip encoding
-    }
-    if (subtitleUrl) {
-      url += `&subtitles=${btoa(subtitleUrl)}`;
-    }
-    return url;
-  }
-
   return {
     isAvailable,
     isCastConnected,
@@ -340,6 +368,7 @@ export function useCast() {
     castTitle,
     hasCaptions,
     captionsEnabled,
+    isConnecting,
     initCast,
     castMedia,
     togglePlay,
@@ -349,6 +378,5 @@ export function useCast() {
     skip,
     toggleCaptions,
     stopCasting,
-    getSmPlayerUrl,
   };
 }
