@@ -142,6 +142,9 @@ const guideButtonText = computed(() => {
 
 html {
   overflow-y: hidden;
+  /* Plain font-family declaration so @nuxt/fonts detects and self-hosts Roboto;
+     Vuetify only references it inside a var() fallback, which the scanner can't see. */
+  font-family: 'Roboto', sans-serif;
 }
 
 .v-main {

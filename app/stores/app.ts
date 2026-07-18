@@ -15,10 +15,11 @@ export const useAppStore = defineStore('app', () => {
   const translations = ref<Translations>({});
   const siteLanguage = ref('nl');
 
-  // Remember the last selected audio/subtitle language for a year
-  const cookieOptions = { maxAge: 60 * 60 * 24 * 365 };
-  const videoLanguageCookie = useCookie<string>('jw_videoLanguage', cookieOptions);
-  const subtitleLanguageCookie = useCookie<string>('jw_subtitleLanguage', cookieOptions);
+  // Legacy cookies from before pinia-plugin-persistedstate; read-only fallback
+  // so previously saved selections survive. Persistence itself is handled by
+  // the `persist` option below.
+  const videoLanguageCookie = useCookie<string>('jw_videoLanguage');
+  const subtitleLanguageCookie = useCookie<string>('jw_subtitleLanguage');
   const videoLanguage = ref(videoLanguageCookie.value || 'en');
   const subtitleLanguage = ref(subtitleLanguageCookie.value || 'nl');
 
@@ -66,11 +67,9 @@ export const useAppStore = defineStore('app', () => {
   }
   function setVideoLanguage(value: string) {
     videoLanguage.value = value;
-    videoLanguageCookie.value = value;
   }
   function setSubtitleLanguage(value: string) {
     subtitleLanguage.value = value;
-    subtitleLanguageCookie.value = value;
   }
   function setSearchDialog(value: boolean) {
     searchDialog.value = value;
@@ -123,4 +122,8 @@ export const useAppStore = defineStore('app', () => {
     setSelectedVideo,
     setSubtitleMedia,
   };
+}, {
+  persist: {
+    pick: ['videoLanguage', 'subtitleLanguage'],
+  },
 });

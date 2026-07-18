@@ -5,14 +5,22 @@ export default defineNuxtConfig({
   // Client-side only — no SSR
   ssr: false,
 
-  modules: ['vuetify-nuxt-module', '@pinia/nuxt', '@nuxt/eslint'],
+  modules: [
+    'vuetify-nuxt-module',
+    '@pinia/nuxt',
+    'pinia-plugin-persistedstate/nuxt',
+    '@nuxt/eslint',
+    '@nuxt/fonts',
+  ],
+
+  devtools: { enabled: true },
 
   app: {
     // GitHub Pages SPA: handle history-mode routing via 404.html redirect
     head: {
       title: 'JW Cast',
       meta: [
-        { charset: 'utf-8' },
+        { charset: 'utf8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
         { name: 'google', content: 'notranslate' },
         { name: 'title', content: 'JW Cast' },
@@ -24,16 +32,12 @@ export default defineNuxtConfig({
         {
           name: 'keywords',
           content:
-            "jw.org subtitles, jw.org chromecast subtitles, jw.org download subtitles, jw cast, jw-cast, jw.org ondertiteling, jw ondertiteling, jehovah's witnesses convention subtitles",
+            'jw.org subtitles, jw.org chromecast subtitles, jw.org download subtitles, jw cast, jw-cast, jw.org ondertiteling, jw ondertiteling, jehovah\'s witnesses convention subtitles',
         },
         { name: 'robots', content: 'index, follow' },
       ],
       link: [
-        {
-          rel: 'stylesheet',
-          href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900',
-        },
-{ rel: 'apple-touch-icon', sizes: '180x180', href: '/assets/apple-touch-icon.png' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/assets/apple-touch-icon.png' },
         { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/assets/favicon-32x32.png' },
         { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/assets/favicon-16x16.png' },
         { rel: 'manifest', href: '/assets/site.webmanifest' },
@@ -46,7 +50,7 @@ export default defineNuxtConfig({
           // Must run as an inline head script so the URL is fixed before the module
           // entry script boots Vue Router — restoring it any later (e.g. onMounted)
           // loses the race against the router resolving "/" and redirecting.
-          innerHTML: `(function(l){var m=/^\\?p=(\\/[^&]*)(?:&q=([^&]*))?/.exec(l.search);if(m){var p=m[1].replace(/~and~/g,'&');var q=m[2]?'?'+m[2].replace(/~and~/g,'&'):'';window.history.replaceState(null,'',p+q+l.hash);}})(window.location);`,
+          innerHTML: String.raw`(function(l){var m=/^\?p=(\/[^&]*)(?:&q=([^&]*))?/.exec(l.search);if(m){var p=m[1].replace(/~and~/g,'&');var q=m[2]?'?'+m[2].replace(/~and~/g,'&'):'';window.history.replaceState(null,'',p+q+l.hash);}})(window.location);`,
         },
         {
           // Google Analytics
@@ -71,6 +75,12 @@ export default defineNuxtConfig({
 
   css: ['plyr/dist/plyr.css', 'swiper/css', 'swiper/css/navigation', 'swiper/css/scrollbar'],
 
+  // Self-hosted at build time; Vuetify references Roboto from its compiled CSS,
+  // so declare the family explicitly instead of relying on scan detection.
+  fonts: {
+    families: [{ name: 'Roboto', weights: [100, 300, 400, 500, 700, 900] }],
+  },
+
   eslint: {
     config: {
       standalone: false,
@@ -78,6 +88,11 @@ export default defineNuxtConfig({
         package: 'eslint-plugin-import-lite',
       },
     },
+  },
+
+  piniaPluginPersistedstate: {
+    storage: 'cookies',
+    cookieOptions: { maxAge: 60 * 60 * 24 * 365 },
   },
 
   vuetify: {
@@ -99,5 +114,6 @@ export default defineNuxtConfig({
 
   typescript: {
     strict: true,
+    typeCheck: true,
   },
-})
+});
