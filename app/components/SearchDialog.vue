@@ -11,14 +11,13 @@
         <v-text-field
           v-model="query"
           autofocus
-          class="ml-4 mr-3"
+          class="search-input ml-4 mr-3"
           clearable
           density="compact"
           hide-details
           :placeholder="placeholder"
           prepend-inner-icon="mdi-magnify"
           single-line
-          style="color: white"
           variant="outlined"
         />
 
@@ -30,9 +29,18 @@
       </v-toolbar>
 
       <v-card-text :class="[xs ? 'px-0' : 'px-3', 'py-3']">
-        <v-container class="pa-3" fluid>
+        <v-container class="search-container d-flex flex-column pa-3" fluid>
+          <!-- Search error -->
+          <v-row v-if="hasError" class="flex-grow-0">
+            <v-col cols="12">
+              <v-alert type="error" variant="tonal">
+                {{ errorMessage }}
+              </v-alert>
+            </v-col>
+          </v-row>
+
           <!-- Result info + sort -->
-          <v-row v-if="response">
+          <v-row v-else-if="response" class="flex-grow-0">
             <v-col cols="12" lg="8" sm="6">
               <span>{{ searchMessage }}</span>
 
@@ -60,12 +68,12 @@
           <!-- Skeleton while loading -->
           <v-row v-else>
             <v-col cols="12" lg="4" sm="6">
-              <v-skeleton-loader :loading="isLoading" type="text" />
+              <v-skeleton-loader boilerplate :loading="isLoading" type="text" />
             </v-col>
           </v-row>
 
           <!-- Results grid -->
-          <v-row v-if="response">
+          <v-row v-if="response && !hasError" class="flex-grow-0">
             <v-col
               v-for="result in response.results"
               :key="result.lank"
@@ -73,20 +81,21 @@
               lg="4"
               sm="6"
             >
-              <v-card class="result-card" rounded @click="onClickResult(result)">
-                <v-img :aspect-ratio="2 / 1" cover :src="result.image.url">
-                  <div class="image-overlay d-flex align-end">
-                    <v-card-title class="text-white" style="word-break: normal; user-select: none;">
-                      {{ result.title }}
-                    </v-card-title>
-                  </div>
-                </v-img>
-              </v-card>
+              <VideoCard
+                :src="result.image.url"
+                :title="result.title"
+                @click="onClickResult(result)"
+              />
+            </v-col>
+
+            <!-- No results -->
+            <v-col v-if="response.results.length === 0" cols="12">
+              <span>{{ noResultsMessage }}</span>
             </v-col>
           </v-row>
 
           <!-- Skeleton grid while loading -->
-          <v-row v-else>
+          <v-row v-else-if="!hasError" class="flex-grow-0">
             <v-col
               v-for="i in columnCount"
               :key="i"
@@ -94,12 +103,12 @@
               lg="4"
               sm="6"
             >
-              <v-skeleton-loader :loading="isLoading" max-height="189" type="image" />
+              <v-skeleton-loader boilerplate class="skeleton-card" :loading="isLoading" type="image" />
             </v-col>
           </v-row>
 
           <!-- Pagination -->
-          <v-row v-if="totalPages > 1" class="mt-2" justify="center">
+          <v-row v-if="totalPages > 1 && !hasError" class="mt-auto pt-6 pb-2 flex-grow-0" justify="center">
             <v-pagination v-model="currentPage" :length="totalPages" rounded />
           </v-row>
         </v-container>
@@ -116,15 +125,18 @@ import { useDisplay } from 'vuetify';
 const store = useAppStore();
 const { xs, smAndDown, name: breakpointName } = useDisplay();
 
+const LIMIT = 12;
+const DEBOUNCE_MS = 400;
+
 const jwt = ref('');
 const sort = ref('rel');
 const sortKeys = ['rel', 'newest', 'oldest'];
 const isLoading = ref(false);
+const hasError = ref(false);
 const searchQuery = ref('');
 const debounceTimer = ref<ReturnType<typeof setTimeout> | null>(null);
 const response = ref<SearchResponse | null>(null);
 const offset = ref(0);
-const limit = 12;
 
 const dialog = computed({
   get: () => store.searchDialog,
@@ -141,7 +153,7 @@ const query = computed({
     debounceTimer.value = setTimeout(() => {
       offset.value = 0;
       searchQuery.value = value;
-    }, 400);
+    }, DEBOUNCE_MS);
   },
 });
 
@@ -152,6 +164,28 @@ const placeholder = computed(() => {
     }
     default: {
       return 'Search or paste jw.org link...';
+    }
+  }
+});
+
+const errorMessage = computed(() => {
+  switch (store.siteLanguage) {
+    case 'nl': {
+      return 'Zoeken is mislukt. Probeer het later opnieuw.';
+    }
+    default: {
+      return 'Search failed. Please try again later.';
+    }
+  }
+});
+
+const noResultsMessage = computed(() => {
+  switch (store.siteLanguage) {
+    case 'nl': {
+      return 'Geen video’s gevonden.';
+    }
+    default: {
+      return 'No videos found.';
     }
   }
 });
@@ -184,13 +218,13 @@ const columnCount = computed(() => {
 });
 
 const totalPages = computed(() =>
-  Math.ceil((response.value?.insight.total.value ?? 0) / limit),
+  Math.ceil((response.value?.insight.total.value ?? 0) / LIMIT),
 );
 
 const currentPage = computed({
-  get: () => Math.floor(offset.value / limit) + 1,
+  get: () => Math.floor(offset.value / LIMIT) + 1,
   set: (page: number) => {
-    offset.value = (page - 1) * limit;
+    offset.value = (page - 1) * LIMIT;
     fetchResponse(searchQuery.value);
   },
 });
@@ -211,9 +245,10 @@ async function fetchVideo(langCode: string | undefined, lank: string | undefined
   store.setVideoDialog(true);
 }
 
-async function fetchResponse(query: string) {
+async function fetchResponse(query: string, retried = false) {
   isLoading.value = true;
-  const url = `${store.searchUrl}/${store.getSiteLanguage!.code}/videos?sort=${sort.value}&offset=${offset.value}&limit=${limit}&q=${encodeURIComponent(query)}`;
+  hasError.value = false;
+  const url = `${store.searchUrl}/${store.getSiteLanguage!.code}/videos?sort=${sort.value}&offset=${offset.value}&limit=${LIMIT}&q=${encodeURIComponent(query)}`;
   try {
     const data = await $fetch<SearchResponse>(url, {
       headers: { Authorization: `Bearer ${jwt.value}` },
@@ -223,9 +258,17 @@ async function fetchResponse(query: string) {
     response.value = data;
   }
   catch (error) {
-    if (error instanceof FetchError && error.response?.status === 401) {
-      await fetchToken();
-      await fetchResponse(query); // retry once after token refresh
+    if (!retried && error instanceof FetchError && error.response?.status === 401) {
+      try {
+        await fetchToken();
+        await fetchResponse(query, true);
+      }
+      catch {
+        hasError.value = true;
+      }
+    }
+    else {
+      hasError.value = true;
     }
   }
   finally {
@@ -240,6 +283,7 @@ function onClickResult(result: SearchResult) {
 watch(searchQuery, async value => {
   if (!value) {
     response.value = null;
+    hasError.value = false;
     return;
   }
 
@@ -285,6 +329,7 @@ watch(
   () => {
     searchQuery.value = '';
     response.value = null;
+    hasError.value = false;
   },
 );
 
@@ -292,15 +337,16 @@ onMounted(fetchToken);
 </script>
 
 <style scoped>
-.result-card {
-  cursor: pointer;
-  transition: box-shadow 0.2s;
+.search-input {
+  color: white;
 }
-.result-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+.search-container {
+  min-height: 100%;
 }
-.image-overlay {
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.55));
+.skeleton-card {
+  aspect-ratio: 2 / 1;
+}
+.skeleton-card :deep(.v-skeleton-loader__image) {
   height: 100%;
 }
 </style>

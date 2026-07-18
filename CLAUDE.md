@@ -24,6 +24,7 @@ This file provides guidance for AI assistants working in this repository.
 | Chromecast | Google Cast Web Sender SDK (Default Media Receiver) |
 | Carousel | Swiper 12 via `swiper/vue` |
 | HTTP client | `$fetch` (Nuxt built-in, via ofetch) |
+| Analytics | Google Analytics 4 via `nuxt-gtag` module (measurement ID in `nuxt.config.ts`; SPA page views rely on GA4 Enhanced Measurement history tracking) |
 | Package manager | pnpm (node >= 22) |
 | Linting | ESLint flat config: `eslint-config-vuetify` + `@nuxt/eslint` (stylistic rules, no Prettier) |
 
@@ -53,6 +54,7 @@ app/
 ├── components/
 │   ├── VideoCategory.vue        # Fetches one named category and renders it
 │   ├── VideoDialog.vue          # Full-screen video player modal (Plyr + Cast)
+│   ├── VideoCard.vue            # Shared video/result card (2:1 image, gradient overlay, wrapping title)
 │   ├── VideoSwiper.vue          # Horizontal Swiper carousel for a category
 │   ├── VideoGrid.vue            # Responsive grid (used for LatestVideos)
 │   ├── SearchDialog.vue         # Search UI with pagination
@@ -139,6 +141,7 @@ Key differences from Vuetify 2 used in this codebase:
 - Responsive breakpoints via `useDisplay()` from `'vuetify'`
 - Dark mode: detected once at startup in `app.vue` via `window.matchMedia`
 - Image gradient overlay: `<div class="image-overlay">` inside `<v-img>` with `background: linear-gradient(...)`
+- Video/search result cards: always use the shared `VideoCard.vue` (`src`, `title` props, `click` event) — do not duplicate card markup in consumers
 
 ### Formatting
 
@@ -170,8 +173,8 @@ Run `pnpm lint` (or `pnpm lint:fix`) before committing.
 | `tokenUrl` | URL for stream JWT tokens |
 | `languages` | All available languages (seeded with Dutch + English) |
 | `siteLanguage` | Selected UI/content language locale |
-| `videoLanguage` | Selected audio language for video (persisted in `jw_videoLanguage` cookie) |
-| `subtitleLanguage` | Selected subtitle language (persisted in `jw_subtitleLanguage` cookie) |
+| `videoLanguage` | Selected audio language for video (persisted) |
+| `subtitleLanguage` | Selected subtitle language (persisted) |
 | `translations` | Fetched translation strings from jw.org API |
 | `searchDialog` | Search dialog open state |
 | `videoDialog` | Video player dialog open state |
@@ -181,6 +184,8 @@ Run `pnpm lint` (or `pnpm lint:fix`) before committing.
 | `subtitleMedia` | Subtitle `Video` object used by TranscriptDialog |
 
 All mutations are `set*` functions. No Pinia actions for async — API calls are made directly in component `onMounted` hooks and `watch` callbacks.
+
+`videoLanguage` and `subtitleLanguage` are persisted via `pinia-plugin-persistedstate` (`persist.pick` option); the legacy `jw_videoLanguage`/`jw_subtitleLanguage` cookies are read once as a fallback for previously saved selections.
 
 ## Routing
 
@@ -207,11 +212,12 @@ The `VideoDialog` component manages the URL pushes in its `watch(() => store.vid
 
 `SearchDialog.vue` implements full pagination using the jw.org search API's `offset` and `limit` params:
 
-- Page size: 12 results
-- `v-pagination` component drives page changes
+- Page size: 12 results (`LIMIT` constant)
+- `v-pagination` component drives page changes; the pagination row is bottom-anchored via flex-column container + `mt-auto`
 - Sort (relevance / newest / oldest) resets to page 1
-- New search query resets to page 1
-- JWT token is fetched on mount and auto-refreshed on 401
+- New search query resets to page 1 (debounced 400ms, `DEBOUNCE_MS` constant)
+- JWT token is fetched on mount and refreshed on 401 with a single bounded retry
+- Failed searches show a `v-alert` error (`hasError` ref); zero filtered results show a "no videos found" message
 
 ## API Integration
 

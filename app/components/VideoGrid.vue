@@ -8,19 +8,11 @@
       sm="6"
       xl="4"
     >
-      <v-card hover ripple rounded @click="onClickVideo(video)">
-        <v-img
-          :aspect-ratio="2 / 1"
-          class="align-end"
-          cover
-          gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-          :src="video.images.lss.lg"
-        >
-          <v-card-title class="video-title text-white">
-            {{ video.title }}
-          </v-card-title>
-        </v-img>
-      </v-card>
+      <VideoCard
+        :src="video.images.lss.lg"
+        :title="video.title"
+        @click="onClickVideo(video)"
+      />
     </v-col>
   </v-row>
 </template>
@@ -37,13 +29,3 @@ function onClickVideo(video: Video) {
   store.setVideoDialog(true);
 }
 </script>
-
-<style scoped>
-.video-title {
-  hyphens: none;
-  overflow: visible;
-  text-overflow: clip;
-  user-select: none;
-  white-space: normal;
-}
-</style>
