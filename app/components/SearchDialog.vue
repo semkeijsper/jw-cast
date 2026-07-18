@@ -11,7 +11,7 @@
         <v-text-field
           v-model="query"
           autofocus
-          class="mr-3"
+          class="mx-3"
           clearable
           density="compact"
           hide-details
