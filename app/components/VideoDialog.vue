@@ -49,8 +49,8 @@
         />
       </v-responsive>
 
-      <v-card-text class="px-3 pb-3">
-        <v-container>
+      <v-card-text class="px-3 pb-3 pt-0">
+        <v-container class="pa-3">
           <v-row :no-gutters="xs">
             <v-col cols="12" sm="6">
               <v-autocomplete
@@ -61,7 +61,7 @@
                 :item-title="languageLabel"
                 item-value="locale"
                 :items="availableLanguages"
-                prepend-inner-icon="mdi-volume-high"
+                prepend-icon="mdi-volume-high"
                 variant="outlined"
               />
             </v-col>
@@ -75,7 +75,7 @@
                 :item-title="languageLabel"
                 item-value="locale"
                 :items="availableLanguages"
-                prepend-inner-icon="mdi-subtitles"
+                prepend-icon="mdi-subtitles"
                 variant="outlined"
               />
             </v-col>

@@ -2,10 +2,10 @@
   <v-menu location="top" transition="slide-y-reverse-transition">
     <template #activator="{ props }">
       <v-btn
-        class="mr-2"
         color="primary"
         :loading="!videoMedia"
         prepend-icon="mdi-download"
+        variant="elevated"
         v-bind="props"
       >
         {{ store.translations.btnSearchFilterVideo }}

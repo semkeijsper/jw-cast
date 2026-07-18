@@ -7,6 +7,7 @@
         :disabled="subtitleUrl === null"
         :loading="!subtitleMedia"
         prepend-icon="mdi-download"
+        variant="elevated"
         v-bind="props"
       >
         {{ store.translations.hdgSubtitles }}

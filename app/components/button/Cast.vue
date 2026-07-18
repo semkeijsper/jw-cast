@@ -9,6 +9,7 @@
             :disabled="!castAvailable"
             :loading="!videoMedia || !subtitleMedia"
             prepend-icon="mdi-cast"
+            variant="elevated"
             v-bind="{ ...menuProps, ...tooltipProps }"
           >
             {{ store.translations.btnPlay }}
