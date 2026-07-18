@@ -2,7 +2,7 @@
   <v-dialog
     v-model="dialog"
     :fullscreen="smAndDown"
-    max-width="900px"
+    :max-width="store.transcriptDialog && !smAndDown ? '1240px' : '900px'"
     transition="dialog-bottom-transition"
   >
     <v-card v-if="store.selectedVideo">
@@ -38,16 +38,36 @@
       </v-responsive>
 
       <!-- Player -->
-      <v-responsive v-else :aspect-ratio="16 / 9" class="player-frame">
-        <video
-          ref="playerEl"
-          controls
-          crossorigin="anonymous"
-          playsinline
-          :poster="videoPoster"
-          style="width: 100%; height: 100%; object-fit: cover"
+      <template v-else>
+        <div class="player-row" :class="{ 'player-row--split': store.transcriptDialog && !smAndDown }">
+          <v-responsive :aspect-ratio="16 / 9" class="player-frame">
+            <video
+              ref="playerEl"
+              controls
+              crossorigin="anonymous"
+              playsinline
+              :poster="videoPoster"
+              style="width: 100%; height: 100%; object-fit: cover"
+            />
+          </v-responsive>
+
+          <TranscriptPanel
+            v-if="store.transcriptDialog && !smAndDown"
+            class="transcript-side"
+            :current-time="transcriptTime"
+            :vtt-url="subtitleUrl"
+            @seek="onSeekTranscript"
+          />
+        </div>
+
+        <TranscriptPanel
+          v-if="store.transcriptDialog && smAndDown"
+          class="transcript-below"
+          :current-time="transcriptTime"
+          :vtt-url="subtitleUrl"
+          @seek="onSeekTranscript"
         />
-      </v-responsive>
+      </template>
 
       <v-card-text class="px-3 pb-3 pt-0">
         <v-container class="pa-3">
@@ -109,13 +129,28 @@ const store = useAppStore();
 const route = useRoute();
 const router = useRouter();
 const { xs, smAndDown } = useDisplay();
+const { isCastConnected, isMediaLoaded, currentTime: castTime, seekTo } = useCast();
 
 const playerEl = ref<HTMLVideoElement | null>(null);
 let player: Plyr | undefined = undefined;
+let playerLoadId = 0;
 
 const loading = ref(true);
 const videoMedia = ref<Video | null>(null);
 const subtitleMedia = ref<Video | null>(null);
+const localTime = ref(0);
+
+const isCasting = computed(() => isCastConnected.value && isMediaLoaded.value);
+const transcriptTime = computed(() => (isCasting.value ? castTime.value : localTime.value));
+
+function onSeekTranscript(seconds: number) {
+  if (isCasting.value) {
+    seekTo(seconds);
+  }
+  else if (player) {
+    player.currentTime = seconds;
+  }
+}
 
 const dialog = computed({
   get: () => store.videoDialog,
@@ -217,7 +252,14 @@ async function loadPlayer() {
     return;
   }
 
+  // The dialog-open and loading watchers can both request an init in the same
+  // tick; without this guard two calls interleave across the dynamic import
+  // and the second destroys the first mid-setup, leaving a dead player
+  const id = ++playerLoadId;
   const { default: Plyr } = await import('plyr');
+  if (id !== playerLoadId || !playerEl.value || !videoMedia.value) {
+    return;
+  }
   if (player) {
     player.destroy();
   }
@@ -245,6 +287,11 @@ async function loadPlayer() {
     captions: { active: true, language: store.getSubtitleLanguage!.locale, update: true },
     // Few enough options that the settings menu can't soft-lock
     speed: { selected: 1, options: [0.75, 1, 1.25, 1.5] },
+  });
+
+  localTime.value = 0;
+  player.on('timeupdate', () => {
+    localTime.value = player?.currentTime ?? 0;
   });
 
   player.source = {
@@ -275,6 +322,7 @@ watch(
   open => {
     if (!open) {
       player?.stop();
+      store.setTranscriptDialog(false);
       const lang = route.params.language as string;
       if (route.params.videoId) {
         router.push(`/${lang}`);
@@ -286,6 +334,9 @@ watch(
       if (route.params.videoId !== lank) {
         router.push(`/${lang}/${lank}`);
       }
+      // Reopening the same video remounts the dialog's <video> element without
+      // any media watcher firing, so the player must be re-initialized here
+      nextTick(() => loadPlayer());
     }
   },
 );
@@ -297,6 +348,7 @@ watch(
     if (!video) {
       return;
     }
+    store.setTranscriptDialog(false);
     videoMedia.value = null;
     subtitleMedia.value = null;
     // Pre-fill from selectedVideo if language matches
@@ -335,6 +387,24 @@ watch(
    which makes the covered video look stretched. */
 .player-frame {
   flex-grow: 0;
+}
+.player-row {
+  position: relative;
+  flex-grow: 0;
+}
+.player-row--split .player-frame {
+  width: calc(100% - 340px);
+}
+.transcript-side {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 340px;
+}
+.transcript-below {
+  max-height: 40vh;
+  flex-shrink: 0;
 }
 .plyr {
   height: 100%;

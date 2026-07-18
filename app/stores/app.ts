@@ -28,7 +28,6 @@ export const useAppStore = defineStore('app', () => {
   const transcriptDialog = ref(false);
   const getNotifiedDialog = ref(false);
   const selectedVideo = ref<Video | null>(null);
-  const subtitleMedia = ref<Video | null>(null);
 
   // Computed getters
   const getSiteLanguage = computed(
@@ -86,9 +85,6 @@ export const useAppStore = defineStore('app', () => {
   function setSelectedVideo(value: Video | null) {
     selectedVideo.value = value;
   }
-  function setSubtitleMedia(value: Video | null) {
-    subtitleMedia.value = value;
-  }
 
   return {
     mediatorUrl,
@@ -104,7 +100,6 @@ export const useAppStore = defineStore('app', () => {
     transcriptDialog,
     getNotifiedDialog,
     selectedVideo,
-    subtitleMedia,
     getSiteLanguage,
     getVideoLanguage,
     getSubtitleLanguage,
@@ -120,7 +115,6 @@ export const useAppStore = defineStore('app', () => {
     setTranscriptDialog,
     setGetNotifiedDialog,
     setSelectedVideo,
-    setSubtitleMedia,
   };
 }, {
   persist: {

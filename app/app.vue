@@ -38,7 +38,6 @@
 
     <SearchDialog />
     <VideoDialog />
-    <TranscriptDialog />
     <GetNotifiedDialog />
   </v-app>
 </template>

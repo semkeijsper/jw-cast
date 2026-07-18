@@ -33,7 +33,7 @@
 <script setup lang="ts">
 import type { Video } from '~/types';
 
-const props = defineProps<{
+defineProps<{
   subtitleMedia: Video | null;
   subtitleUrl: string | null;
 }>();
@@ -41,7 +41,6 @@ const props = defineProps<{
 const store = useAppStore();
 
 function onOpenTranscript() {
-  store.setSubtitleMedia(props.subtitleMedia);
   store.setTranscriptDialog(true);
 }
 </script>

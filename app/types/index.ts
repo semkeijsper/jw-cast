@@ -14,6 +14,12 @@ export interface Language {
 
 export type Translations = { [key: string]: string };
 
+export interface SubtitleCue {
+  start: number;
+  end: number;
+  text: string;
+}
+
 export interface Category {
   key: string;
   type: string;
