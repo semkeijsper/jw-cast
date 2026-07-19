@@ -58,19 +58,20 @@ app/
 │   ├── VideoSwiper.vue          # Horizontal Swiper carousel for a category
 │   ├── VideoGrid.vue            # Responsive grid (used for LatestVideos)
 │   ├── SearchDialog.vue         # Search UI with pagination
-│   ├── TranscriptDialog.vue     # Renders VTT subtitle file as plain text
+│   ├── TranscriptPanel.vue      # Synced transcript panel in VideoDialog (search, click-to-seek)
 │   ├── GetNotifiedDialog.vue    # WhatsApp channel promo dialog
 │   ├── CastBar.vue              # Global Chromecast control bar (fixed bottom)
 │   └── button/                  # Used as <ButtonCast> etc. (directory-prefixed)
 │       ├── Cast.vue             # Chromecast (native Cast SDK)
-│       ├── Subtitle.vue         # Download subtitle / open transcript
-│       └── Video.vue            # Download video file
+│       └── Transcript.vue       # Toggles the transcript panel
 ├── config/
 │   └── whatsappChannels.ts      # Per-language WhatsApp channel links (not auto-imported)
 ├── stores/
 │   └── app.ts                   # Single flat Pinia composition store
 ├── composables/
 │   └── useCast.ts               # Google Cast SDK wrapper
+├── utils/
+│   └── vtt.ts                   # parseVtt / formatCueTime (auto-imported)
 └── types/
     └── index.ts                 # Domain interfaces: Language, Video, Category, etc.
 public/

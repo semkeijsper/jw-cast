@@ -1,18 +1,31 @@
 <template>
   <div class="transcript-panel d-flex flex-column">
-    <v-toolbar class="flex-grow-0" color="primary" density="compact">
-      <v-toolbar-title>Transcript</v-toolbar-title>
+    <div class="panel-header d-flex align-center flex-grow-0 ga-1 pa-2">
+      <v-text-field
+        v-model="query"
+        clearable
+        density="compact"
+        hide-details
+        :placeholder="store.translations.lnkSearch ?? 'Search'"
+        prepend-inner-icon="mdi-magnify"
+        variant="outlined"
+        @keydown.esc="onEscape"
+      />
 
-      <template #append>
-        <v-btn icon @click="onCopy">
-          <v-icon>mdi-content-copy</v-icon>
-        </v-btn>
+      <v-btn density="comfortable" icon variant="text" @click="onCopy">
+        <v-icon>mdi-content-copy</v-icon>
+      </v-btn>
 
-        <v-btn icon @click="store.setTranscriptDialog(false)">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </template>
-    </v-toolbar>
+      <v-btn
+        v-if="closable"
+        density="comfortable"
+        icon
+        variant="text"
+        @click="store.setTranscriptDialog(false)"
+      >
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+    </div>
 
     <div v-if="loading" class="d-flex flex-grow-1 align-center justify-center pa-4">
       <v-progress-circular color="primary" indeterminate />
@@ -27,26 +40,48 @@
 
     <div v-else class="cue-area flex-grow-1">
       <div
+        v-if="isFiltering"
+        class="match-count px-3 py-1 text-caption text-medium-emphasis"
+      >
+        {{ filteredCues.length }} / {{ cues.length }}
+      </div>
+
+      <div
+        v-if="isFiltering && filteredCues.length === 0"
+        class="d-flex flex-grow-1 align-center justify-center pa-4 text-medium-emphasis"
+      >
+        No results
+      </div>
+
+      <div
+        v-else
         ref="containerEl"
         class="cue-list"
+        :class="{ 'cue-list--filtered': isFiltering }"
         @touchmove="onUserScroll"
         @wheel="onUserScroll"
       >
         <div
-          v-for="(cue, index) in cues"
+          v-for="cue in visibleCues"
           :key="cue.start"
           class="cue"
-          :class="{ 'cue-active': index === activeIndex }"
+          :class="{ 'cue-active': !isFiltering && cue === cues[activeIndex] }"
           @click="onClickCue(cue)"
         >
           <span class="cue-time">{{ formatCueTime(cue.start) }}</span>
-          <span class="cue-text">{{ cue.text }}</span>
+
+          <span class="cue-text">
+            <template v-for="(segment, i) in cueSegments(cue.text)" :key="i">
+              <mark v-if="segment.match" class="cue-match">{{ segment.text }}</mark>
+              <template v-else>{{ segment.text }}</template>
+            </template>
+          </span>
         </div>
       </div>
 
       <v-fade-transition>
         <v-btn
-          v-if="userScrolled && activeIndex >= 0"
+          v-if="userScrolled && !isFiltering && activeIndex >= 0"
           class="resume-btn"
           color="primary"
           icon="mdi-arrow-down"
@@ -64,6 +99,7 @@ import type { SubtitleCue } from '~/types';
 const props = defineProps<{
   vttUrl: string | null;
   currentTime: number;
+  closable?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -76,6 +112,7 @@ const containerEl = ref<HTMLElement | null>(null);
 const loading = ref(false);
 const cues = ref<SubtitleCue[]>([]);
 const userScrolled = ref(false);
+const query = ref<string | null>('');
 
 const activeIndex = computed(() => {
   for (let i = cues.value.length - 1; i >= 0; i--) {
@@ -86,6 +123,39 @@ const activeIndex = computed(() => {
   return -1;
 });
 
+const normalizedQuery = computed(() => query.value?.trim().toLowerCase() ?? '');
+const isFiltering = computed(() => normalizedQuery.value.length > 0);
+
+const filteredCues = computed(() => {
+  if (!isFiltering.value) {
+    return cues.value;
+  }
+  return cues.value.filter(c => c.text.toLowerCase().includes(normalizedQuery.value));
+});
+
+const visibleCues = computed(() => (isFiltering.value ? filteredCues.value : cues.value));
+
+function cueSegments(text: string): { text: string; match: boolean }[] {
+  const q = normalizedQuery.value;
+  if (!q) {
+    return [{ text, match: false }];
+  }
+  const segments: { text: string; match: boolean }[] = [];
+  const lower = text.toLowerCase();
+  let position = 0;
+  for (let hit = lower.indexOf(q); hit !== -1; hit = lower.indexOf(q, position)) {
+    if (hit > position) {
+      segments.push({ text: text.slice(position, hit), match: false });
+    }
+    segments.push({ text: text.slice(hit, hit + q.length), match: true });
+    position = hit + q.length;
+  }
+  if (position < text.length) {
+    segments.push({ text: text.slice(position), match: false });
+  }
+  return segments;
+}
+
 const plainText = computed(() =>
   cues.value
     .map(c => c.text)
@@ -93,9 +163,9 @@ const plainText = computed(() =>
     .replace(/(\.\.\.\n|\. \. \.\n|([^.])\n)/g, '$2 '),
 );
 
-function scrollToActive(behavior: ScrollBehavior = 'smooth') {
+function scrollToIndex(index: number, behavior: ScrollBehavior = 'smooth') {
   const container = containerEl.value;
-  const row = container?.children[activeIndex.value] as HTMLElement | undefined;
+  const row = container?.children[index] as HTMLElement | undefined;
   if (!container || !row) {
     return;
   }
@@ -103,6 +173,10 @@ function scrollToActive(behavior: ScrollBehavior = 'smooth') {
     top: row.offsetTop - container.clientHeight / 2 + row.clientHeight / 2,
     behavior,
   });
+}
+
+function scrollToActive(behavior: ScrollBehavior = 'smooth') {
+  scrollToIndex(activeIndex.value, behavior);
 }
 
 function onUserScroll() {
@@ -117,14 +191,28 @@ function onResume() {
 function onClickCue(cue: SubtitleCue) {
   userScrolled.value = false;
   emit('seek', cue.start);
+  if (isFiltering.value) {
+    query.value = '';
+    const index = cues.value.indexOf(cue);
+    nextTick(() => scrollToIndex(index, 'instant'));
+  }
 }
 
 function onCopy() {
   navigator.clipboard.writeText(plainText.value);
 }
 
+// Consume Esc while a query is active so it clears the search instead of
+// closing the video dialog
+function onEscape(event: KeyboardEvent) {
+  if (query.value) {
+    query.value = '';
+    event.stopPropagation();
+  }
+}
+
 watch(activeIndex, () => {
-  if (!userScrolled.value) {
+  if (!userScrolled.value && !isFiltering.value) {
     scrollToActive();
   }
 });
@@ -133,6 +221,7 @@ watch(
   () => props.vttUrl,
   async url => {
     userScrolled.value = false;
+    query.value = '';
     if (!url) {
       cues.value = [];
       return;
@@ -157,14 +246,28 @@ watch(
 .transcript-panel {
   min-height: 0;
 }
+.panel-header {
+  border-bottom: 1px solid rgba(var(--v-border-color), var(--v-border-opacity));
+}
 .cue-area {
+  display: flex;
+  flex-direction: column;
   position: relative;
   min-height: 0;
 }
+.match-count {
+  flex-shrink: 0;
+}
 .cue-list {
-  height: 100%;
+  flex-grow: 1;
+  min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
+}
+.cue-match {
+  background: rgba(var(--v-theme-primary), 0.3);
+  color: inherit;
+  border-radius: 2px;
 }
 .cue {
   display: flex;

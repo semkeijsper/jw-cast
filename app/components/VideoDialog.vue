@@ -12,13 +12,41 @@
         </v-toolbar-title>
 
         <template #append>
-          <v-tooltip location="bottom" :text="store.translations.lnkHome">
+          <v-menu location="bottom end" transition="slide-y-transition">
             <template #activator="{ props }">
-              <v-btn :href="jwOrgUrl" icon target="_blank" v-bind="props">
-                <v-icon>mdi-open-in-new</v-icon>
+              <v-btn icon v-bind="props">
+                <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </template>
-          </v-tooltip>
+
+            <v-list density="compact">
+              <v-list-subheader>{{ store.translations.btnDownload ?? 'Download' }}</v-list-subheader>
+
+              <v-list-item
+                v-for="file in downloadableFiles"
+                :key="file.checksum"
+                :href="file.progressiveDownloadURL"
+                prepend-icon="mdi-download"
+                :title="`${file.label} (${Math.floor(file.filesize / 1048576)} MB)`"
+              />
+
+              <v-list-item
+                :disabled="!subtitleUrl"
+                :href="subtitleUrl ?? undefined"
+                prepend-icon="mdi-download"
+                :title="`${store.translations.hdgSubtitles} (.vtt)`"
+              />
+
+              <v-divider class="my-1" />
+
+              <v-list-item
+                :href="jwOrgUrl"
+                prepend-icon="mdi-open-in-new"
+                target="_blank"
+                :title="store.translations.lnkHome"
+              />
+            </v-list>
+          </v-menu>
 
           <v-btn icon @click="dialog = false">
             <v-icon>mdi-close</v-icon>
@@ -63,13 +91,14 @@
         <TranscriptPanel
           v-if="store.transcriptDialog && smAndDown"
           class="transcript-below"
+          closable
           :current-time="transcriptTime"
           :vtt-url="subtitleUrl"
           @seek="onSeekTranscript"
         />
       </template>
 
-      <v-card-text class="px-3 pb-3 pt-0">
+      <v-card-text v-if="!(store.transcriptDialog && smAndDown)" class="px-3 pb-3 pt-0">
         <v-container class="pa-3">
           <v-row :no-gutters="xs">
             <v-col cols="12" sm="6">
@@ -102,18 +131,10 @@
           </v-row>
         </v-container>
 
-        <v-card-actions v-if="xs">
-          <ButtonCast :subtitle-media="subtitleMedia" :subtitle-url="subtitleUrl" :video-media="videoMedia" />
-        </v-card-actions>
-
         <v-card-actions>
-          <template v-if="!xs">
-            <ButtonCast :subtitle-media="subtitleMedia" :subtitle-url="subtitleUrl" :video-media="videoMedia" />
-            <v-spacer />
-          </template>
-
-          <ButtonVideo :video-media="videoMedia" />
-          <ButtonSubtitle :subtitle-media="subtitleMedia" :subtitle-url="subtitleUrl" />
+          <ButtonCast :subtitle-media="subtitleMedia" :subtitle-url="subtitleUrl" :video-media="videoMedia" />
+          <v-spacer />
+          <ButtonTranscript :subtitle-media="subtitleMedia" :subtitle-url="subtitleUrl" />
         </v-card-actions>
       </v-card-text>
     </v-card>
@@ -197,6 +218,10 @@ const subtitleUrl = computed(() => {
   const found = subtitleMedia.value?.files.find(f => f?.subtitles?.url);
   return found?.subtitles?.url ?? null;
 });
+
+const downloadableFiles = computed(
+  () => videoMedia.value?.files.filter(f => f.label !== '144p') ?? [],
+);
 
 const availableLanguages = computed(() => {
   if (!store.selectedVideo) {
@@ -403,8 +428,8 @@ watch(
   width: 340px;
 }
 .transcript-below {
-  max-height: 40vh;
-  flex-shrink: 0;
+  flex-grow: 1;
+  min-height: 0;
 }
 .plyr {
   height: 100%;

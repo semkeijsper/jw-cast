@@ -11,7 +11,7 @@
         <v-text-field
           v-model="query"
           autofocus
-          class="search-input ml-4 mr-3"
+          class="search-input ml-4 mr-1"
           clearable
           density="compact"
           hide-details
@@ -28,8 +28,12 @@
         </template>
       </v-toolbar>
 
-      <v-card-text :class="[xs ? 'px-0' : 'px-3', 'py-3']">
-        <v-container class="search-container d-flex flex-column pa-3" fluid>
+      <v-card-text :class="[xs ? 'px-0' : 'px-3', smAndDown ? 'pt-3 pb-0' : 'py-3']">
+        <v-container
+          class="search-container d-flex flex-column pa-3"
+          :class="{ 'pb-0': smAndDown }"
+          fluid
+        >
           <!-- Search error -->
           <v-row v-if="hasError" class="flex-grow-0">
             <v-col cols="12">
@@ -42,11 +46,11 @@
           <!-- Result info + sort -->
           <v-row v-else-if="response" class="flex-grow-0">
             <v-col cols="12" lg="8" sm="6">
-              <span>{{ searchMessage }}</span>
+              <span class="text-title-small">{{ searchMessage }}</span>
 
               <div
                 v-if="response.messages[1]"
-                class="mt-1"
+                class="mt-1 text-title-small"
                 v-html="response.messages[1].message"
               />
             </v-col>
@@ -87,11 +91,6 @@
                 @click="onClickResult(result)"
               />
             </v-col>
-
-            <!-- No results -->
-            <v-col v-if="response.results.length === 0" cols="12">
-              <span>{{ noResultsMessage }}</span>
-            </v-col>
           </v-row>
 
           <!-- Skeleton grid while loading -->
@@ -108,8 +107,18 @@
           </v-row>
 
           <!-- Pagination -->
-          <v-row v-if="totalPages > 1 && !hasError" class="mt-auto pt-6 pb-2 flex-grow-0" justify="center">
-            <v-pagination v-model="currentPage" :length="totalPages" rounded />
+          <v-row
+            v-if="totalPages > 1 && !hasError"
+            class="mt-auto pt-6 pb-2 flex-grow-0"
+            :class="{ 'pagination-sticky': smAndDown }"
+            justify="center"
+          >
+            <v-pagination
+              v-model="currentPage"
+              density="comfortable"
+              :length="totalPages"
+              :total-visible="xs ? 4 : 7"
+            />
           </v-row>
         </v-container>
       </v-card-text>
@@ -125,7 +134,7 @@ import { useDisplay } from 'vuetify';
 const store = useAppStore();
 const { xs, smAndDown, name: breakpointName } = useDisplay();
 
-const LIMIT = 12;
+const LIMIT = 9;
 const DEBOUNCE_MS = 400;
 
 const jwt = ref('');
@@ -175,17 +184,6 @@ const errorMessage = computed(() => {
     }
     default: {
       return 'Search failed. Please try again later.';
-    }
-  }
-});
-
-const noResultsMessage = computed(() => {
-  switch (store.siteLanguage) {
-    case 'nl': {
-      return 'Geen video’s gevonden.';
-    }
-    default: {
-      return 'No videos found.';
     }
   }
 });
@@ -337,11 +335,14 @@ onMounted(fetchToken);
 </script>
 
 <style scoped>
-.search-input {
-  color: white;
-}
 .search-container {
   min-height: 100%;
+}
+.pagination-sticky {
+  position: sticky;
+  bottom: 0;
+  z-index: 1;
+  background: rgb(var(--v-theme-surface));
 }
 .skeleton-card {
   aspect-ratio: 2 / 1;
