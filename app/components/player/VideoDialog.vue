@@ -42,16 +42,20 @@
         >
           <v-responsive :aspect-ratio="16 / 9" class="player-frame">
             <!-- Exclusive playback: while casting, the local player is torn
-                 down and replaced by a placeholder; CastBar has the controls -->
-            <video
-              v-if="!castActive"
-              ref="playerEl"
-              class="player-video"
-              controls
-              crossorigin="anonymous"
-              playsinline
-              :poster="videoPoster"
-            />
+                 down and replaced by a placeholder; CastBar has the controls.
+                 Plyr's destroy() swaps the <video> for an internal clone, so
+                 the v-if must sit on a Vue-owned wrapper — never the Plyr
+                 element itself — or the clone orphans on teardown. -->
+            <div v-if="!castActive" class="player-host">
+              <video
+                ref="playerEl"
+                class="player-video"
+                controls
+                crossorigin="anonymous"
+                playsinline
+                :poster="videoPoster"
+              />
+            </div>
 
             <v-img
               v-else
@@ -302,6 +306,9 @@ watch(
 .dialog-title {
   word-break: normal;
   user-select: none;
+}
+.player-host {
+  height: 100%;
 }
 .player-video {
   width: 100%;
