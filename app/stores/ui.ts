@@ -4,6 +4,7 @@ export const useUiStore = defineStore('ui', () => {
   const searchDialog = ref(false);
   const videoDialog = ref(false);
   const transcriptPanel = ref(false);
+  const transcriptExpanded = ref(false);
   const getNotifiedDialog = ref(false);
   const selectedVideo = ref<Video | null>(null);
 
@@ -16,6 +17,12 @@ export const useUiStore = defineStore('ui', () => {
   }
   function setTranscriptPanel(value: boolean) {
     transcriptPanel.value = value;
+    if (!value) {
+      transcriptExpanded.value = false;
+    }
+  }
+  function setTranscriptExpanded(value: boolean) {
+    transcriptExpanded.value = value;
   }
   function setGetNotifiedDialog(value: boolean) {
     getNotifiedDialog.value = value;
@@ -35,11 +42,13 @@ export const useUiStore = defineStore('ui', () => {
     searchDialog,
     videoDialog,
     transcriptPanel,
+    transcriptExpanded,
     getNotifiedDialog,
     selectedVideo,
     setSearchDialog,
     setVideoDialog,
     setTranscriptPanel,
+    setTranscriptExpanded,
     setGetNotifiedDialog,
     setSelectedVideo,
     openVideo,

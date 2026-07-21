@@ -19,6 +19,18 @@
       </v-btn>
 
       <v-btn
+        v-if="expandable"
+        density="comfortable"
+        icon
+        variant="text"
+        @click="onToggleExpand"
+      >
+        <v-icon>
+          {{ uiStore.transcriptExpanded ? 'mdi-arrow-collapse-down' : 'mdi-arrow-expand-up' }}
+        </v-icon>
+      </v-btn>
+
+      <v-btn
         v-if="closable"
         density="comfortable"
         icon
@@ -103,6 +115,7 @@ const props = defineProps<{
   vttUrl: string | null;
   currentTime: number;
   closable?: boolean;
+  expandable?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -200,6 +213,12 @@ function updateActiveAbove() {
 function onResume() {
   userScrolled.value = false;
   scrollToActive();
+}
+
+function onToggleExpand() {
+  uiStore.setTranscriptExpanded(!uiStore.transcriptExpanded);
+  userScrolled.value = false;
+  nextTick(() => scrollToActive('instant'));
 }
 
 function onClickCue(cue: SubtitleCue) {

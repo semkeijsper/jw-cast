@@ -33,7 +33,13 @@
 
       <!-- Player -->
       <template v-else>
-        <div class="player-row" :class="{ 'player-row--split': uiStore.transcriptPanel && !smAndDown }">
+        <div
+          class="player-row"
+          :class="{
+            'player-row--split': uiStore.transcriptPanel && !smAndDown,
+            'player-row--hidden': uiStore.transcriptExpanded && smAndDown,
+          }"
+        >
           <v-responsive :aspect-ratio="16 / 9" class="player-frame">
             <!-- Exclusive playback: while casting, the local player is torn
                  down and replaced by a placeholder; CastBar has the controls -->
@@ -79,6 +85,7 @@
           class="transcript-below"
           closable
           :current-time="transcriptTime"
+          expandable
           :vtt-url="subtitleUrl"
           @seek="onSeekTranscript"
         />
@@ -307,6 +314,9 @@ watch(
 .transcript-below {
   flex-grow: 1;
   min-height: 0;
+}
+.player-row--hidden {
+  display: none;
 }
 .plyr {
   height: 100%;
