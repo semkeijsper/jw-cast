@@ -23,6 +23,9 @@ const canSeek = ref(false);
 const canPause = ref(false);
 const castDeviceName = ref('');
 const castTitle = ref('');
+// Identity of the media currently loaded on the receiver, so a dialog can tell
+// whether the global cast session belongs to the video it is showing
+const castVideoKey = ref('');
 const hasCaptions = ref(false);
 const captionsEnabled = ref(false);
 // True from device selection until media is loaded on the receiver
@@ -105,6 +108,7 @@ export function useCast() {
               || event.sessionState === sessionState.SESSION_ENDED
             ) {
               isConnecting.value = false;
+              castVideoKey.value = '';
             }
           },
         );
@@ -140,11 +144,13 @@ export function useCast() {
     title: string,
     subtitleUrl?: string | null,
     startTime?: number,
+    videoKey?: string,
   ): Promise<boolean> {
     if (!isAvailable.value) {
       return false;
     }
     castTitle.value = title;
+    castVideoKey.value = videoKey ?? '';
     pendingStartTime = startTime ?? 0;
     try {
       const w = window as unknown as CastWindow;
@@ -203,6 +209,7 @@ export function useCast() {
     catch {
       isConnecting.value = false;
       pendingStartTime = 0;
+      castVideoKey.value = '';
       return false;
     }
   }
@@ -274,6 +281,7 @@ export function useCast() {
     canPause,
     castDeviceName,
     castTitle,
+    castVideoKey,
     hasCaptions,
     captionsEnabled,
     isConnecting,

@@ -170,6 +170,7 @@ const {
   isMediaLoaded,
   isConnecting,
   castDeviceName,
+  castVideoKey,
   currentTime: castTime,
   seekTo: castSeekTo,
 } = useCast();
@@ -179,10 +180,23 @@ const playerEl = ref<HTMLVideoElement | null>(null);
 const { loading, videoMedia, subtitleMedia, captionUrl, subtitleUrl }
   = useMediaItems(() => captureResume());
 
-const isCasting = computed(() => isCastConnected.value && isMediaLoaded.value);
-// Exclusive playback: from the moment a cast session starts connecting until
-// it ends, the cast owns playback and the local player does not exist
-const castActive = computed(() => isConnecting.value || isCasting.value);
+// The cast session is global (one device), so mirror it in this dialog only
+// when the media on the receiver is the video this dialog is showing —
+// otherwise browsing to a different video inherits the cast placeholder, its
+// controls, and the wrong (still-scrolling) transcript
+const isCurrentCastTarget = computed(() =>
+  !!uiStore.selectedVideo
+  && castVideoKey.value === uiStore.selectedVideo.languageAgnosticNaturalKey,
+);
+const isCasting = computed(
+  () => isCurrentCastTarget.value && isCastConnected.value && isMediaLoaded.value,
+);
+// Exclusive playback: from the moment this video's cast session starts
+// connecting until it ends, the cast owns playback and the local player does
+// not exist
+const castActive = computed(
+  () => isCurrentCastTarget.value && (isConnecting.value || isCasting.value),
+);
 const transcriptTime = computed(() => (isCasting.value ? castTime.value : localTime.value));
 
 function onSeekTranscript(seconds: number) {
