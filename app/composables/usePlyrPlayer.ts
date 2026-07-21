@@ -114,6 +114,14 @@ export function usePlyrPlayer(
     }
 
     player = new Plyr(playerEl.value, {
+      // Plyr's default control bar minus the volume slider on mobile: it crowds
+      // out the flex-growing progress bar on narrow portrait viewports. The mute
+      // toggle stays; hardware volume keys handle levels there.
+      controls: [
+        'play-large', 'play', 'progress', 'current-time', 'mute',
+        ...(smAndDown.value ? [] : ['volume']),
+        'captions', 'settings', 'pip', 'airplay', 'fullscreen',
+      ],
       quality: { default: 1080, options: [1080, 720, 480, 360, 240] },
       captions: { active: true, language: languageStore.subtitleLanguageInfo.locale, update: true },
       // Few enough options that the settings menu can't soft-lock
