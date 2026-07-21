@@ -6,7 +6,7 @@
     transition="dialog-bottom-transition"
   >
     <v-card v-if="uiStore.selectedVideo">
-      <v-toolbar v-if="!(uiStore.transcriptExpanded && smAndDown)" density="compact">
+      <v-toolbar v-if="!(uiStore.transcriptExpanded && transcriptMobileOpen)" density="compact">
         <v-toolbar-title class="dialog-title">
           {{ `${uiStore.selectedVideo.title} (${uiStore.selectedVideo.durationFormattedHHMM})` }}
         </v-toolbar-title>
@@ -37,7 +37,7 @@
           class="player-row"
           :class="{
             'player-row--split': uiStore.transcriptPanel && !smAndDown,
-            'player-row--hidden': uiStore.transcriptExpanded && smAndDown,
+            'player-row--hidden': uiStore.transcriptExpanded && transcriptMobileOpen,
           }"
         >
           <v-responsive :aspect-ratio="16 / 9" class="player-frame">
@@ -81,7 +81,7 @@
         </div>
 
         <TranscriptPanel
-          v-if="uiStore.transcriptPanel && smAndDown"
+          v-if="transcriptMobileOpen"
           class="transcript-below"
           closable
           :current-time="transcriptTime"
@@ -91,7 +91,7 @@
         />
       </template>
 
-      <v-card-text v-if="!(uiStore.transcriptPanel && smAndDown)" class="px-3 pb-3 pt-0">
+      <v-card-text v-if="!transcriptMobileOpen" class="px-3 pb-3 pt-0">
         <v-container class="pa-3">
           <v-row :no-gutters="xs">
             <v-col cols="12" sm="6">
@@ -123,7 +123,12 @@
           />
 
           <v-spacer />
-          <TranscriptButton :subtitle-media="subtitleMedia" :subtitle-url="subtitleUrl" />
+
+          <TranscriptButton
+            v-if="!landscapeMobile"
+            :subtitle-media="subtitleMedia"
+            :subtitle-url="subtitleUrl"
+          />
         </v-card-actions>
       </v-card-text>
     </v-card>
@@ -136,6 +141,26 @@ import { useDisplay } from 'vuetify';
 const languageStore = useLanguageStore();
 const uiStore = useUiStore();
 const { xs, smAndDown } = useDisplay();
+
+const landscape = ref(false);
+let landscapeQuery: MediaQueryList | null = null;
+function onLandscapeChange(e: MediaQueryListEvent | MediaQueryList) {
+  landscape.value = e.matches;
+}
+onMounted(() => {
+  landscapeQuery = window.matchMedia('(orientation: landscape)');
+  onLandscapeChange(landscapeQuery);
+  landscapeQuery.addEventListener('change', onLandscapeChange);
+});
+onBeforeUnmount(() => landscapeQuery?.removeEventListener('change', onLandscapeChange));
+
+const landscapeMobile = computed(() => smAndDown.value && landscape.value);
+// Mobile transcript is only shown in portrait; landscape on a phone has no
+// vertical room for a stacked panel, so it is hidden there
+const transcriptMobileOpen = computed(
+  () => uiStore.transcriptPanel && smAndDown.value && !landscape.value,
+);
+
 const {
   isCastConnected,
   isMediaLoaded,
