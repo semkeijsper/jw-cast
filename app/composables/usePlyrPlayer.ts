@@ -78,6 +78,26 @@ export function usePlyrPlayer(
   onMounted(() => document.addEventListener('keydown', onKeydownCapture, true));
   onBeforeUnmount(() => document.removeEventListener('keydown', onKeydownCapture, true));
 
+  // Mobile rotate-to-fullscreen: entering landscape while playing goes
+  // fullscreen; returning to portrait always leaves it. Desktop and casting
+  // (player is undefined) are excluded by the guards.
+  const landscapeQuery = window.matchMedia('(orientation: landscape)');
+  function onOrientationChange(e: MediaQueryListEvent) {
+    if (!smAndDown.value || !player) {
+      return;
+    }
+    if (e.matches) {
+      if (player.playing) {
+        player.fullscreen.enter();
+      }
+    }
+    else {
+      player.fullscreen.exit();
+    }
+  }
+  onMounted(() => landscapeQuery.addEventListener('change', onOrientationChange));
+  onBeforeUnmount(() => landscapeQuery.removeEventListener('change', onOrientationChange));
+
   async function loadPlayer() {
     if (!playerEl.value || !source.videoMedia.value) {
       return;
