@@ -86,7 +86,7 @@
           <span class="cue-time">{{ formatTime(cue.start) }}</span>
 
           <span class="cue-text">
-            <template v-for="(segment, i) in cueSegments(cue.text)" :key="i">
+            <template v-for="(segment, i) in highlightSegments(cue.text, normalizedQuery)" :key="i">
               <mark v-if="segment.match" class="cue-match">{{ segment.text }}</mark>
               <template v-else>{{ segment.text }}</template>
             </template>
@@ -132,14 +132,7 @@ const userScrolled = ref(false);
 const activeAbove = ref(false);
 const query = ref<string | null>('');
 
-const activeIndex = computed(() => {
-  for (let i = cues.value.length - 1; i >= 0; i--) {
-    if (cues.value[i]!.start <= props.currentTime) {
-      return i;
-    }
-  }
-  return -1;
-});
+const activeIndex = computed(() => activeCueIndex(cues.value, props.currentTime));
 
 const normalizedQuery = computed(() => query.value?.trim().toLowerCase() ?? '');
 const isFiltering = computed(() => normalizedQuery.value.length > 0);
@@ -152,27 +145,6 @@ const filteredCues = computed(() => {
 });
 
 const visibleCues = computed(() => (isFiltering.value ? filteredCues.value : cues.value));
-
-function cueSegments(text: string): { text: string; match: boolean }[] {
-  const q = normalizedQuery.value;
-  if (!q) {
-    return [{ text, match: false }];
-  }
-  const segments: { text: string; match: boolean }[] = [];
-  const lower = text.toLowerCase();
-  let position = 0;
-  for (let hit = lower.indexOf(q); hit !== -1; hit = lower.indexOf(q, position)) {
-    if (hit > position) {
-      segments.push({ text: text.slice(position, hit), match: false });
-    }
-    segments.push({ text: text.slice(hit, hit + q.length), match: true });
-    position = hit + q.length;
-  }
-  if (position < text.length) {
-    segments.push({ text: text.slice(position), match: false });
-  }
-  return segments;
-}
 
 const plainText = computed(() =>
   cues.value

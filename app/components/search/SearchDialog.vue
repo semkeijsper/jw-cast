@@ -184,13 +184,6 @@ const searchMessage = computed(
   () => response.value?.pagination?.label ?? response.value?.messages[0]?.message ?? '',
 );
 
-// The sort key lives in the link's ?sort= param; parse it instead of
-// substring-matching the whole URL
-function sortKeyOf(link: string): string | null {
-  const queryString = link.split('?')[1];
-  return queryString ? new URLSearchParams(queryString).get('sort') : null;
-}
-
 const sortItems = computed(() =>
   sortKeys.map(key => ({
     key,
@@ -314,32 +307,14 @@ watch(searchQuery, async value => {
     return;
   }
 
-  // jw.org finder link
-  const finderRegex = /jw\.org\/finder\?.+&.+/;
-  const wtLocaleRegex = /wtlocale=(?<code>[A-Za-z]+)/;
-  const localeRegex = /locale=(?<locale>[A-Za-z_]+)/;
-  const lankRegex = /lank=(?<lank>[\w-]+)/;
-  const mediaItemsRegex
-    = /jw\.org\/[\w-]+\/.+#(?<locale>[\w-]+)\/mediaitems\/(?<category>[\w-]+)\/(?<lank>[\w-]+)/;
-
-  if (finderRegex.test(value)) {
-    const lang
-      = wtLocaleRegex.exec(value)?.groups?.code
-        ?? languageStore.findLanguageByLocale(localeRegex.exec(value)?.groups?.locale)?.code;
-    const lank = lankRegex.exec(value)?.groups?.lank;
-    await fetchVideo(lang, lank);
+  // Pasted jw.org finder / media-items link → open that video directly
+  const parsed = parseVideoLink(value);
+  if (parsed.kind === 'finder' || parsed.kind === 'mediaitems') {
+    const lang = 'wtlocale' in parsed && parsed.wtlocale
+      ? parsed.wtlocale
+      : languageStore.findLanguageByLocale(parsed.locale)?.code;
+    await fetchVideo(lang, parsed.lank);
     // Keep the query (and the error alert) when the link failed to resolve
-    if (!hasError.value) {
-      searchQuery.value = '';
-    }
-    return;
-  }
-
-  if (mediaItemsRegex.test(value)) {
-    const match = mediaItemsRegex.exec(value);
-    const lang = languageStore.findLanguageByLocale(match?.groups?.locale)?.code;
-    const lank = match?.groups?.lank;
-    await fetchVideo(lang, lank);
     if (!hasError.value) {
       searchQuery.value = '';
     }
