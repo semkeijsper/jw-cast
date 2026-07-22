@@ -9,6 +9,8 @@
     "lint": "eslint app",
     "lint:fix": "eslint app --fix",
     "preview": "nuxt preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
@@ -25,13 +27,17 @@
   "devDependencies": {
     "@nuxt/eslint": "^1.15.2",
     "@nuxt/fonts": "^0.14.0",
+    "@nuxt/test-utils": "^4.0.3",
     "@types/node": "^25.5.2",
+    "@vue/test-utils": "^2.4.11",
     "eslint": "^10.2.0",
     "eslint-config-vuetify": "^4.6.0",
     "eslint-plugin-import-lite": "^0.5.2",
+    "happy-dom": "^20.11.0",
     "nuxt-gtag": "^4.1.0",
     "sass-embedded": "^1.100.0",
     "typescript": "^6.0.2",
+    "vitest": "^4.1.10",
     "vue-tsc": "^3.3.7"
   },
   "engines": {
