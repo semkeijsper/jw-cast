@@ -84,7 +84,10 @@ export function useCast() {
         paused: remotePlayer.isPaused,
       });
     }
-    if (!remotePlayer.isConnected && playback.cast.kind !== 'idle') {
+    // While connecting (device picker open, or media still loading) a
+    // disconnected RemotePlayer is expected — the "waiting for device" window.
+    // Only a drop after we were actually connected should idle the cast slice.
+    if (!isConnecting.value && !remotePlayer.isConnected && playback.cast.kind !== 'idle') {
       playback.castIdle();
     }
   }
@@ -164,10 +167,10 @@ export function useCast() {
       return false;
     }
     castTitle.value = title;
-    if (video) {
-      playback.setCastConnecting(video);
-    }
     pendingStartTime = startTime ?? 0;
+    if (video) {
+      playback.setCastConnecting(video, pendingStartTime);
+    }
     try {
       const w = window as unknown as CastWindow;
       const context = w.cast!.framework.CastContext.getInstance();

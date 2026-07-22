@@ -22,9 +22,12 @@ export const usePlaybackStore = defineStore('playback', () => {
   }
 
   // --- cast slice (driven by useCast) ---
-  function setCastConnecting(video: Video) {
+  // Seed lastCastPosition with the local handoff position so a cancelled or
+  // failed cast (e.g. the device picker dismissed without a selection) restores
+  // the local player to where it was, not to 0
+  function setCastConnecting(video: Video, startPosition = 0) {
     cast.value = { kind: 'connecting', video };
-    lastCastPosition.value = 0;
+    lastCastPosition.value = startPosition;
   }
   function setCastActive(patch: {
     video: Video;
