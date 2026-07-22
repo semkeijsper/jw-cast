@@ -65,7 +65,7 @@
               :src="videoPoster"
             >
               <div class="cast-placeholder-overlay d-flex flex-column align-center justify-center">
-                <v-progress-circular v-if="isConnecting" color="white" indeterminate size="48" />
+                <v-progress-circular v-if="isCastConnecting" color="white" indeterminate size="48" />
 
                 <template v-else>
                   <v-icon color="white" size="56">mdi-cast-connected</v-icon>
@@ -120,7 +120,7 @@
 
         <v-card-actions>
           <CastButton
-            :start-time="localTime"
+            :start-time="localStartTime"
             :subtitle-media="subtitleMedia"
             :subtitle-url="subtitleUrl"
             :video-media="videoMedia"
@@ -165,39 +165,24 @@ const transcriptMobileOpen = computed(
   () => uiStore.transcriptPanel && smAndDown.value && !landscape.value,
 );
 
-const {
-  isCastConnected,
-  isMediaLoaded,
-  isConnecting,
-  castDeviceName,
-  castVideoKey,
-  currentTime: castTime,
-  seekTo: castSeekTo,
-} = useCast();
+const playback = usePlaybackStore();
+const { castDeviceName, seekTo: castSeekTo } = useCast();
 
 const playerEl = ref<HTMLVideoElement | null>(null);
 
 const { loading, videoMedia, subtitleMedia, captionUrl, subtitleUrl }
   = useMediaItems(() => captureResume());
 
-// The cast session is global (one device), so mirror it in this dialog only
-// when the media on the receiver is the video this dialog is showing —
-// otherwise browsing to a different video inherits the cast placeholder, its
-// controls, and the wrong (still-scrolling) transcript
-const isCurrentCastTarget = computed(() =>
-  !!uiStore.selectedVideo
-  && castVideoKey.value === uiStore.selectedVideo.languageAgnosticNaturalKey,
-);
-const isCasting = computed(
-  () => isCurrentCastTarget.value && isCastConnected.value && isMediaLoaded.value,
-);
-// Exclusive playback: from the moment this video's cast session starts
-// connecting until it ends, the cast owns playback and the local player does
-// not exist
-const castActive = computed(
-  () => isCurrentCastTarget.value && (isConnecting.value || isCasting.value),
-);
-const transcriptTime = computed(() => (isCasting.value ? castTime.value : localTime.value));
+// The cast session is global (one device); the store's cast slice carries the
+// video being cast, so this dialog mirrors it only when that video is the one
+// it is showing. Browsing to a different video falls back to local playback.
+const castActive = computed(() => playback.isCastTarget(uiStore.selectedVideo));
+const isCasting = computed(() => playback.isCastingVideo(uiStore.selectedVideo));
+const isCastConnecting = computed(() => castActive.value && !isCasting.value);
+// Local position of the open video — the cast starts here on handoff
+const localStartTime = computed(() => playback.localPositionOf(uiStore.selectedVideo));
+// Transcript clock follows whichever transport owns this video
+const transcriptTime = computed(() => playback.positionFor(uiStore.selectedVideo));
 
 function onSeekTranscript(seconds: number) {
   if (isCasting.value) {
@@ -247,7 +232,6 @@ const availableLanguages = computed(() => {
 });
 
 const {
-  localTime,
   loadPlayer,
   captureResume,
   markResume,
@@ -256,24 +240,15 @@ const {
   destroy: destroyPlayer,
 } = usePlyrPlayer(playerEl, { videoMedia, captionUrl, subtitleUrl, poster: videoPoster });
 
-// Track the cast position so local playback can resume there when it ends
-let lastCastTime = 0;
-watch(castTime, time => {
-  if (isCasting.value && time > 0) {
-    lastCastTime = time;
-  }
-});
-
 // Exclusive playback: destroy the local player when casting takes over
-// (the <video> is v-if'd out); rebuild it at the cast position when the
+// (the <video> is v-if'd out); rebuild it at the last cast position when the
 // cast ends while the dialog is still open
 watch(castActive, active => {
   if (active) {
     destroyPlayer();
   }
   else if (uiStore.videoDialog) {
-    markResume(lastCastTime);
-    lastCastTime = 0;
+    markResume(playback.lastCastPosition);
     nextTick(() => loadPlayer());
   }
 });

@@ -1,7 +1,7 @@
 <template>
   <v-slide-y-reverse-transition>
     <v-card
-      v-if="(isCastConnected && isMediaLoaded) || isConnecting"
+      v-if="isActive || isConnecting"
       class="cast-bar"
       :class="{ 'cast-bar-desktop': mdAndUp }"
       elevation="8"
@@ -128,21 +128,16 @@
 import { useDisplay } from 'vuetify';
 
 const { mdAndUp } = useDisplay();
+const playback = usePlaybackStore();
 const {
-  isCastConnected,
-  isMediaLoaded,
-  isPaused,
   isMuted,
   volumeLevel,
-  currentTime,
-  duration,
   canSeek,
   canPause,
   castDeviceName,
   castTitle,
   hasCaptions,
   captionsEnabled,
-  isConnecting,
   togglePlay,
   toggleMute,
   setVolume,
@@ -151,6 +146,14 @@ const {
   toggleCaptions,
   stopCasting,
 } = useCast();
+
+// Session fields (position, duration, paused, connecting/active) come from the
+// playback store's cast slice; the device/config fields above stay on useCast
+const isConnecting = computed(() => playback.cast.kind === 'connecting');
+const isActive = computed(() => playback.cast.kind === 'active');
+const isPaused = computed(() => (playback.cast.kind === 'active' ? playback.cast.paused : false));
+const currentTime = computed(() => (playback.cast.kind === 'active' ? playback.cast.position : 0));
+const duration = computed(() => (playback.cast.kind === 'active' ? playback.cast.duration : 0));
 
 // While the user drags the seek slider, show the drag position instead of
 // the (still updating) playback position; only seek on release. After release,

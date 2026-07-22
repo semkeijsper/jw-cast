@@ -55,7 +55,12 @@ const tooltipText = computed(() =>
 
 async function onSelectFile(file: MediaFile) {
   const title = uiStore.selectedVideo?.title ?? '';
-  const videoKey = uiStore.selectedVideo?.languageAgnosticNaturalKey ?? '';
-  await castMedia(file.progressiveDownloadURL, title, props.subtitleUrl, props.startTime, videoKey);
+  await castMedia(
+    file.progressiveDownloadURL,
+    title,
+    props.subtitleUrl,
+    props.startTime,
+    uiStore.selectedVideo,
+  );
 }
 </script>

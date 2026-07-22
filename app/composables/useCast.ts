@@ -1,3 +1,4 @@
+import type { Video } from '~/types';
 import type { CastWindow, RemotePlayer, RemotePlayerController } from '~/types/cast';
 
 /**
@@ -23,9 +24,6 @@ const canSeek = ref(false);
 const canPause = ref(false);
 const castDeviceName = ref('');
 const castTitle = ref('');
-// Identity of the media currently loaded on the receiver, so a dialog can tell
-// whether the global cast session belongs to the video it is showing
-const castVideoKey = ref('');
 const hasCaptions = ref(false);
 const captionsEnabled = ref(false);
 // True from device selection until media is loaded on the receiver
@@ -37,6 +35,8 @@ let remotePlayerController: RemotePlayerController | null = null;
 let pendingStartTime = 0;
 
 export function useCast() {
+  const playback = usePlaybackStore();
+
   function syncRemotePlayer() {
     if (!remotePlayer) {
       return;
@@ -73,6 +73,20 @@ export function useCast() {
         pendingStartTime = 0;
       }
     }
+
+    // Mirror the receiver into the playback store's cast slice. The connecting
+    // video (set in castMedia) carries through to the active state as identity.
+    if (playback.cast.kind !== 'idle' && remotePlayer.isMediaLoaded) {
+      playback.setCastActive({
+        video: playback.cast.video,
+        position: remotePlayer.currentTime,
+        duration: remotePlayer.duration,
+        paused: remotePlayer.isPaused,
+      });
+    }
+    if (!remotePlayer.isConnected && playback.cast.kind !== 'idle') {
+      playback.castIdle();
+    }
   }
 
   function initCast() {
@@ -108,7 +122,7 @@ export function useCast() {
               || event.sessionState === sessionState.SESSION_ENDED
             ) {
               isConnecting.value = false;
-              castVideoKey.value = '';
+              playback.castIdle();
             }
           },
         );
@@ -144,13 +158,15 @@ export function useCast() {
     title: string,
     subtitleUrl?: string | null,
     startTime?: number,
-    videoKey?: string,
+    video?: Video | null,
   ): Promise<boolean> {
     if (!isAvailable.value) {
       return false;
     }
     castTitle.value = title;
-    castVideoKey.value = videoKey ?? '';
+    if (video) {
+      playback.setCastConnecting(video);
+    }
     pendingStartTime = startTime ?? 0;
     try {
       const w = window as unknown as CastWindow;
@@ -209,7 +225,7 @@ export function useCast() {
     catch {
       isConnecting.value = false;
       pendingStartTime = 0;
-      castVideoKey.value = '';
+      playback.castIdle();
       return false;
     }
   }
@@ -270,21 +286,14 @@ export function useCast() {
 
   return {
     isAvailable,
-    isCastConnected,
-    isMediaLoaded,
-    isPaused,
     isMuted,
     volumeLevel,
-    currentTime,
-    duration,
     canSeek,
     canPause,
     castDeviceName,
     castTitle,
-    castVideoKey,
     hasCaptions,
     captionsEnabled,
-    isConnecting,
     initCast,
     castMedia,
     togglePlay,

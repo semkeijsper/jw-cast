@@ -23,13 +23,13 @@ export function usePlyrPlayer(
 ) {
   const languageStore = useLanguageStore();
   const uiStore = useUiStore();
+  const playback = usePlaybackStore();
   const { smAndDown } = useDisplay();
 
   let player: Plyr | undefined = undefined;
   let playerLoadId = 0;
   // Playback position to restore after a language switch rebuilds the player
   let resumeTime = 0;
-  const localTime = ref(0);
 
   let transcriptBtn: HTMLButtonElement | null = null;
 
@@ -113,6 +113,10 @@ export function usePlyrPlayer(
       player.destroy();
     }
 
+    if (uiStore.selectedVideo) {
+      playback.setLocalLoading(uiStore.selectedVideo);
+    }
+
     const tracks: Track[] = [];
     if (source.captionUrl.value) {
       tracks.push({
@@ -148,11 +152,23 @@ export function usePlyrPlayer(
       ...(smAndDown.value ? {} : { fullscreen: { container: '.player-row' } }),
     });
     player.on('ready', injectTranscriptButton);
-
-    localTime.value = 0;
-    player.on('timeupdate', () => {
-      localTime.value = player?.currentTime ?? 0;
+    player.on('ready', () => {
+      if (uiStore.selectedVideo) {
+        playback.setLocalReady(uiStore.selectedVideo);
+      }
     });
+
+    player.on('timeupdate', () => {
+      playback.updateLocal({ position: player?.currentTime ?? 0 });
+    });
+    player.on('loadedmetadata', () => {
+      playback.updateLocal({ duration: player?.duration ?? 0 });
+    });
+    const syncPaused = () => playback.updateLocal({ paused: player?.paused ?? true });
+    player.on('play', syncPaused);
+    player.on('pause', syncPaused);
+    player.on('playing', syncPaused);
+    player.on('ended', syncPaused);
 
     player.source = {
       type: 'video',
@@ -189,7 +205,7 @@ export function usePlyrPlayer(
 
   // Remember the current position so the next loadPlayer restores it
   function captureResume() {
-    resumeTime = player?.currentTime ?? localTime.value;
+    resumeTime = player?.currentTime ?? playback.localPositionOf(uiStore.selectedVideo);
   }
 
   // Explicit position for the next loadPlayer (e.g. resuming after a cast)
@@ -212,7 +228,8 @@ export function usePlyrPlayer(
   function destroy() {
     player?.destroy();
     player = undefined;
+    playback.localIdle();
   }
 
-  return { localTime, loadPlayer, captureResume, markResume, resetResume, seekTo, destroy };
+  return { loadPlayer, captureResume, markResume, resetResume, seekTo, destroy };
 }
