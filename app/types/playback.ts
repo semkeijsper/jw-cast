@@ -8,12 +8,12 @@ import type { Video } from '~/types';
  * in `useCast`, since it is not per-media.
  */
 
-export type CastState =
-  | { kind: 'idle' }
-  | { kind: 'connecting'; video: Video }
-  | { kind: 'active'; video: Video; position: number; duration: number; paused: boolean };
+export type CastState
+  = | { kind: 'idle' }
+    | { kind: 'connecting'; video: Video }
+    | { kind: 'active'; video: Video; position: number; duration: number; paused: boolean };
 
-export type LocalState =
-  | { kind: 'idle' }
-  | { kind: 'loading'; video: Video }
-  | { kind: 'ready'; video: Video; position: number; duration: number; paused: boolean };
+export type LocalState
+  = | { kind: 'idle' }
+    | { kind: 'loading'; video: Video }
+    | { kind: 'ready'; video: Video; position: number; duration: number; paused: boolean };

@@ -2,7 +2,7 @@ import vuetify from 'eslint-config-vuetify';
 import withNuxt from './.nuxt/eslint.config.mjs';
 
 export default withNuxt(
-  vuetify({ ts: true }),
+  vuetify({ ts: true, vue: true }),
   {
     rules: {
       'prefer-template': 'error',
