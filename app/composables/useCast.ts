@@ -33,6 +33,9 @@ let remotePlayer: RemotePlayer | null = null;
 let remotePlayerController: RemotePlayerController | null = null;
 // Start position for the media currently being loaded (local → cast handoff)
 let pendingStartTime = 0;
+// Video awaiting a device pick — the connecting state is entered only once a
+// device is chosen (SESSION_STARTING), not while the picker is still open
+let pendingCastVideo: Video | null = null;
 
 export function useCast() {
   const playback = usePlaybackStore();
@@ -111,13 +114,21 @@ export function useCast() {
           w.cast!.framework.RemotePlayerEventType.ANY_CHANGE,
           syncRemotePlayer,
         );
-        // SESSION_STARTING fires once the user picks a device — from there
-        // until the media is actually loaded the bar shows a connecting state
+        // SESSION_STARTING fires once the user picks a device. Only here is it
+        // safe to enter the connecting state (which tears the local player down
+        // and shows the connecting UI) — doing it earlier, while the device
+        // picker is still open, removes the live <video> and closes the picker.
         context.addEventListener(
           w.cast!.framework.CastContextEventType.SESSION_STATE_CHANGED,
           event => {
             const sessionState = w.cast!.framework.SessionState;
             if (event.sessionState === sessionState.SESSION_STARTING) {
+              if (pendingCastVideo) {
+                // Hand off at the live local position — the video kept playing
+                // while the picker was open
+                pendingStartTime = playback.localPositionOf(pendingCastVideo) || pendingStartTime;
+                playback.setCastConnecting(pendingCastVideo, pendingStartTime);
+              }
               isConnecting.value = true;
             }
             else if (
@@ -125,6 +136,7 @@ export function useCast() {
               || event.sessionState === sessionState.SESSION_ENDED
             ) {
               isConnecting.value = false;
+              pendingCastVideo = null;
               playback.castIdle();
             }
           },
@@ -168,18 +180,22 @@ export function useCast() {
     }
     castTitle.value = title;
     pendingStartTime = startTime ?? 0;
-    if (video) {
-      playback.setCastConnecting(video, pendingStartTime);
-    }
+    pendingCastVideo = video ?? null;
     try {
       const w = window as unknown as CastWindow;
       const context = w.cast!.framework.CastContext.getInstance();
       if (context.getCurrentSession()) {
-        // Already casting — load the new media into the running session.
-        // No SESSION_STARTING event fires here, so flag the switch manually.
+        // Already casting — no device picker opens, so enter the connecting
+        // state now and load the new media into the running session.
+        if (video) {
+          playback.setCastConnecting(video, pendingStartTime);
+        }
         isConnecting.value = true;
       }
       else {
+        // Opens the device picker. The connecting state is deferred to the
+        // SESSION_STARTING handler (fires once a device is picked) so the live
+        // <video> isn't torn down — and the picker closed — while it's open.
         await context.requestSession();
       }
 
@@ -212,8 +228,10 @@ export function useCast() {
       if (subtitleUrl) {
         request.activeTrackIds = [1];
       }
-      if (startTime && startTime > 0) {
-        request.currentTime = startTime;
+      // pendingStartTime is re-read at SESSION_STARTING, so it reflects the
+      // live local position at handoff rather than the button-press snapshot
+      if (pendingStartTime > 0) {
+        request.currentTime = pendingStartTime;
       }
 
       const session = context.getCurrentSession();
@@ -223,11 +241,13 @@ export function useCast() {
       await session!.loadMedia(request);
       hasCaptions.value = !!subtitleUrl;
       captionsEnabled.value = !!subtitleUrl;
+      pendingCastVideo = null;
       return true;
     }
     catch {
       isConnecting.value = false;
       pendingStartTime = 0;
+      pendingCastVideo = null;
       playback.castIdle();
       return false;
     }
