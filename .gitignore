@@ -4,6 +4,11 @@
 .output/
 dist
 
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
 # pnpm
 node_modules/
 .pnpm-store/
