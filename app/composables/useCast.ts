@@ -13,9 +13,7 @@ import type { CastWindow, RemotePlayer, RemotePlayerController } from '~/types/c
 
 // Shared across all component instances
 const isAvailable = ref(false);
-const isCastConnected = ref(false);
 const isMediaLoaded = ref(false);
-const isPaused = ref(false);
 const isMuted = ref(false);
 const volumeLevel = ref(1);
 const currentTime = ref(0);
@@ -51,9 +49,7 @@ export function useCast() {
     // a false → true transition marks the *new* media as loaded and ends the
     // connecting state
     const mediaJustLoaded = !isMediaLoaded.value && remotePlayer.isMediaLoaded;
-    isCastConnected.value = remotePlayer.isConnected;
     isMediaLoaded.value = remotePlayer.isMediaLoaded;
-    isPaused.value = remotePlayer.isPaused;
     isMuted.value = remotePlayer.isMuted;
     volumeLevel.value = remotePlayer.volumeLevel;
     currentTime.value = remotePlayer.currentTime;

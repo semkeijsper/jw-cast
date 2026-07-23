@@ -40,15 +40,6 @@ export const usePlaybackStore = defineStore('playback', () => {
       lastCastPosition.value = patch.position;
     }
   }
-  function updateCast(patch: Partial<{ position: number; duration: number; paused: boolean }>) {
-    if (cast.value.kind !== 'active') {
-      return;
-    }
-    cast.value = { ...cast.value, ...patch };
-    if (patch.position !== undefined && patch.position > 0) {
-      lastCastPosition.value = patch.position;
-    }
-  }
   function castIdle() {
     cast.value = { kind: 'idle' };
   }
@@ -104,7 +95,6 @@ export const usePlaybackStore = defineStore('playback', () => {
     lastCastPosition,
     setCastConnecting,
     setCastActive,
-    updateCast,
     castIdle,
     setLocalLoading,
     setLocalReady,
