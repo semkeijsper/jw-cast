@@ -18,15 +18,16 @@ This file provides guidance for AI assistants working in this repository.
 | Framework | Vue 3 |
 | Language | TypeScript 6 (strict mode) |
 | UI Library | Vuetify 4 via `vuetify-nuxt-module` (sass variables in `app/assets/styles/settings.scss`) |
-| State | Pinia (two composition stores: `language` + `ui`) |
+| State | Pinia (three composition stores: `language` + `ui` + `playback`) |
 | Routing | Vue Router 4 via Nuxt pages/ |
-| Video player | Plyr (dynamic import, client-only) |
+| Video player | Plyr (dynamic import, client-only; patched via `patches/plyr.patch`) |
 | Chromecast | Google Cast Web Sender SDK (Default Media Receiver) |
-| Carousel | Swiper 12 via `swiper/vue` |
+| Carousel | Swiper 14 via `swiper/vue` |
 | HTTP client | `$fetch` (Nuxt built-in, via ofetch) via typed wrappers in `utils/api.ts` |
 | Analytics | Google Analytics 4 via `nuxt-gtag` module (measurement ID in `nuxt.config.ts`; SPA page views rely on GA4 Enhanced Measurement history tracking) |
 | Package manager | pnpm (node >= 22) |
-| Linting | ESLint flat config: `eslint-config-vuetify` + `@nuxt/eslint` (stylistic rules, no Prettier) |
+| Linting | ESLint flat config: `eslint-config-vuetify` (with `vue: true`) + `@nuxt/eslint` (stylistic rules, no Prettier) |
+| Testing | Vitest via `@nuxt/test-utils` — two projects: `unit` (plain Node) + `nuxt` (happy-dom Nuxt env) |
 
 ## Development Commands
 
@@ -36,9 +37,10 @@ pnpm dev              # Start dev server with hot reload
 pnpm build            # Static SPA build into .output/public/
 pnpm lint             # Run ESLint (lint:fix to autofix)
 pnpm preview          # Preview the built output
+pnpm test             # Run the Vitest suite once (test:watch for watch mode)
 ```
 
-**There are no automated tests.** Browser verification is done with Playwright scripts against the dev server (see `.claude/skills/verify` and `docs/verify/`).
+Automated tests run under **Vitest** (see the Testing section). Ad-hoc browser verification against the dev server can still be done with one-off Playwright scripts.
 
 ## Repository Structure
 
@@ -83,21 +85,31 @@ app/
 │   ├── api.ts                       # Typed $fetch wrappers + API base URLs + downloadableFiles
 │   ├── language.ts                  # languageLabel
 │   ├── time.ts                      # formatTime (H:MM:SS)
+│   ├── searchLink.ts                # parseVideoLink (finder/media-items parsing) + sortKeyOf
+│   ├── transcript.ts                # activeCueIndex + highlightSegments (transcript logic)
 │   └── vtt.ts                       # parseVtt
 ├── config/                          # Hand-maintained data tables (NOT auto-imported — import explicitly)
 │   ├── uiStrings.ts                 # Locale-keyed UI string dictionary (see UI Strings below)
 │   └── whatsappChannels.ts          # Per-language WhatsApp channel links
 ├── stores/
 │   ├── language.ts                  # useLanguageStore — languages, locales, translations, t()
-│   └── ui.ts                        # useUiStore — dialog flags, selectedVideo, openVideo()
+│   ├── ui.ts                        # useUiStore — dialog flags, selectedVideo, openVideo()
+│   └── playback.ts                  # usePlaybackStore — cast + local transport state slices
 └── types/
-    ├── index.ts                     # Domain: Language, Video, Category, MediaFile, WhatsAppChannel, …
+    ├── index.ts                     # Domain: Language, Video, Category, MediaFile, SubtitleCue, …
     ├── search.ts                    # Search API response types
+    ├── playback.ts                  # CastState / LocalState discriminated unions
     └── cast.ts                      # Hand-written Cast SDK surface
 public/
 ├── 404.html                         # GitHub Pages SPA redirect trick
 ├── sitemap.xml, robots.txt, CNAME
 └── assets/                          # Favicons, PWA manifest
+test/                                # Vitest suites (see Testing)
+├── setup.ts                         # happy-dom browser-API stubs for the nuxt project
+├── unit/                            # Pure-function specs (plain Node)
+└── nuxt/                            # Store + component specs (Nuxt env, mountSuspended)
+patches/
+└── plyr.patch                       # pnpm patch: drop "type":"module" from plyr's package.json
 ```
 
 ## Code Conventions
@@ -186,7 +198,7 @@ Run `pnpm lint` (or `pnpm lint:fix`) before committing.
 
 ## State Management (Pinia)
 
-Two flat composition stores:
+Three flat composition stores:
 
 **`stores/language.ts` — `useLanguageStore`**
 
@@ -209,8 +221,22 @@ Persistence: `pinia-plugin-persistedstate` with **`key: 'app'` pinned** (the pre
 |---|---|
 | `searchDialog` / `videoDialog` / `getNotifiedDialog` | Dialog open flags |
 | `transcriptPanel` | Transcript panel open flag |
+| `transcriptExpanded` | Mobile transcript full-screen expand flag (cleared when the panel closes) |
 | `selectedVideo` | Currently focused `Video` object |
 | `openVideo(video)` | The single entry point for opening a video (sets `selectedVideo` + `videoDialog`) — use it for every open path |
+
+**`stores/playback.ts` — `usePlaybackStore`**
+
+Single owner of playback-session state, one slice per transport (`types/playback.ts` `CastState` / `LocalState` discriminated unions). Cast and local can be non-idle at the same time — the cast session is app-global and survives dialog close, while the local player is dialog-scoped — so they are two concurrent slices, not one exclusive union.
+
+| Field / getter | Purpose |
+|---|---|
+| `cast` | Cast slice (`idle` / `connecting` / `active`), written by `useCast` |
+| `local` | Local-player slice (`idle` / `loading` / `ready`), written by `usePlyrPlayer` |
+| `lastCastPosition` | Position retained across `castIdle` so the cast → local handoff resumes there |
+| `setCastConnecting` / `setCastActive` / `castIdle` | Cast-slice mutations (connecting seeds `lastCastPosition` for the cancel/fallback case) |
+| `setLocalLoading` / `setLocalReady` / `updateLocal` / `localIdle` | Local-slice mutations |
+| `isCastTarget(v)` / `isCastingVideo(v)` / `localPositionOf(v)` / `positionFor(v)` | Identity-aware reads for a dialog's `selectedVideo` (`positionFor` is the transcript clock: cast position when casting, else local) |
 
 Mutations are `set*` functions. Async work stays in components/composables, calling `utils/api.ts` helpers.
 
@@ -241,8 +267,10 @@ Endpoints:
 
 `player/VideoDialog.vue` is a thin orchestrator; the moving parts live in composables:
 
-- `usePlyrPlayer(playerEl, source)` — Plyr init/destroy behind a load-id race guard, playback-position capture/restore across language switches (Plyr's `source` setter swaps the media element asynchronously — restore happens on Plyr's `ready` event), transcript-control injection into Plyr's control bar, fullscreen Escape capture. The player is destroyed on dialog close.
+- `usePlyrPlayer(playerEl, source)` — Plyr init/destroy behind a load-id race guard, playback-position capture/restore across language switches (Plyr's `source` setter swaps the media element asynchronously — restore happens on Plyr's `ready` event), transcript-control injection into Plyr's control bar, fullscreen Escape capture. Drives the playback store's `local` slice. The player is destroyed on dialog close, and also while a cast is active (see Chromecast). On `smAndDown` the controls array omits the `volume` slider (keeping mute) so the seek bar has room.
 - `useMediaItems(onBeforeLanguageReload)` — fetches the audio-language and subtitle-language media items, refetches on video/language changes, exposes `captionUrl`/`subtitleUrl`.
+
+Mobile ergonomics: the dialog auto-enters fullscreen when the device rotates to landscape while a video is playing (and exits on rotation back to portrait); the transcript panel has a full-screen expand toggle (`transcriptExpanded`) that hides the player row and the dialog toolbar so you can read along while casting.
 
 ## Chromecast
 
@@ -250,11 +278,13 @@ Endpoints:
 
 - Uses the **Default Media Receiver** (`CC1AD845`) — no app registration required
 - Loaded via `<script>` in `nuxt.config.ts`; calls `window.__onGCastApiAvailable` when ready
-- Shared `ref` state across all component instances: `isAvailable`, `isConnecting`, and `RemotePlayer`-synced playback state
+- Shared `ref` state across all component instances: `isAvailable` plus device/config refs (device name, captions, seek/pause capability). Per-media transport state lives in the playback store's `cast` slice, which `useCast` drives from `RemotePlayer` events.
 - `castMedia(url, title, subtitleUrl?)` — casts MP4 with optional VTT subtitles; reuses a running session to switch videos
 - Playback control actions drive `cast/CastBar.vue`, a global control bar in `app.vue`
 
-`cast/CastButton.vue` is disabled when the Cast SDK is unavailable (e.g. non-Chromium browsers).
+**Exclusive playback:** casting is exclusive with the local player. From `SESSION_STARTING` until the cast ends, the local Plyr instance is destroyed and the player area shows a poster placeholder with the cast device name (CastBar carries the controls). The handoff position is carried on the cast `LoadRequest.currentTime` and re-enforced with an explicit seek once the receiver reports the media loaded; when the cast ends with the dialog still open the local player rebuilds at `lastCastPosition`. The connecting state is entered on `SESSION_STARTING` (a device was actually picked), not before `requestSession()`, so cancelling the device picker leaves local playback untouched. `CastButton.vue` shows its own loading spinner across the pending `requestSession` promise.
+
+`cast/CastButton.vue` is disabled when the Cast SDK is unavailable (e.g. non-Chromium browsers). Exclusive-cast and handoff behavior needs manual verification with real Chromecast hardware — it can't be exercised headless.
 
 ## Search
 
@@ -266,6 +296,21 @@ Endpoints:
 - JWT is fetched lazily on first dialog open and refreshed on 401 with a single bounded retry
 - Pasted jw.org finder / media-items links open the video directly; failures surface the error alert
 - Failed searches show a `v-alert`; zero filtered results show a "no videos found" message
+
+## Testing
+
+Vitest, wired through `@nuxt/test-utils`. `vitest.config.ts` defines two projects so the fast pure-function specs don't pay the Nuxt-runtime cost:
+
+- **`unit`** (`test/unit/`) — plain Node environment, `~`/`@` aliased to `app/`. Pure functions only: `parseVtt`, `formatTime`, `downloadableFiles`, `languageLabel`, `parseVideoLink`/`sortKeyOf`, `activeCueIndex`/`highlightSegments`.
+- **`nuxt`** (`test/nuxt/`) — happy-dom-backed Nuxt environment so source auto-imports and the `~` alias resolve. Pinia store specs (`playback`, `ui`, `language`) and component specs via `mountSuspended` (`VideoCard`, `TranscriptPanel`, `SearchDialog`). `test/setup.ts` stubs the browser APIs Vuetify touches on mount (`ResizeObserver`/`IntersectionObserver`/`matchMedia`/`scrollTo`/`scrollIntoView`).
+
+No network, no external SDKs, no real Chromecast. Run with `pnpm test` (`test:watch` for watch mode). Pull embedded pure logic out into `utils/` so it can be unit-tested cheaply rather than mounting components to reach it (that's why `searchLink.ts` and `transcript.ts` exist). Vuetify text inputs don't drive their `v-model` under happy-dom, so filter/search interactions are covered by unit tests, not by mounting.
+
+There is no E2E suite in-repo — an earlier Playwright harness was removed. Manual browser checks are done with one-off Playwright scripts against the dev server.
+
+## Patches
+
+`patches/plyr.patch` (pnpm `patchedDependencies`) removes `"type": "module"` from Plyr 3.8.4's `package.json` so its CommonJS build resolves correctly under Nuxt/Vite. Keep the single-`vue` invariant when touching deps: `@nuxt/test-utils` can pull a second `vue` copy alongside the app's, which splits Vuetify onto a different Vue runtime and breaks its directives (`v-intersect` → blank `v-img`s, dead swiper); run `pnpm dedupe` if that recurs.
 
 ## Deployment
 
@@ -288,7 +333,7 @@ git subtree push --prefix .output/public origin gh-pages
 
 - **Do not use the Options API or Class Components** — `<script setup>` is the standard
 - **Do not add Vuex** — the project uses Pinia
-- **Do not add a test framework** unless explicitly requested
+- **Do not add another test framework** — Vitest (via `@nuxt/test-utils`) is the standard; add specs to `test/unit` or `test/nuxt`
 - **Do not inline API URLs in components** — add or reuse a wrapper in `utils/api.ts`
 - **Do not hardcode user-facing strings** — use `languageStore.t(key)` + `config/uiStrings.ts`
 - **Do not rename the persisted store fields or the `'app'` persist key** (see State Management)
