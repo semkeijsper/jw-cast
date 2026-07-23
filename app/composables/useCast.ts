@@ -28,6 +28,9 @@ const hasCaptions = ref(false);
 const captionsEnabled = ref(false);
 // True from device selection until media is loaded on the receiver
 const isConnecting = ref(false);
+// True while the device picker is open (requestSession pending). Drives only
+// the CastButton's loading state — no session exists yet, so nothing else
+const isAwaitingDevice = ref(false);
 
 let remotePlayer: RemotePlayer | null = null;
 let remotePlayerController: RemotePlayerController | null = null;
@@ -196,7 +199,15 @@ export function useCast() {
         // Opens the device picker. The connecting state is deferred to the
         // SESSION_STARTING handler (fires once a device is picked) so the live
         // <video> isn't torn down — and the picker closed — while it's open.
-        await context.requestSession();
+        // The picker-open window has no SDK event, so the CastButton spinner is
+        // driven manually across the pending requestSession promise.
+        isAwaitingDevice.value = true;
+        try {
+          await context.requestSession();
+        }
+        finally {
+          isAwaitingDevice.value = false;
+        }
       }
 
       const mediaInfo = new w.chrome!.cast.media.MediaInfo(videoUrl, 'video/mp4');
@@ -309,6 +320,7 @@ export function useCast() {
 
   return {
     isAvailable,
+    isAwaitingDevice,
     isMuted,
     volumeLevel,
     canSeek,

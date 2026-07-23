@@ -7,7 +7,7 @@
             class="mr-2"
             color="primary"
             :disabled="!castAvailable"
-            :loading="!videoMedia || !subtitleMedia"
+            :loading="!videoMedia || !subtitleMedia || isAwaitingDevice"
             prepend-icon="mdi-cast"
             variant="elevated"
             v-bind="{ ...menuProps, ...tooltipProps }"
@@ -45,7 +45,7 @@ const props = defineProps<{
 
 const languageStore = useLanguageStore();
 const uiStore = useUiStore();
-const { isAvailable: castAvailable, castMedia } = useCast();
+const { isAvailable: castAvailable, isAwaitingDevice, castMedia } = useCast();
 
 const tooltipText = computed(() =>
   props.subtitleUrl
