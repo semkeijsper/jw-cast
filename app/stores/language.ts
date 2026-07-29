@@ -1,4 +1,5 @@
 import type { Language, Translations } from '~/types';
+import { tutorialSteps } from '~/config/tutorialSteps';
 import { uiStrings } from '~/config/uiStrings';
 import { whatsappChannels } from '~/config/whatsappChannels';
 
@@ -40,6 +41,8 @@ export const useLanguageStore = defineStore('language', () => {
   );
 
   const whatsappChannel = computed(() => whatsappChannels[siteLanguage.value]);
+
+  const tutorialSteps_ = computed(() => tutorialSteps[siteLanguage.value] ?? tutorialSteps.en!);
 
   // UI string resolution: jw.org API translation → local dict → English
   function t(key: string): string {
@@ -84,6 +87,7 @@ export const useLanguageStore = defineStore('language', () => {
     videoLanguageInfo,
     subtitleLanguageInfo,
     whatsappChannel,
+    tutorialSteps: tutorialSteps_,
     t,
     findLanguageByCode,
     findLanguageByLocale,

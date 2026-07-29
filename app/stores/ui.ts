@@ -6,6 +6,7 @@ export const useUiStore = defineStore('ui', () => {
   const transcriptPanel = ref(false);
   const transcriptExpanded = ref(false);
   const getNotifiedDialog = ref(false);
+  const tutorialDialog = ref(false);
   const selectedVideo = ref<Video | null>(null);
 
   // Mutations
@@ -27,6 +28,9 @@ export const useUiStore = defineStore('ui', () => {
   function setGetNotifiedDialog(value: boolean) {
     getNotifiedDialog.value = value;
   }
+  function setTutorialDialog(value: boolean) {
+    tutorialDialog.value = value;
+  }
   function setSelectedVideo(value: Video | null) {
     selectedVideo.value = value;
   }
@@ -44,12 +48,14 @@ export const useUiStore = defineStore('ui', () => {
     transcriptPanel,
     transcriptExpanded,
     getNotifiedDialog,
+    tutorialDialog,
     selectedVideo,
     setSearchDialog,
     setVideoDialog,
     setTranscriptPanel,
     setTranscriptExpanded,
     setGetNotifiedDialog,
+    setTutorialDialog,
     setSelectedVideo,
     openVideo,
   };
