@@ -74,3 +74,10 @@ export interface WhatsAppChannel {
   description: string;
   buttonLabel: string;
 }
+
+export interface TutorialStep {
+  /** mdi icon name e.g. `mdi-translate` */
+  icon: string;
+  title: string;
+  body: string;
+}

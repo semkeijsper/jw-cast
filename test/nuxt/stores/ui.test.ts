@@ -14,6 +14,15 @@ describe('ui store', () => {
     expect(s.videoDialog).toBe(true);
   });
 
+  it('setTutorialDialog toggles the tutorial flag', () => {
+    const s = useUiStore();
+    expect(s.tutorialDialog).toBe(false);
+    s.setTutorialDialog(true);
+    expect(s.tutorialDialog).toBe(true);
+    s.setTutorialDialog(false);
+    expect(s.tutorialDialog).toBe(false);
+  });
+
   it('closing the transcript panel also collapses the expanded state', () => {
     const s = useUiStore();
     s.setTranscriptPanel(true);

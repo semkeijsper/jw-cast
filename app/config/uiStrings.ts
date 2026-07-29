@@ -9,6 +9,12 @@ import type { Translations } from '~/types';
 export const uiStrings: Record<string, Translations> = {
   en: {
     guide: 'Guide',
+    tutorialTitle: 'How to use JW Cast',
+    feedback: 'Feedback',
+    btnBack: 'Back',
+    btnNext: 'Next',
+    btnDone: 'Done',
+    lnkSource: 'Source on GitHub',
     lnkSearch: 'Search',
     searchPlaceholder: 'Search or paste jw.org link...',
     searchFailed: 'Search failed. Please try again later.',
@@ -27,6 +33,12 @@ export const uiStrings: Record<string, Translations> = {
   },
   nl: {
     guide: 'Handleiding',
+    tutorialTitle: 'JW Cast gebruiken',
+    feedback: 'Feedback',
+    btnBack: 'Vorige',
+    btnNext: 'Volgende',
+    btnDone: 'Klaar',
+    lnkSource: 'Broncode op GitHub',
     lnkSearch: 'Zoeken',
     searchPlaceholder: 'Zoek of plak jw.org link...',
     searchFailed: 'Zoeken is mislukt. Probeer het later opnieuw.',

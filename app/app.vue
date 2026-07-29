@@ -20,10 +20,9 @@
         </template>
 
         <v-btn
-          href="https://github.com/semkeijsper/jw-cast#handleiding"
           prepend-icon="mdi-book-open-blank-variant"
-          target="_blank"
           variant="text"
+          @click="uiStore.setTutorialDialog(true)"
         >
           <span v-if="!xs">{{ guideButtonText }}</span>
         </v-btn>
@@ -32,6 +31,7 @@
 
     <v-main>
       <NuxtPage />
+      <AppFooter />
     </v-main>
 
     <CastBar />
@@ -39,6 +39,7 @@
     <SearchDialog />
     <VideoDialog />
     <GetNotifiedDialog />
+    <TutorialDialog />
   </v-app>
 </template>
 
