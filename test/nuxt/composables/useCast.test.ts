@@ -1,4 +1,4 @@
-import type { CastSession, CastWindow, RemotePlayer } from '~/types/cast';
+import type { CastSession, CastWindow, MediaSession, RemotePlayer } from '~/types/cast';
 import { createPinia, setActivePinia } from 'pinia';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useCast } from '~/composables/useCast';
@@ -19,11 +19,12 @@ const SessionState = {
 };
 
 const loadMedia = vi.fn(async () => {});
-const session: CastSession = { loadMedia, getMediaSession: () => null };
+const session: CastSession = { loadMedia, getMediaSession: () => sdk.mediaSession };
 
 const sdk = {
   handlers: [] as ((event: { sessionState: string }) => void)[],
   currentSession: null as CastSession | null,
+  mediaSession: null as MediaSession | null,
   // The live RemotePlayer the composable holds, so tests can drive it
   remotePlayer: null as RemotePlayer | null,
   syncRemotePlayer: () => {},
@@ -123,6 +124,7 @@ beforeAll(() => {
 beforeEach(() => {
   loadMedia.mockClear();
   sdk.currentSession = null;
+  sdk.mediaSession = null;
   sdk.requestSession.mockReset();
   sdk.requestSession.mockResolvedValue(null);
   useCast().clearCastError();
@@ -186,19 +188,21 @@ describe('useCast — castMedia session handling', () => {
 describe('useCast — resuming a session after a reload', () => {
   // What a reloaded page starts from: the persisted key, an idle cast slice
   // and a RemotePlayer the SDK has already rejoined to the receiver
-  function seedResumedSession(videoKey: string | null) {
+  function seedResumedSession(videoKey: string | null, withMedia = true) {
     const playback = usePlaybackStore();
     playback.castIdle();
     playback.castTargetKey = videoKey;
     sdk.currentSession = session;
-    Object.assign(sdk.remotePlayer!, {
-      isConnected: true,
-      isMediaLoaded: true,
-      isPaused: true,
-      currentTime: 42,
-      duration: 300,
-      title: 'Some video',
-    });
+    sdk.mediaSession = withMedia
+      ? {
+          editTracksInfo: () => {},
+          activeTrackIds: [1],
+          playerState: 'PAUSED',
+          getEstimatedTime: () => 42,
+          media: { duration: 300, tracks: [{} as never], metadata: { title: 'Some video' } },
+        }
+      : null;
+    Object.assign(sdk.remotePlayer!, { isConnected: true, displayName: 'Living Room' });
     return playback;
   }
 
@@ -215,6 +219,19 @@ describe('useCast — resuming a session after a reload', () => {
       paused: true,
     });
     expect(useCast().castDeviceName.value).toBe('Living Room');
+    expect(useCast().hasCaptions.value).toBe(true);
+    expect(useCast().captionsEnabled.value).toBe(true);
+  });
+
+  it('promotes past connecting without any RemotePlayer event (paused receiver)', () => {
+    // A paused receiver emits nothing, so the bar would spin forever if the
+    // promotion waited on RemotePlayer.isMediaLoaded — the reported regression
+    const playback = seedResumedSession('vid-A');
+    Object.assign(sdk.remotePlayer!, { isMediaLoaded: false, currentTime: 0, duration: 0 });
+
+    sdk.emit(SessionState.SESSION_RESUMED);
+
+    expect(playback.cast.kind).toBe('active');
   });
 
   it('stays idle when there is no persisted key (e.g. a new tab)', () => {
@@ -223,6 +240,16 @@ describe('useCast — resuming a session after a reload', () => {
     sdk.emit(SessionState.SESSION_RESUMED);
 
     expect(playback.cast.kind).toBe('idle');
+  });
+
+  it('waits for the media session before promoting, rather than going active empty', () => {
+    const playback = seedResumedSession('vid-A', false);
+
+    sdk.emit(SessionState.SESSION_RESUMED);
+
+    // No media session yet — connecting, with a poll running to adopt it
+    expect(playback.cast.kind).toBe('connecting');
+    sdk.emit(SessionState.SESSION_ENDED);
   });
 
   it('clears the persisted key when the session ends', () => {

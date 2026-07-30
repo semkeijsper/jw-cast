@@ -58,10 +58,17 @@ export interface CastSession {
 
 export interface MediaSession {
   editTracksInfo: (request: object, onSuccess: () => void, onError: () => void) => void;
-  // Read when re-adopting a session the SDK rejoined after a reload — the
-  // caption state is not otherwise recoverable
+  // Read when re-adopting a session the SDK rejoined after a reload: a resumed
+  // session's state is only recoverable from the receiver's media session,
+  // never from the RemotePlayer alone (a paused receiver emits no events)
   activeTrackIds?: number[];
-  media?: { tracks?: MediaTrack[] };
+  playerState?: string;
+  getEstimatedTime?: () => number;
+  media?: {
+    duration?: number;
+    tracks?: MediaTrack[];
+    metadata?: { title?: string };
+  };
 }
 
 export interface MediaInfo {

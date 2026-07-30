@@ -87,7 +87,10 @@ export default defineNuxtConfig({
           innerHTML: String.raw`(function(l,b){var m=/^\?p=(\/[^&]*)(?:&q=([^&]*))?/.exec(l.search);if(m){var p=m[1].replace(/~and~/g,'&');var q=m[2]?'?'+m[2].replace(/~and~/g,'&'):'';window.history.replaceState(null,'',b+p.slice(1)+q+l.hash);}})(window.location,${JSON.stringify(baseURL)});`,
         },
         {
-          // Early Cast callback — captures SDK readiness before Vue mounts
+          // cast_sender.js captures whatever window.__onGCastApiAvailable holds
+          // when it runs, then replaces the global with an internal counter — so
+          // this stub must exist before it loads, and nothing may reassign the
+          // global afterwards (useCast polls for the SDK globals instead).
           innerHTML: `window.__onGCastApiAvailable=function(a){window.__castApiReady=a;};`,
         },
         {

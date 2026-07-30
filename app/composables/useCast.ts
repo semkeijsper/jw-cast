@@ -44,6 +44,12 @@ let pendingCastVideo: Video | null = null;
 // as the session is *starting*, so getCurrentSession() is routinely still null
 // when it returns — these are settled from the SESSION_STATE_CHANGED handler.
 let sessionWaiters: ((session: CastSession | null) => void)[] = [];
+// How long to keep waiting for the Cast SDK globals before giving up
+const CAST_API_TIMEOUT_MS = 20_000;
+// How long a rejoined session gets to attach its media session before the
+// breadcrumb is treated as stale (cast ended while the page was away)
+const RESUME_ADOPT_TIMEOUT_MS = 10_000;
+let resumeAdoptPoll: ReturnType<typeof setInterval> | null = null;
 
 function settleSessionWaiters(session: CastSession | null) {
   const waiters = sessionWaiters;
@@ -142,29 +148,57 @@ export function useCast() {
    */
   function restoreResumedSession() {
     const videoKey = playback.castTargetKey;
-    if (!videoKey || playback.cast.kind !== 'idle') {
+    if (!videoKey || playback.cast.kind !== 'idle' || resumeAdoptPoll !== null) {
       return;
     }
     const w = window as unknown as CastWindow;
-    const session = w.cast!.framework.CastContext.getInstance().getCurrentSession();
-    if (!session) {
+    const context = w.cast!.framework.CastContext.getInstance();
+    if (!context.getCurrentSession()) {
       return;
     }
 
     playback.setCastConnecting(videoKey, playback.lastCastPosition);
-    // The rejoined media is already loaded — there is no handoff seek pending
+    // The rejoined media is already playing — there is no handoff seek pending
     pendingStartTime = 0;
 
-    const mediaSession = session.getMediaSession();
-    const tracks = mediaSession?.media?.tracks ?? [];
-    hasCaptions.value = tracks.length > 0;
-    captionsEnabled.value = (mediaSession?.activeTrackIds ?? []).length > 0;
+    // The media session is not attached the instant the session is rejoined, so
+    // poll for it. Promotion cannot wait on RemotePlayer.isMediaLoaded: a paused
+    // receiver emits no events, which would leave the CastBar spinning forever.
+    const startedAt = Date.now();
+    const adopt = () => {
+      const mediaSession = context.getCurrentSession()?.getMediaSession();
+      if (mediaSession) {
+        hasCaptions.value = (mediaSession.media?.tracks ?? []).length > 0;
+        captionsEnabled.value = (mediaSession.activeTrackIds ?? []).length > 0;
+        isMediaLoaded.value = true;
+        castTitle.value = remotePlayer?.title || mediaSession.media?.metadata?.title || castTitle.value;
+        castDeviceName.value = remotePlayer?.displayName || castDeviceName.value;
+        playback.setCastActive({
+          videoKey,
+          position: mediaSession.getEstimatedTime?.() ?? remotePlayer?.currentTime ?? 0,
+          duration: mediaSession.media?.duration ?? remotePlayer?.duration ?? 0,
+          paused: mediaSession.playerState === 'PAUSED',
+        });
+        return true;
+      }
+      // No media on the receiver — the cast ended while this page was away, so
+      // the persisted key is stale and the bar must not sit there loading
+      if (Date.now() - startedAt > RESUME_ADOPT_TIMEOUT_MS) {
+        playback.castIdle();
+        return true;
+      }
+      return false;
+    };
 
-    // Promote straight to active rather than waiting for the next event — a
-    // paused receiver emits none, which would leave the bar spinning
-    if (remotePlayer?.isConnected) {
-      syncRemotePlayer();
+    if (adopt()) {
+      return;
     }
+    resumeAdoptPoll = setInterval(() => {
+      if (adopt()) {
+        clearInterval(resumeAdoptPoll!);
+        resumeAdoptPoll = null;
+      }
+    }, 500);
   }
 
   function initCast() {
@@ -223,6 +257,10 @@ export function useCast() {
               case sessionState.SESSION_START_FAILED:
               case sessionState.SESSION_ENDED: {
                 settleSessionWaiters(null);
+                if (resumeAdoptPoll) {
+                  clearInterval(resumeAdoptPoll);
+                  resumeAdoptPoll = null;
+                }
                 isConnecting.value = false;
                 pendingCastVideo = null;
                 playback.castIdle();
@@ -238,24 +276,36 @@ export function useCast() {
           restoreResumedSession();
         }
       }
-      catch {
-        // Cast API present but configuration failed
+      catch (error) {
+        // Both globals were present but configuration still failed. Leave
+        // isAvailable false so the readiness poll retries on the next tick.
+        console.error('[cast] configuring the Cast context failed', error);
       }
     };
 
-    // Register callback for when the SDK loads (replaces the early inline stub)
-    w.__onGCastApiAvailable = (available: boolean) => {
-      if (!available) {
-        return;
-      }
+    // Readiness is polled rather than driven off window.__onGCastApiAvailable,
+    // because that global is NOT ours to own: cast_sender.js captures whatever
+    // callback is installed when it runs and then overwrites the global with an
+    // internal two-step counter (script onload + the framework's own call).
+    // Reassigning it from here clobbers that counter, and which of the two
+    // signals survives depends on whether the scripts are cached — the reason a
+    // cold load left the Cast button dead while a reload "fixed" it. The real
+    // precondition is just both SDK globals existing, so wait for exactly that.
+    const ready = () => !!(w.cast?.framework && w.chrome?.cast);
+    if (ready()) {
       configureCast();
-    };
-
-    // Handle race condition: SDK may have already loaded and called the
-    // early inline __onGCastApiAvailable before Vue mounted
-    if (w.__castApiReady && w.cast?.framework && w.chrome?.cast) {
-      configureCast();
+      return;
     }
+    const startedAt = Date.now();
+    const poll = setInterval(() => {
+      if (ready()) {
+        configureCast();
+      }
+      // Stop once configured, or after the SDK has clearly failed to load
+      if (isAvailable.value || Date.now() - startedAt > CAST_API_TIMEOUT_MS) {
+        clearInterval(poll);
+      }
+    }, 100);
   }
 
   /**
