@@ -1,5 +1,5 @@
 import type { Video } from '~/types';
-import type { CastWindow, RemotePlayer, RemotePlayerController } from '~/types/cast';
+import type { CastSession, CastWindow, RemotePlayer, RemotePlayerController } from '~/types/cast';
 
 /**
  * Google Cast Web Sender SDK composable.
@@ -29,6 +29,9 @@ const isConnecting = ref(false);
 // True while the device picker is open (requestSession pending). Drives only
 // the CastButton's loading state — no session exists yet, so nothing else
 const isAwaitingDevice = ref(false);
+// Last cast failure (a chrome.cast.ErrorCode), surfaced by CastErrorSnackbar.
+// A cancelled device picker is not a failure and never lands here.
+const castError = ref<string | null>(null);
 
 let remotePlayer: RemotePlayer | null = null;
 let remotePlayerController: RemotePlayerController | null = null;
@@ -37,6 +40,40 @@ let pendingStartTime = 0;
 // Video awaiting a device pick — the connecting state is entered only once a
 // device is chosen (SESSION_STARTING), not while the picker is still open
 let pendingCastVideo: Video | null = null;
+// Resolvers waiting for a usable CastSession. requestSession() settles as soon
+// as the session is *starting*, so getCurrentSession() is routinely still null
+// when it returns — these are settled from the SESSION_STATE_CHANGED handler.
+let sessionWaiters: ((session: CastSession | null) => void)[] = [];
+
+function settleSessionWaiters(session: CastSession | null) {
+  const waiters = sessionWaiters;
+  sessionWaiters = [];
+  for (const settle of waiters) {
+    settle(session);
+  }
+}
+
+class CastError extends Error {
+  constructor(public readonly code: string) {
+    super(`cast failed: ${code}`);
+    this.name = 'CastError';
+  }
+}
+
+// The SDK is inconsistent: it rejects with a bare ErrorCode string on some
+// paths and with a chrome.cast.Error object on others
+function errorCodeOf(error: unknown): string {
+  if (error instanceof CastError) {
+    return error.code;
+  }
+  if (typeof error === 'string') {
+    return error;
+  }
+  if (error && typeof error === 'object' && typeof (error as { code?: unknown }).code === 'string') {
+    return (error as { code: string }).code;
+  }
+  return 'unknown';
+}
 
 export function useCast() {
   const playback = usePlaybackStore();
@@ -121,22 +158,32 @@ export function useCast() {
           w.cast!.framework.CastContextEventType.SESSION_STATE_CHANGED,
           event => {
             const sessionState = w.cast!.framework.SessionState;
-            if (event.sessionState === sessionState.SESSION_STARTING) {
-              if (pendingCastVideo) {
-                // Hand off at the live local position — the video kept playing
-                // while the picker was open
-                pendingStartTime = playback.localPositionOf(pendingCastVideo) || pendingStartTime;
-                playback.setCastConnecting(pendingCastVideo, pendingStartTime);
+            switch (event.sessionState) {
+              case sessionState.SESSION_STARTING: {
+                if (pendingCastVideo) {
+                  // Hand off at the live local position — the video kept
+                  // playing while the picker was open
+                  pendingStartTime = playback.localPositionOf(pendingCastVideo) || pendingStartTime;
+                  playback.setCastConnecting(pendingCastVideo, pendingStartTime);
+                }
+                isConnecting.value = true;
+                break;
               }
-              isConnecting.value = true;
-            }
-            else if (
-              event.sessionState === sessionState.SESSION_START_FAILED
-              || event.sessionState === sessionState.SESSION_ENDED
-            ) {
-              isConnecting.value = false;
-              pendingCastVideo = null;
-              playback.castIdle();
+              // Only now is getCurrentSession() guaranteed to return a session
+              // that can accept a load request
+              case sessionState.SESSION_STARTED:
+              case sessionState.SESSION_RESUMED: {
+                settleSessionWaiters(context.getCurrentSession());
+                break;
+              }
+              case sessionState.SESSION_START_FAILED:
+              case sessionState.SESSION_ENDED: {
+                settleSessionWaiters(null);
+                isConnecting.value = false;
+                pendingCastVideo = null;
+                playback.castIdle();
+                break;
+              }
             }
           },
         );
@@ -163,6 +210,36 @@ export function useCast() {
   }
 
   /**
+   * Resolve once a CastSession that can accept a load request exists.
+   *
+   * requestSession() resolves at SESSION_STARTING, well before the session is
+   * usable, so loading straight after it fails on a cold page load — the whole
+   * reason the first cast attempt used to silently do nothing. Resolves with
+   * null when the session start fails, ends, or the receiver never comes up.
+   */
+  function waitForSession(timeoutMs = 15_000): Promise<CastSession | null> {
+    const w = window as unknown as CastWindow;
+    const context = w.cast!.framework.CastContext.getInstance();
+    const existing = context.getCurrentSession();
+    if (existing) {
+      return Promise.resolve(existing);
+    }
+    return new Promise(resolve => {
+      let settled = false;
+      const settle = (session: CastSession | null) => {
+        if (settled) {
+          return;
+        }
+        settled = true;
+        resolve(session);
+      };
+      sessionWaiters.push(settle);
+      // Some receivers never emit a terminal state; fall back to one last read
+      setTimeout(() => settle(context.getCurrentSession()), timeoutMs);
+    });
+  }
+
+  /**
    * Cast a video to a Chromecast device, optionally starting at `startTime`
    * seconds (handoff from local playback).
    * Returns true on success, false on failure or if Cast is unavailable.
@@ -178,34 +255,15 @@ export function useCast() {
       return false;
     }
     castTitle.value = title;
+    castError.value = null;
     pendingStartTime = startTime ?? 0;
     pendingCastVideo = video ?? null;
     try {
       const w = window as unknown as CastWindow;
       const context = w.cast!.framework.CastContext.getInstance();
-      if (context.getCurrentSession()) {
-        // Already casting — no device picker opens, so enter the connecting
-        // state now and load the new media into the running session.
-        if (video) {
-          playback.setCastConnecting(video, pendingStartTime);
-        }
-        isConnecting.value = true;
-      }
-      else {
-        // Opens the device picker. The connecting state is deferred to the
-        // SESSION_STARTING handler (fires once a device is picked) so the live
-        // <video> isn't torn down — and the picker closed — while it's open.
-        // The picker-open window has no SDK event, so the CastButton spinner is
-        // driven manually across the pending requestSession promise.
-        isAwaitingDevice.value = true;
-        try {
-          await context.requestSession();
-        }
-        finally {
-          isAwaitingDevice.value = false;
-        }
-      }
 
+      // Built before the session is requested so the load request is ready to
+      // fire the moment a usable session lands
       const mediaInfo = new w.chrome!.cast.media.MediaInfo(videoUrl, 'video/mp4');
       const metadata = new w.chrome!.cast.media.GenericMediaMetadata();
       metadata.title = title;
@@ -235,29 +293,74 @@ export function useCast() {
       if (subtitleUrl) {
         request.activeTrackIds = [1];
       }
+
+      if (context.getCurrentSession()) {
+        // Already casting — no device picker opens, so enter the connecting
+        // state now and load the new media into the running session.
+        if (video) {
+          playback.setCastConnecting(video, pendingStartTime);
+        }
+        isConnecting.value = true;
+      }
+      else {
+        // Opens the device picker. The connecting state is deferred to the
+        // SESSION_STARTING handler (fires once a device is picked) so the live
+        // <video> isn't torn down — and the picker closed — while it's open.
+        // The picker-open window has no SDK event, so the CastButton spinner is
+        // driven manually across the pending requestSession promise.
+        isAwaitingDevice.value = true;
+        let errorCode: string | null | undefined;
+        try {
+          // Resolves with an ErrorCode rather than rejecting on some paths
+          errorCode = await context.requestSession();
+        }
+        finally {
+          isAwaitingDevice.value = false;
+        }
+        if (errorCode) {
+          throw new CastError(errorCode);
+        }
+      }
+
+      // requestSession() settles at SESSION_STARTING — the session itself lands
+      // later, so getCurrentSession() here would usually still be null
+      const session = await waitForSession();
+      if (!session) {
+        throw new CastError('session_unavailable');
+      }
+
       // pendingStartTime is re-read at SESSION_STARTING, so it reflects the
       // live local position at handoff rather than the button-press snapshot
       if (pendingStartTime > 0) {
         request.currentTime = pendingStartTime;
       }
 
-      const session = context.getCurrentSession();
       // Resolves when the receiver accepts the load request, which can be well
       // before the media is actually loaded — isConnecting is cleared by
       // syncRemotePlayer once the receiver reports isMediaLoaded
-      await session!.loadMedia(request);
+      await session.loadMedia(request);
       hasCaptions.value = !!subtitleUrl;
       captionsEnabled.value = !!subtitleUrl;
       pendingCastVideo = null;
       return true;
     }
-    catch {
+    catch (error) {
+      const code = errorCodeOf(error);
+      // A dismissed device picker is a normal outcome, not a failure
+      if (code !== 'cancel') {
+        console.error('[cast] failed to start playback', error);
+        castError.value = code;
+      }
       isConnecting.value = false;
       pendingStartTime = 0;
       pendingCastVideo = null;
       playback.castIdle();
       return false;
     }
+  }
+
+  function clearCastError() {
+    castError.value = null;
   }
 
   // Remote playback controls, driven by the RemotePlayerController
@@ -317,6 +420,8 @@ export function useCast() {
   return {
     isAvailable,
     isAwaitingDevice,
+    castError,
+    clearCastError,
     isMuted,
     volumeLevel,
     canSeek,

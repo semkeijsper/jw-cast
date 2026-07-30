@@ -17,6 +17,7 @@ export interface CastWindow {
         SESSION_STARTED: string;
         SESSION_START_FAILED: string;
         SESSION_ENDED: string;
+        SESSION_RESUMED: string;
       };
     };
   };
@@ -41,7 +42,10 @@ export interface CastWindow {
 
 export interface CastContextInstance {
   setOptions: (opts: object) => void;
-  requestSession: () => Promise<void>;
+  // Resolves with null on success, or a chrome.cast.ErrorCode string on failure
+  // (and rejects with one on some paths) — it resolves as soon as the session is
+  // *starting*, so the session itself is not available yet when it settles
+  requestSession: () => Promise<string | null | undefined>;
   getCurrentSession: () => CastSession | null;
   endCurrentSession: (stopCasting: boolean) => void;
   addEventListener: (type: string, handler: (event: { sessionState: string }) => void) => void;

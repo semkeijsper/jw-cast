@@ -318,7 +318,11 @@ Mobile ergonomics: the dialog auto-enters fullscreen when the device rotates to 
 
 **Exclusive playback:** casting is exclusive with the local player. From `SESSION_STARTING` until the cast ends, the local Plyr instance is destroyed and the player area shows a poster placeholder with the cast device name (CastBar carries the controls). The handoff position is carried on the cast `LoadRequest.currentTime` and re-enforced with an explicit seek once the receiver reports the media loaded; when the cast ends with the dialog still open the local player rebuilds at `lastCastPosition`. The connecting state is entered on `SESSION_STARTING` (a device was actually picked), not before `requestSession()`, so cancelling the device picker leaves local playback untouched. `CastButton.vue` shows its own loading spinner across the pending `requestSession` promise.
 
-`cast/CastButton.vue` is disabled when the Cast SDK is unavailable (e.g. non-Chromium browsers). Exclusive-cast and handoff behavior needs manual verification with real Chromecast hardware — it can't be exercised headless.
+**Session handshake:** `requestSession()` settles at `SESSION_STARTING`, *not* when the session is usable — `getCurrentSession()` is routinely still `null` when it returns, so loading straight after it made the first cast from a cold page load silently fail (a reload then "fixed" it only because `ORIGIN_SCOPED` auto-rejoin took the reuse branch). `castMedia` therefore awaits `waitForSession()`, which resolves from the `SESSION_STARTED`/`SESSION_RESUMED` handler (or `null` on `SESSION_START_FAILED`/`SESSION_ENDED`/timeout). Never load media off the `requestSession()` promise alone. `requestSession()` also *resolves* with a `chrome.cast.ErrorCode` instead of rejecting on some paths, so its return value is checked. Failures set `castError` (rendered by `cast/CastErrorSnackbar.vue` in `app.vue`) and log to the console; a `'cancel'` code is a dismissed picker, not a failure, and stays silent.
+
+`cast/CastButton.vue` is disabled when the Cast SDK is unavailable (e.g. non-Chromium browsers). Exclusive-cast and handoff behavior needs manual verification with real Chromecast hardware — it can't be exercised headless; `test/nuxt/composables/useCast.test.ts` covers the session handshake against a fake SDK.
+
+Known gap: reloading mid-cast auto-rejoins the session, but the playback store's `cast` slice keys on a `Video` object that can't be recovered after reload, so `CastBar` stays hidden until the next `castMedia` call.
 
 ## Search
 

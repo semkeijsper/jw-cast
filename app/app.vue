@@ -35,6 +35,7 @@
     </v-main>
 
     <CastBar />
+    <CastErrorSnackbar />
 
     <SearchDialog />
     <VideoDialog />
