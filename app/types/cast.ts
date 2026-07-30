@@ -58,6 +58,10 @@ export interface CastSession {
 
 export interface MediaSession {
   editTracksInfo: (request: object, onSuccess: () => void, onError: () => void) => void;
+  // Read when re-adopting a session the SDK rejoined after a reload — the
+  // caption state is not otherwise recoverable
+  activeTrackIds?: number[];
+  media?: { tracks?: MediaTrack[] };
 }
 
 export interface MediaInfo {

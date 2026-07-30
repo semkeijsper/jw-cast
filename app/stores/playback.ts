@@ -16,6 +16,10 @@ export const usePlaybackStore = defineStore('playback', () => {
   // Last known cast position, retained across `castIdle` so the local player
   // can resume there on the cast → local handoff (disconnect while open)
   const lastCastPosition = ref(0);
+  // The only persisted field: which video the running cast session is playing.
+  // The SDK rejoins the session after a reload but the `cast` slice starts idle,
+  // so this breadcrumb is what lets `useCast` restore it (see the persist block)
+  const castTargetKey = ref<string | null>(null);
 
   function keyOf(video: Video) {
     return video.languageAgnosticNaturalKey;
@@ -25,12 +29,13 @@ export const usePlaybackStore = defineStore('playback', () => {
   // Seed lastCastPosition with the local handoff position so a cancelled or
   // failed cast (e.g. the device picker dismissed without a selection) restores
   // the local player to where it was, not to 0
-  function setCastConnecting(video: Video, startPosition = 0) {
-    cast.value = { kind: 'connecting', video };
+  function setCastConnecting(videoKey: string, startPosition = 0) {
+    cast.value = { kind: 'connecting', videoKey };
     lastCastPosition.value = startPosition;
+    castTargetKey.value = videoKey;
   }
   function setCastActive(patch: {
-    video: Video;
+    videoKey: string;
     position: number;
     duration: number;
     paused: boolean;
@@ -42,6 +47,7 @@ export const usePlaybackStore = defineStore('playback', () => {
   }
   function castIdle() {
     cast.value = { kind: 'idle' };
+    castTargetKey.value = null;
   }
 
   // --- local slice (driven by usePlyrPlayer) ---
@@ -67,13 +73,13 @@ export const usePlaybackStore = defineStore('playback', () => {
       return false;
     }
     return (cast.value.kind === 'connecting' || cast.value.kind === 'active')
-      && keyOf(cast.value.video) === keyOf(video);
+      && cast.value.videoKey === keyOf(video);
   }
   function isCastingVideo(video: Video | null): boolean {
     if (!video) {
       return false;
     }
-    return cast.value.kind === 'active' && keyOf(cast.value.video) === keyOf(video);
+    return cast.value.kind === 'active' && cast.value.videoKey === keyOf(video);
   }
   function localPositionOf(video: Video | null): number {
     if (video && local.value.kind === 'ready' && keyOf(local.value.video) === keyOf(video)) {
@@ -93,6 +99,7 @@ export const usePlaybackStore = defineStore('playback', () => {
     cast,
     local,
     lastCastPosition,
+    castTargetKey,
     setCastConnecting,
     setCastActive,
     castIdle,
@@ -105,4 +112,12 @@ export const usePlaybackStore = defineStore('playback', () => {
     localPositionOf,
     positionFor,
   };
+}, {
+  persist: {
+    // sessionStorage, not the plugin's cookie default: the cast target is
+    // per-tab session state and has no business riding on every request.
+    // Deliberately separate from the language store's pinned 'app' cookie.
+    storage: piniaPluginPersistedstate.sessionStorage(),
+    pick: ['castTargetKey'],
+  },
 });

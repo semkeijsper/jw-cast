@@ -5,6 +5,8 @@ import { makeVideo } from '../../fixtures';
 
 const A = makeVideo('vid-A');
 const B = makeVideo('vid-B');
+const keyA = A.languageAgnosticNaturalKey;
+const keyB = B.languageAgnosticNaturalKey;
 
 beforeEach(() => setActivePinia(createPinia()));
 
@@ -17,7 +19,7 @@ describe('playback store — cast slice', () => {
 
   it('treats a connecting video as a target but not yet casting', () => {
     const s = usePlaybackStore();
-    s.setCastConnecting(A);
+    s.setCastConnecting(keyA);
     expect(s.cast.kind).toBe('connecting');
     expect(s.isCastTarget(A)).toBe(true);
     expect(s.isCastingVideo(A)).toBe(false);
@@ -25,8 +27,8 @@ describe('playback store — cast slice', () => {
 
   it('casts only the matching video (identity — the regression)', () => {
     const s = usePlaybackStore();
-    s.setCastConnecting(A);
-    s.setCastActive({ video: A, position: 12, duration: 100, paused: false });
+    s.setCastConnecting(keyA);
+    s.setCastActive({ videoKey: keyA, position: 12, duration: 100, paused: false });
     expect(s.isCastingVideo(A)).toBe(true);
     expect(s.isCastTarget(B)).toBe(false);
     expect(s.isCastingVideo(B)).toBe(false);
@@ -35,9 +37,9 @@ describe('playback store — cast slice', () => {
 
   it('tracks position and retains lastCastPosition across castIdle (handoff source)', () => {
     const s = usePlaybackStore();
-    s.setCastActive({ video: A, position: 5, duration: 100, paused: false });
+    s.setCastActive({ videoKey: keyA, position: 5, duration: 100, paused: false });
     // syncRemotePlayer pushes a full snapshot on every RemotePlayer change
-    s.setCastActive({ video: A, position: 42, duration: 100, paused: false });
+    s.setCastActive({ videoKey: keyA, position: 42, duration: 100, paused: false });
     expect(s.lastCastPosition).toBe(42);
     s.castIdle();
     expect(s.cast.kind).toBe('idle');
@@ -46,10 +48,31 @@ describe('playback store — cast slice', () => {
 
   it('resets lastCastPosition when a new cast connects', () => {
     const s = usePlaybackStore();
-    s.setCastActive({ video: A, position: 30, duration: 100, paused: false });
+    s.setCastActive({ videoKey: keyA, position: 30, duration: 100, paused: false });
     s.castIdle();
-    s.setCastConnecting(B);
+    s.setCastConnecting(keyB);
     expect(s.lastCastPosition).toBe(0);
+  });
+
+  it('writes and clears castTargetKey — the breadcrumb that survives a reload', () => {
+    const s = usePlaybackStore();
+    expect(s.castTargetKey).toBeNull();
+    s.setCastConnecting(keyA);
+    expect(s.castTargetKey).toBe(keyA);
+    s.setCastActive({ videoKey: keyA, position: 12, duration: 100, paused: false });
+    expect(s.castTargetKey).toBe(keyA);
+    s.castIdle();
+    expect(s.castTargetKey).toBeNull();
+  });
+
+  it('restores identity from a bare key, without the Video object', () => {
+    const s = usePlaybackStore();
+    // What useCast can reconstruct after a reload: the key and nothing else
+    s.setCastConnecting(keyA);
+    s.setCastActive({ videoKey: keyA, position: 30, duration: 100, paused: true });
+    expect(s.isCastTarget(A)).toBe(true);
+    expect(s.isCastingVideo(A)).toBe(true);
+    expect(s.isCastTarget(B)).toBe(false);
   });
 
   it('goes idle for a video that is not the cast target', () => {
@@ -62,7 +85,7 @@ describe('playback store — cast slice', () => {
 describe('playback store — coexistence', () => {
   it('holds an active cast and a ready local player simultaneously', () => {
     const s = usePlaybackStore();
-    s.setCastActive({ video: A, position: 100, duration: 200, paused: false });
+    s.setCastActive({ videoKey: keyA, position: 100, duration: 200, paused: false });
     s.setLocalReady(B);
     s.updateLocal({ position: 7 });
 

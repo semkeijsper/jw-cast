@@ -245,11 +245,16 @@ Single owner of playback-session state, one slice per transport (`types/playback
 | `cast` | Cast slice (`idle` / `connecting` / `active`), written by `useCast` |
 | `local` | Local-player slice (`idle` / `loading` / `ready`), written by `usePlyrPlayer` |
 | `lastCastPosition` | Position retained across `castIdle` so the cast → local handoff resumes there |
+| `castTargetKey` | The persisted cast identity — see below |
 | `setCastConnecting` / `setCastActive` / `castIdle` | Cast-slice mutations (connecting seeds `lastCastPosition` for the cancel/fallback case) |
 | `setLocalLoading` / `setLocalReady` / `updateLocal` / `localIdle` | Local-slice mutations |
 | `isCastTarget(v)` / `isCastingVideo(v)` / `localPositionOf(v)` / `positionFor(v)` | Identity-aware reads for a dialog's `selectedVideo` (`positionFor` is the transcript clock: cast position when casting, else local) |
 
 Mutations are `set*` functions. Async work stays in components/composables, calling `utils/api.ts` helpers.
+
+**The cast slice is keyed, the local slice is not.** `CastState` carries a `videoKey` (`languageAgnosticNaturalKey`) rather than a `Video`, because a cast session outlives the page: it must be restorable from storage after a reload (see Chromecast → Reload mid-cast). `LocalState` is dialog-scoped and keeps the real object. The identity-aware getters still take `Video | null`, so consumers never handle keys themselves.
+
+Persistence: this store persists **only** `castTargetKey`, via `piniaPluginPersistedstate.sessionStorage()` — per-tab, and deliberately *not* the language store's pinned `'app'` cookie (the plugin's Nuxt default is cookies, so the `storage` option must be passed explicitly or this would ride on every request).
 
 ## UI Strings
 
@@ -322,7 +327,7 @@ Mobile ergonomics: the dialog auto-enters fullscreen when the device rotates to 
 
 `cast/CastButton.vue` is disabled when the Cast SDK is unavailable (e.g. non-Chromium browsers). Exclusive-cast and handoff behavior needs manual verification with real Chromecast hardware — it can't be exercised headless; `test/nuxt/composables/useCast.test.ts` covers the session handshake against a fake SDK.
 
-Known gap: reloading mid-cast auto-rejoins the session, but the playback store's `cast` slice keys on a `Video` object that can't be recovered after reload, so `CastBar` stays hidden until the next `castMedia` call.
+**Reload mid-cast:** `ORIGIN_SCOPED` auto-join rejoins the running session, so the receiver keeps playing — but the store's `cast` slice starts idle and `syncRemotePlayer` only writes to a non-idle slice, so nothing would ever bring it back. `restoreResumedSession()` re-adopts it from the persisted `castTargetKey`, then lets `RemotePlayer` events refill title/device/position. It runs from both the `SESSION_RESUMED` handler *and* the tail of `configureCast()`, because auto-join can finish before `app.vue`'s `onMounted` attaches the listener. Caption state is read back off `getMediaSession()`; it is the one thing a `LoadRequest` knows that a rejoined session doesn't. **The breadcrumb is per-tab** — a *new* tab on the same origin auto-joins but has no key, so it shows no CastBar. That is deliberate: cross-tab restore needs localStorage plus invalidation on every session end.
 
 ## Search
 
@@ -400,7 +405,7 @@ So: **keep staging-specific behavior in the workflow, never in a commit.** An ov
 ## Git Workflow
 
 - Default branch: `master`
-- Feature work: descriptive branches off `master`
+- **Feature work currently branches off, and PRs target, `feature/nuxt-4-migration` — not `master`.** That branch is the integration target until the migration lands; opening a PR against `master` would drag the migration diff in with it. Revert to `master` once it is merged.
 - Commit style: lowercase imperative with optional scope (`feat(search): add pagination`)
 - No pre-commit hooks
 

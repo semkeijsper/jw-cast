@@ -1,7 +1,8 @@
-import type { CastSession, CastWindow } from '~/types/cast';
+import type { CastSession, CastWindow, RemotePlayer } from '~/types/cast';
 import { createPinia, setActivePinia } from 'pinia';
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useCast } from '~/composables/useCast';
+import { usePlaybackStore } from '~/stores/playback';
 
 /**
  * Fake Cast SDK. The behaviour under test is the session race: the SDK's
@@ -23,6 +24,9 @@ const session: CastSession = { loadMedia, getMediaSession: () => null };
 const sdk = {
   handlers: [] as ((event: { sessionState: string }) => void)[],
   currentSession: null as CastSession | null,
+  // The live RemotePlayer the composable holds, so tests can drive it
+  remotePlayer: null as RemotePlayer | null,
+  syncRemotePlayer: () => {},
   requestSession: vi.fn(async (): Promise<string | null | undefined> => null),
   emit(sessionState: string) {
     this.handlers.forEach(handler => handler({ sessionState }));
@@ -60,9 +64,15 @@ function installSdk() {
         canPause = false;
         displayName = 'Living Room';
         title = '';
+        constructor() {
+          sdk.remotePlayer = this as unknown as RemotePlayer;
+        }
       },
       RemotePlayerController: class {
-        addEventListener() {}
+        addEventListener(_type: string, handler: () => void) {
+          sdk.syncRemotePlayer = handler;
+        }
+
         playOrPause() {}
         muteOrUnmute() {}
         setVolumeLevel() {}
@@ -170,5 +180,58 @@ describe('useCast — castMedia session handling', () => {
 
     await expect(cast()).resolves.toBe(false);
     expect(useCast().castError.value).toBe('receiver_unavailable');
+  });
+});
+
+describe('useCast — resuming a session after a reload', () => {
+  // What a reloaded page starts from: the persisted key, an idle cast slice
+  // and a RemotePlayer the SDK has already rejoined to the receiver
+  function seedResumedSession(videoKey: string | null) {
+    const playback = usePlaybackStore();
+    playback.castIdle();
+    playback.castTargetKey = videoKey;
+    sdk.currentSession = session;
+    Object.assign(sdk.remotePlayer!, {
+      isConnected: true,
+      isMediaLoaded: true,
+      isPaused: true,
+      currentTime: 42,
+      duration: 300,
+      title: 'Some video',
+    });
+    return playback;
+  }
+
+  it('re-adopts the running cast from the persisted key', () => {
+    const playback = seedResumedSession('vid-A');
+
+    sdk.emit(SessionState.SESSION_RESUMED);
+
+    expect(playback.cast).toMatchObject({
+      kind: 'active',
+      videoKey: 'vid-A',
+      position: 42,
+      duration: 300,
+      paused: true,
+    });
+    expect(useCast().castDeviceName.value).toBe('Living Room');
+  });
+
+  it('stays idle when there is no persisted key (e.g. a new tab)', () => {
+    const playback = seedResumedSession(null);
+
+    sdk.emit(SessionState.SESSION_RESUMED);
+
+    expect(playback.cast.kind).toBe('idle');
+  });
+
+  it('clears the persisted key when the session ends', () => {
+    const playback = seedResumedSession('vid-A');
+    sdk.emit(SessionState.SESSION_RESUMED);
+
+    sdk.emit(SessionState.SESSION_ENDED);
+
+    expect(playback.cast.kind).toBe('idle');
+    expect(playback.castTargetKey).toBeNull();
   });
 });

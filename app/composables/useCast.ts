@@ -117,7 +117,7 @@ export function useCast() {
     // video (set in castMedia) carries through to the active state as identity.
     if (playback.cast.kind !== 'idle' && remotePlayer.isMediaLoaded) {
       playback.setCastActive({
-        video: playback.cast.video,
+        videoKey: playback.cast.videoKey,
         position: remotePlayer.currentTime,
         duration: remotePlayer.duration,
         paused: remotePlayer.isPaused,
@@ -128,6 +128,42 @@ export function useCast() {
     // Only a drop after we were actually connected should idle the cast slice.
     if (!isConnecting.value && !remotePlayer.isConnected && playback.cast.kind !== 'idle') {
       playback.castIdle();
+    }
+  }
+
+  /**
+   * Re-adopt a session the SDK auto-rejoined after a page reload.
+   *
+   * The receiver keeps playing across the reload, but the store's cast slice
+   * starts idle — without this the CastBar never comes back and a dialog opened
+   * on the cast video would build a local player on top of the running cast.
+   * `castTargetKey` is the only thing that survives; title, device name,
+   * position and duration all refill from RemotePlayer events.
+   */
+  function restoreResumedSession() {
+    const videoKey = playback.castTargetKey;
+    if (!videoKey || playback.cast.kind !== 'idle') {
+      return;
+    }
+    const w = window as unknown as CastWindow;
+    const session = w.cast!.framework.CastContext.getInstance().getCurrentSession();
+    if (!session) {
+      return;
+    }
+
+    playback.setCastConnecting(videoKey, playback.lastCastPosition);
+    // The rejoined media is already loaded — there is no handoff seek pending
+    pendingStartTime = 0;
+
+    const mediaSession = session.getMediaSession();
+    const tracks = mediaSession?.media?.tracks ?? [];
+    hasCaptions.value = tracks.length > 0;
+    captionsEnabled.value = (mediaSession?.activeTrackIds ?? []).length > 0;
+
+    // Promote straight to active rather than waiting for the next event — a
+    // paused receiver emits none, which would leave the bar spinning
+    if (remotePlayer?.isConnected) {
+      syncRemotePlayer();
     }
   }
 
@@ -164,16 +200,24 @@ export function useCast() {
                   // Hand off at the live local position — the video kept
                   // playing while the picker was open
                   pendingStartTime = playback.localPositionOf(pendingCastVideo) || pendingStartTime;
-                  playback.setCastConnecting(pendingCastVideo, pendingStartTime);
+                  playback.setCastConnecting(
+                    pendingCastVideo.languageAgnosticNaturalKey,
+                    pendingStartTime,
+                  );
                 }
                 isConnecting.value = true;
                 break;
               }
               // Only now is getCurrentSession() guaranteed to return a session
               // that can accept a load request
-              case sessionState.SESSION_STARTED:
+              case sessionState.SESSION_STARTED: {
+                settleSessionWaiters(context.getCurrentSession());
+                break;
+              }
+              // A reload mid-cast rejoins the running session (ORIGIN_SCOPED)
               case sessionState.SESSION_RESUMED: {
                 settleSessionWaiters(context.getCurrentSession());
+                restoreResumedSession();
                 break;
               }
               case sessionState.SESSION_START_FAILED:
@@ -188,6 +232,11 @@ export function useCast() {
           },
         );
         isAvailable.value = true;
+        // Auto-join can finish before Vue mounts and calls initCast, in which
+        // case SESSION_RESUMED already fired with no listener attached
+        if (context.getCurrentSession()) {
+          restoreResumedSession();
+        }
       }
       catch {
         // Cast API present but configuration failed
@@ -298,7 +347,7 @@ export function useCast() {
         // Already casting — no device picker opens, so enter the connecting
         // state now and load the new media into the running session.
         if (video) {
-          playback.setCastConnecting(video, pendingStartTime);
+          playback.setCastConnecting(video.languageAgnosticNaturalKey, pendingStartTime);
         }
         isConnecting.value = true;
       }
