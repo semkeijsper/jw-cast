@@ -63,20 +63,82 @@ let mediaRequestId = 0;
 
 // Opt-in trace for diagnosing cast problems on a deployed build, since none of
 // this can be exercised without real hardware: add ?castdebug to the URL, or
-// set localStorage.castDebug. Errors are logged unconditionally regardless.
+// set localStorage.castDebug. Lines are mirrored into `castLogLines` so
+// CastDebugPanel can show them on a phone, where there is no console to read.
+const CAST_LOG_STORAGE_KEY = 'castDebugLog';
+const CAST_LOG_MAX_LINES = 300;
+const castLogLines = ref<string[]>([]);
 let castDebug: boolean | null = null;
-function castLog(...args: unknown[]) {
-  if (castDebug === null) {
-    try {
-      castDebug = window.location.search.includes('castdebug')
-        || window.localStorage.getItem('castDebug') !== null;
-    }
-    catch {
-      castDebug = false;
-    }
+
+function castDebugEnabled() {
+  if (castDebug !== null) {
+    return castDebug;
+  }
+  try {
+    castDebug = window.location.search.includes('castdebug')
+      || window.localStorage.getItem('castDebug') !== null;
+  }
+  catch {
+    castDebug = false;
   }
   if (castDebug) {
-    console.info('[cast]', ...args);
+    // Carry the pre-reload lines over — the reload is the thing under test, so
+    // both halves of it have to end up in one copyable block
+    try {
+      const stored = window.sessionStorage.getItem(CAST_LOG_STORAGE_KEY);
+      castLogLines.value = stored ? JSON.parse(stored) : [];
+    }
+    catch {
+      castLogLines.value = [];
+    }
+    castLogLines.value.push('——————— page load ———————');
+  }
+  return castDebug;
+}
+
+function formatLogArg(arg: unknown) {
+  if (typeof arg === 'string') {
+    return arg;
+  }
+  try {
+    return JSON.stringify(arg);
+  }
+  catch {
+    return String(arg);
+  }
+}
+
+function castLog(...args: unknown[]) {
+  if (!castDebugEnabled()) {
+    return;
+  }
+  console.info('[cast]', ...args);
+  const time = new Date().toISOString().slice(11, 23);
+  castLogLines.value.push(`${time} ${args.map(arg => formatLogArg(arg)).join(' ')}`);
+  if (castLogLines.value.length > CAST_LOG_MAX_LINES) {
+    castLogLines.value.splice(0, castLogLines.value.length - CAST_LOG_MAX_LINES);
+  }
+  try {
+    window.sessionStorage.setItem(CAST_LOG_STORAGE_KEY, JSON.stringify(castLogLines.value));
+  }
+  catch {
+    // Storage full or unavailable — the in-memory lines still render
+  }
+}
+
+// Failures always reach the console; the trace only mirrors them when enabled
+function reportCastError(message: string, error: unknown) {
+  console.error(`[cast] ${message}`, error);
+  castLog('ERROR', message, errorCodeOf(error));
+}
+
+function clearCastLog() {
+  castLogLines.value = [];
+  try {
+    window.sessionStorage.removeItem(CAST_LOG_STORAGE_KEY);
+  }
+  catch {
+    // Nothing to do — the in-memory lines are already cleared
   }
 }
 
@@ -370,7 +432,7 @@ export function useCast() {
       catch (error) {
         // Both globals were present but configuration still failed. Leave
         // isAvailable false so the readiness poll retries on the next tick.
-        console.error('[cast] configuring the Cast context failed', error);
+        reportCastError('configuring the Cast context failed', error);
       }
     };
 
@@ -546,7 +608,7 @@ export function useCast() {
       const code = errorCodeOf(error);
       // A dismissed device picker is a normal outcome, not a failure
       if (code !== 'cancel') {
-        console.error('[cast] failed to start playback', error);
+        reportCastError('failed to start playback', error);
         castError.value = code;
       }
       isConnecting.value = false;
@@ -620,6 +682,9 @@ export function useCast() {
     isAwaitingDevice,
     castError,
     clearCastError,
+    castLogLines,
+    castDebugEnabled,
+    clearCastLog,
     isMuted,
     volumeLevel,
     canSeek,
