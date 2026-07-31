@@ -19,12 +19,28 @@ const SessionState = {
 };
 
 const loadMedia = vi.fn(async () => {});
-const session: CastSession = { loadMedia, getMediaSession: () => sdk.mediaSession };
+const sendMessage = vi.fn(async () => {});
+const session: CastSession = {
+  loadMedia,
+  sendMessage,
+  getMediaSession: () => sdk.mediaSession,
+  getSessionObj: () => ({ media: sdk.mediaSession ? [sdk.mediaSession] : [] }),
+  addEventListener: (type, handler) => {
+    (sdk.sessionHandlers[type] ??= []).push(handler);
+  },
+  removeEventListener: (type, handler) => {
+    sdk.sessionHandlers[type] = (sdk.sessionHandlers[type] ?? []).filter(h => h !== handler);
+  },
+};
 
 const sdk = {
   handlers: [] as ((event: { sessionState: string }) => void)[],
+  sessionHandlers: {} as Record<string, (() => void)[]>,
   currentSession: null as CastSession | null,
   mediaSession: null as MediaSession | null,
+  emitSession(type: string) {
+    [...(this.sessionHandlers[type] ?? [])].forEach(handler => handler());
+  },
   // The live RemotePlayer the composable holds, so tests can drive it
   remotePlayer: null as RemotePlayer | null,
   syncRemotePlayer: () => {},
@@ -81,6 +97,7 @@ function installSdk() {
       },
       RemotePlayerEventType: { ANY_CHANGE: 'ANY_CHANGE' },
       CastContextEventType: { SESSION_STATE_CHANGED: 'SESSION_STATE_CHANGED' },
+      SessionEventType: { MEDIA_SESSION: 'mediasession' },
       SessionState,
     },
   } as unknown as CastWindow['cast'];
@@ -123,6 +140,8 @@ beforeAll(() => {
 
 beforeEach(() => {
   loadMedia.mockClear();
+  sendMessage.mockClear();
+  sdk.sessionHandlers = {};
   sdk.currentSession = null;
   sdk.mediaSession = null;
   sdk.requestSession.mockReset();
@@ -188,21 +207,31 @@ describe('useCast — castMedia session handling', () => {
 describe('useCast — resuming a session after a reload', () => {
   // What a reloaded page starts from: the persisted key, an idle cast slice
   // and a RemotePlayer the SDK has already rejoined to the receiver
+  function mediaSessionFixture(): MediaSession {
+    return {
+      editTracksInfo: () => {},
+      activeTrackIds: [1],
+      playerState: 'PAUSED',
+      getEstimatedTime: () => 42,
+      media: { duration: 300, tracks: [{} as never], metadata: { title: 'Some video' } },
+    };
+  }
+
   function seedResumedSession(videoKey: string | null, withMedia = true) {
     const playback = usePlaybackStore();
     playback.castIdle();
     playback.castTargetKey = videoKey;
     sdk.currentSession = session;
-    sdk.mediaSession = withMedia
-      ? {
-          editTracksInfo: () => {},
-          activeTrackIds: [1],
-          playerState: 'PAUSED',
-          getEstimatedTime: () => 42,
-          media: { duration: 300, tracks: [{} as never], metadata: { title: 'Some video' } },
-        }
-      : null;
-    Object.assign(sdk.remotePlayer!, { isConnected: true, displayName: 'Living Room' });
+    sdk.mediaSession = withMedia ? mediaSessionFixture() : null;
+    Object.assign(sdk.remotePlayer!, {
+      isConnected: true,
+      isMediaLoaded: false,
+      isPaused: true,
+      currentTime: 0,
+      duration: 0,
+      displayName: 'Living Room',
+      title: '',
+    });
     return playback;
   }
 
@@ -242,14 +271,44 @@ describe('useCast — resuming a session after a reload', () => {
     expect(playback.cast.kind).toBe('idle');
   });
 
-  it('waits for the media session before promoting, rather than going active empty', () => {
+  it('asks the receiver for its media status, then adopts on MEDIA_SESSION', () => {
+    // The reported failure: a rejoined session's media list is empty until a
+    // MEDIA_STATUS arrives, and the receiver only broadcasts one on a state
+    // change — so nothing ever comes unless the sender asks for it
     const playback = seedResumedSession('vid-A', false);
 
     sdk.emit(SessionState.SESSION_RESUMED);
-
-    // No media session yet — connecting, with a poll running to adopt it
     expect(playback.cast.kind).toBe('connecting');
-    sdk.emit(SessionState.SESSION_ENDED);
+    expect(sendMessage).toHaveBeenCalledWith(
+      'urn:x-cast:com.google.cast.media',
+      expect.objectContaining({ type: 'GET_STATUS' }),
+    );
+
+    // The status lands and the framework attaches the media session
+    sdk.mediaSession = mediaSessionFixture();
+    sdk.emitSession('mediasession');
+
+    expect(playback.cast).toMatchObject({ kind: 'active', videoKey: 'vid-A', position: 42 });
+  });
+
+  it('adopts off the RemotePlayer when no media session is exposed', () => {
+    const playback = seedResumedSession('vid-A', false);
+    Object.assign(sdk.remotePlayer!, {
+      isMediaLoaded: true,
+      isPaused: false,
+      currentTime: 12,
+      duration: 200,
+    });
+
+    sdk.emit(SessionState.SESSION_RESUMED);
+
+    expect(playback.cast).toMatchObject({
+      kind: 'active',
+      videoKey: 'vid-A',
+      position: 12,
+      duration: 200,
+      paused: false,
+    });
   });
 
   it('clears the persisted key when the session ends', () => {

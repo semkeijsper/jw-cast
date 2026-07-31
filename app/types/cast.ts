@@ -12,6 +12,7 @@ export interface CastWindow {
       RemotePlayerController: new (player: RemotePlayer) => RemotePlayerController;
       RemotePlayerEventType: { ANY_CHANGE: string };
       CastContextEventType: { SESSION_STATE_CHANGED: string };
+      SessionEventType: { MEDIA_SESSION: string };
       SessionState: {
         SESSION_STARTING: string;
         SESSION_STARTED: string;
@@ -54,6 +55,14 @@ export interface CastContextInstance {
 export interface CastSession {
   loadMedia: (request: LoadRequest) => Promise<void>;
   getMediaSession: () => MediaSession | null;
+  addEventListener: (type: string, handler: () => void) => void;
+  removeEventListener: (type: string, handler: () => void) => void;
+  // The receiver only broadcasts MEDIA_STATUS on state changes, so a sender
+  // that joins an in-flight session has to ask for it (GET_STATUS)
+  sendMessage: (namespace: string, message: object) => Promise<void>;
+  // Diagnostics only: the legacy session behind the CAF wrapper, whose `media`
+  // array is what getMediaSession() reads
+  getSessionObj?: () => { media?: unknown[] } | null;
 }
 
 export interface MediaSession {

@@ -1,5 +1,11 @@
 import type { Video } from '~/types';
-import type { CastSession, CastWindow, RemotePlayer, RemotePlayerController } from '~/types/cast';
+import type {
+  CastSession,
+  CastWindow,
+  MediaSession,
+  RemotePlayer,
+  RemotePlayerController,
+} from '~/types/cast';
 
 /**
  * Google Cast Web Sender SDK composable.
@@ -50,6 +56,29 @@ const CAST_API_TIMEOUT_MS = 20_000;
 // breadcrumb is treated as stale (cast ended while the page was away)
 const RESUME_ADOPT_TIMEOUT_MS = 10_000;
 let resumeAdoptPoll: ReturnType<typeof setInterval> | null = null;
+// The receiver's media channel — a GET_STATUS here makes it broadcast the
+// MEDIA_STATUS that fills the session's media list
+const MEDIA_NAMESPACE = 'urn:x-cast:com.google.cast.media';
+let mediaRequestId = 0;
+
+// Opt-in trace for diagnosing cast problems on a deployed build, since none of
+// this can be exercised without real hardware: add ?castdebug to the URL, or
+// set localStorage.castDebug. Errors are logged unconditionally regardless.
+let castDebug: boolean | null = null;
+function castLog(...args: unknown[]) {
+  if (castDebug === null) {
+    try {
+      castDebug = window.location.search.includes('castdebug')
+        || window.localStorage.getItem('castDebug') !== null;
+    }
+    catch {
+      castDebug = false;
+    }
+  }
+  if (castDebug) {
+    console.info('[cast]', ...args);
+  }
+}
 
 function settleSessionWaiters(session: CastSession | null) {
   const waiters = sessionWaiters;
@@ -143,8 +172,15 @@ export function useCast() {
    * The receiver keeps playing across the reload, but the store's cast slice
    * starts idle — without this the CastBar never comes back and a dialog opened
    * on the cast video would build a local player on top of the running cast.
-   * `castTargetKey` is the only thing that survives; title, device name,
-   * position and duration all refill from RemotePlayer events.
+   * `castTargetKey` is the only thing that survives; everything else has to come
+   * back off the receiver.
+   *
+   * Getting it *from* the receiver is the hard part. `getMediaSession()` only
+   * scans the session's media list, which is filled from MEDIA_STATUS messages,
+   * and the Default Media Receiver broadcasts those on state changes only — so
+   * after a reload nothing ever arrives and the list stays empty for good.
+   * (`RemotePlayer.isMediaLoaded` is dead for the same reason: the framework
+   * derives it from that same status.) The sender has to ask, hence GET_STATUS.
    */
   function restoreResumedSession() {
     const videoKey = playback.castTargetKey;
@@ -153,7 +189,9 @@ export function useCast() {
     }
     const w = window as unknown as CastWindow;
     const context = w.cast!.framework.CastContext.getInstance();
-    if (!context.getCurrentSession()) {
+    const session = context.getCurrentSession();
+    castLog('restoreResumedSession', { videoKey, hasSession: !!session });
+    if (!session) {
       return;
     }
 
@@ -161,44 +199,95 @@ export function useCast() {
     // The rejoined media is already playing — there is no handoff seek pending
     pendingStartTime = 0;
 
-    // The media session is not attached the instant the session is rejoined, so
-    // poll for it. Promotion cannot wait on RemotePlayer.isMediaLoaded: a paused
-    // receiver emits no events, which would leave the CastBar spinning forever.
     const startedAt = Date.now();
-    const adopt = () => {
-      const mediaSession = context.getCurrentSession()?.getMediaSession();
+    const mediaSessionEvent = w.cast!.framework.SessionEventType.MEDIA_SESSION;
+    let settled = false;
+
+    const finish = () => {
+      settled = true;
+      session.removeEventListener(mediaSessionEvent, onMediaSession);
+      if (resumeAdoptPoll) {
+        clearInterval(resumeAdoptPoll);
+        resumeAdoptPoll = null;
+      }
+    };
+
+    // The media session is richer, but once any status has landed the
+    // RemotePlayer carries the same values — either source is enough
+    const promote = (mediaSession: MediaSession | null) => {
       if (mediaSession) {
         hasCaptions.value = (mediaSession.media?.tracks ?? []).length > 0;
         captionsEnabled.value = (mediaSession.activeTrackIds ?? []).length > 0;
-        isMediaLoaded.value = true;
-        castTitle.value = remotePlayer?.title || mediaSession.media?.metadata?.title || castTitle.value;
-        castDeviceName.value = remotePlayer?.displayName || castDeviceName.value;
-        playback.setCastActive({
-          videoKey,
-          position: mediaSession.getEstimatedTime?.() ?? remotePlayer?.currentTime ?? 0,
-          duration: mediaSession.media?.duration ?? remotePlayer?.duration ?? 0,
-          paused: mediaSession.playerState === 'PAUSED',
-        });
-        return true;
       }
-      // No media on the receiver — the cast ended while this page was away, so
-      // the persisted key is stale and the bar must not sit there loading
-      if (Date.now() - startedAt > RESUME_ADOPT_TIMEOUT_MS) {
-        playback.castIdle();
-        return true;
-      }
-      return false;
+      isMediaLoaded.value = true;
+      castDeviceName.value = remotePlayer?.displayName || castDeviceName.value;
+      castTitle.value = remotePlayer?.title || mediaSession?.media?.metadata?.title || castTitle.value;
+      playback.setCastActive({
+        videoKey,
+        position: mediaSession?.getEstimatedTime?.() ?? remotePlayer?.currentTime ?? 0,
+        duration: mediaSession?.media?.duration ?? remotePlayer?.duration ?? 0,
+        paused: mediaSession ? mediaSession.playerState === 'PAUSED' : !!remotePlayer?.isPaused,
+      });
     };
 
+    const adopt = (): boolean => {
+      if (settled) {
+        return true;
+      }
+      const mediaSession = context.getCurrentSession()?.getMediaSession() ?? null;
+      castLog('adopt', {
+        mediaSession: !!mediaSession,
+        legacyMedia: session.getSessionObj?.()?.media?.length ?? null,
+        isConnected: remotePlayer?.isConnected,
+        isMediaLoaded: remotePlayer?.isMediaLoaded,
+        currentTime: remotePlayer?.currentTime,
+        duration: remotePlayer?.duration,
+      });
+
+      if (!mediaSession && !remotePlayer?.isMediaLoaded) {
+        // No media on the receiver — the cast ended while this page was away,
+        // so the persisted key is stale and the bar must not sit there loading
+        if (Date.now() - startedAt > RESUME_ADOPT_TIMEOUT_MS) {
+          castLog('adopt timed out — treating the stored cast target as stale');
+          finish();
+          playback.castIdle();
+          return true;
+        }
+        return false;
+      }
+
+      promote(mediaSession);
+      castLog('adopted the resumed session');
+      finish();
+      return true;
+    };
+
+    function onMediaSession() {
+      castLog('MEDIA_SESSION event');
+      adopt();
+    }
+
+    // Make the receiver broadcast its media status, which fills the session's
+    // media list and fires both MEDIA_SESSION and the RemotePlayer's own sync
+    const requestStatus = () => {
+      if (settled) {
+        return;
+      }
+      session.sendMessage(MEDIA_NAMESPACE, { type: 'GET_STATUS', requestId: ++mediaRequestId })
+        .then(() => castLog('GET_STATUS sent'))
+        .catch(error => castLog('GET_STATUS failed', errorCodeOf(error)));
+    };
+
+    session.addEventListener(mediaSessionEvent, onMediaSession);
     if (adopt()) {
       return;
     }
-    resumeAdoptPoll = setInterval(() => {
-      if (adopt()) {
-        clearInterval(resumeAdoptPoll!);
-        resumeAdoptPoll = null;
-      }
-    }, 500);
+    requestStatus();
+    // A second ask, in case the first went out before the receiver's media
+    // channel was joined
+    setTimeout(requestStatus, 2000);
+
+    resumeAdoptPoll = setInterval(adopt, 500);
   }
 
   function initCast() {
@@ -228,6 +317,7 @@ export function useCast() {
           w.cast!.framework.CastContextEventType.SESSION_STATE_CHANGED,
           event => {
             const sessionState = w.cast!.framework.SessionState;
+            castLog('session state', event.sessionState);
             switch (event.sessionState) {
               case sessionState.SESSION_STARTING: {
                 if (pendingCastVideo) {
@@ -270,6 +360,7 @@ export function useCast() {
           },
         );
         isAvailable.value = true;
+        castLog('cast context configured');
         // Auto-join can finish before Vue mounts and calls initCast, in which
         // case SESSION_RESUMED already fired with no listener attached
         if (context.getCurrentSession()) {
@@ -292,6 +383,7 @@ export function useCast() {
     // cold load left the Cast button dead while a reload "fixed" it. The real
     // precondition is just both SDK globals existing, so wait for exactly that.
     const ready = () => !!(w.cast?.framework && w.chrome?.cast);
+    castLog('initCast', { ready: ready(), castApiReady: w.__castApiReady });
     if (ready()) {
       configureCast();
       return;
@@ -299,10 +391,17 @@ export function useCast() {
     const startedAt = Date.now();
     const poll = setInterval(() => {
       if (ready()) {
+        castLog('SDK globals appeared after', Date.now() - startedAt, 'ms');
         configureCast();
       }
       // Stop once configured, or after the SDK has clearly failed to load
       if (isAvailable.value || Date.now() - startedAt > CAST_API_TIMEOUT_MS) {
+        if (!isAvailable.value) {
+          castLog('gave up waiting for the Cast SDK', {
+            cast: !!w.cast?.framework,
+            chrome: !!w.chrome?.cast,
+          });
+        }
         clearInterval(poll);
       }
     }, 100);
