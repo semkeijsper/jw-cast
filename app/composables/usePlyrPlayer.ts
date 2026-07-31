@@ -1,7 +1,7 @@
 import type Plyr from 'plyr';
 import type { Track } from 'plyr';
 import type { Ref } from 'vue';
-import type { Video } from '~/types';
+import type { Language, Video } from '~/types';
 import { useDisplay } from 'vuetify';
 
 // mdi script-text-outline — same icon as the transcript button
@@ -19,9 +19,12 @@ export function usePlyrPlayer(
     captionUrl: Ref<string | null>;
     subtitleUrl: Ref<string | null>;
     poster: Ref<string | undefined>;
+    // Resolved against the video, not the raw preference — the track labels and
+    // srclangs have to name the language the .vtt is actually in
+    videoLanguage: Ref<Language>;
+    subtitleLanguage: Ref<Language>;
   },
 ) {
-  const languageStore = useLanguageStore();
   const uiStore = useUiStore();
   const playback = usePlaybackStore();
   const { smAndDown } = useDisplay();
@@ -118,7 +121,7 @@ export function usePlyrPlayer(
   // and that stored value wins over config.captions.language on every setup,
   // so the selected subtitle language has to be re-asserted rather than assumed.
   function syncCaptionLanguage() {
-    const locale = languageStore.subtitleLanguageInfo.locale;
+    const locale = source.subtitleLanguage.value.locale;
     if (!player || !source.subtitleUrl.value) {
       return;
     }
@@ -184,8 +187,8 @@ export function usePlyrPlayer(
 
     const track = document.createElement('track');
     track.kind = 'subtitles';
-    track.label = languageLabel(languageStore.subtitleLanguageInfo);
-    track.srclang = languageStore.subtitleLanguageInfo.locale;
+    track.label = languageLabel(source.subtitleLanguage.value);
+    track.srclang = source.subtitleLanguage.value.locale;
     track.src = url;
 
     // Plyr only registers a track once its own addtrack handler has populated
@@ -236,16 +239,16 @@ export function usePlyrPlayer(
     if (source.captionUrl.value) {
       tracks.push({
         kind: 'captions',
-        label: languageLabel(languageStore.videoLanguageInfo),
-        srcLang: languageStore.videoLanguageInfo.locale,
+        label: languageLabel(source.videoLanguage.value),
+        srcLang: source.videoLanguage.value.locale,
         src: source.captionUrl.value,
       });
     }
     if (source.subtitleUrl.value) {
       tracks.push({
         kind: 'subtitles',
-        label: languageLabel(languageStore.subtitleLanguageInfo),
-        srcLang: languageStore.subtitleLanguageInfo.locale,
+        label: languageLabel(source.subtitleLanguage.value),
+        srcLang: source.subtitleLanguage.value.locale,
         src: source.subtitleUrl.value,
       });
     }
@@ -264,7 +267,7 @@ export function usePlyrPlayer(
           'captions', 'settings', 'pip', 'airplay', 'fullscreen',
         ],
         quality: { default: 1080, options: [1080, 720, 480, 360, 240] },
-        captions: { active: true, language: languageStore.subtitleLanguageInfo.locale, update: true },
+        captions: { active: true, language: source.subtitleLanguage.value.locale, update: true },
         // Few enough options that the settings menu can't soft-lock
         speed: { selected: 1, options: [0.75, 1, 1.25, 1.5] },
         // Fullscreen the whole row so the transcript panel stays visible (desktop)

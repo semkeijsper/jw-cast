@@ -6,8 +6,8 @@
           <v-btn
             class="mr-2"
             color="primary"
-            :disabled="!castAvailable"
-            :loading="!videoMedia || !subtitleMedia || isAwaitingDevice"
+            :disabled="!castAvailable || !videoMedia"
+            :loading="loading || isAwaitingDevice"
             prepend-icon="mdi-cast"
             variant="elevated"
             v-bind="{ ...menuProps, ...tooltipProps }"
@@ -37,7 +37,7 @@ import type { MediaFile, Video } from '~/types';
 
 const props = defineProps<{
   videoMedia: Video | null;
-  subtitleMedia: Video | null;
+  loading: boolean;
   subtitleUrl: string | null;
   /** Local playback position — the cast starts here (handoff) */
   startTime?: number;

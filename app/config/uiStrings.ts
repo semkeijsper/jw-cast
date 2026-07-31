@@ -7,8 +7,8 @@ import type { Translations } from '~/types';
  *
  * `en` is the fallback of last resort and MUST stay complete: several keys here
  * (lnkSearch, btnDownload, hdgSubtitles, btnPlay, btnPlayWith(out)Subtitles,
- * lnkHome, searchResultsCountText, noSearchResultsText, refineSearchResultsText)
- * are also real jw.org translation keys, so they normally resolve from the
+ * lnkHome, searchResultsCountText, noSearchResultsText, refineSearchResultsText,
+ * MsgNoContent) are also real jw.org translation keys, so they normally resolve from the
  * fetched translations at runtime — but if that fetch fails, `en` is all that's
  * left. Every other locale block therefore only needs the strings jw.org does
  * NOT provide: the bespoke shell copy + the three search sort labels (taken
@@ -46,6 +46,7 @@ export const uiStrings: Record<string, Translations> = {
     btnPlay: 'Play',
     btnPlayWithSubtitles: 'Play with subtitles',
     btnPlayWithoutSubtitles: 'Play without subtitles',
+    MsgNoContent: 'This content is not available in the selected language.',
   },
   nl: {
     guide: 'Handleiding',

@@ -114,6 +114,7 @@
                 icon="mdi-subtitles"
                 :items="availableLanguages"
                 :loading="subtitleLoading"
+                :message="subtitleFallbackHint"
               />
             </v-col>
           </v-row>
@@ -121,8 +122,8 @@
 
         <v-card-actions>
           <CastButton
+            :loading="loading || subtitleLoading"
             :start-time="localStartTime"
-            :subtitle-media="subtitleMedia"
             :subtitle-url="subtitleUrl"
             :video-media="videoMedia"
           />
@@ -131,7 +132,7 @@
 
           <TranscriptButton
             v-if="!landscapeMobile"
-            :subtitle-media="subtitleMedia"
+            :loading="subtitleLoading"
             :subtitle-url="subtitleUrl"
           />
         </v-card-actions>
@@ -171,8 +172,17 @@ const { castDeviceName, seekTo: castSeekTo } = useCast();
 
 const playerEl = ref<HTMLVideoElement | null>(null);
 
-const { loading, subtitleLoading, videoMedia, subtitleMedia, captionUrl, subtitleUrl }
-  = useMediaItems(() => captureResume());
+const {
+  loading,
+  subtitleLoading,
+  videoMedia,
+  captionUrl,
+  subtitleUrl,
+  availableLanguages,
+  resolvedVideoLanguage,
+  resolvedSubtitleLanguage,
+  subtitleUnavailable,
+} = useMediaItems(() => captureResume());
 
 // The cast session is global (one device); the store's cast slice carries the
 // video being cast, so this dialog mirrors it only when that video is the one
@@ -199,8 +209,10 @@ const dialog = computed({
   set: v => uiStore.setVideoDialog(v),
 });
 
+// The pickers show the language resolved against this video, so the field
+// always has a matching item; an explicit pick still updates the preference
 const videoLanguage = computed({
-  get: () => languageStore.videoLanguageInfo.locale,
+  get: () => resolvedVideoLanguage.value.locale,
   set: (v: string) => {
     if (!v) {
       return;
@@ -210,7 +222,7 @@ const videoLanguage = computed({
 });
 
 const subtitleLanguage = computed({
-  get: () => languageStore.subtitleLanguageInfo.locale,
+  get: () => resolvedSubtitleLanguage.value.locale,
   set: (v: string) => {
     if (!v) {
       return;
@@ -219,18 +231,16 @@ const subtitleLanguage = computed({
   },
 });
 
+// Names the language that was asked for, since the picker now shows the fallback
+const subtitleFallbackHint = computed(() =>
+  subtitleUnavailable.value
+    ? `${languageStore.subtitleLanguageInfo.name} — ${languageStore.t('MsgNoContent')}`
+    : undefined,
+);
+
 const videoPoster = computed(
   () => (uiStore.selectedVideo ?? videoMedia.value)?.images.wss.lg,
 );
-
-const availableLanguages = computed(() => {
-  if (!uiStore.selectedVideo) {
-    return [];
-  }
-  return languageStore.languages.filter(l =>
-    uiStore.selectedVideo!.availableLanguages.includes(l.code),
-  );
-});
 
 const {
   loadPlayer,
@@ -239,7 +249,14 @@ const {
   resetResume,
   seekTo: playerSeekTo,
   destroy: destroyPlayer,
-} = usePlyrPlayer(playerEl, { videoMedia, captionUrl, subtitleUrl, poster: videoPoster });
+} = usePlyrPlayer(playerEl, {
+  videoMedia,
+  captionUrl,
+  subtitleUrl,
+  poster: videoPoster,
+  videoLanguage: resolvedVideoLanguage,
+  subtitleLanguage: resolvedSubtitleLanguage,
+});
 
 // Exclusive playback: destroy the local player when casting takes over
 // (the <video> is v-if'd out); rebuild it at the last cast position when the

@@ -3,7 +3,7 @@
     class="ml-2"
     :color="subtitleUrl ? 'primary' : undefined"
     :disabled="subtitleUrl === null"
-    :loading="!subtitleMedia"
+    :loading="loading"
     :prepend-icon="uiStore.transcriptPanel ? 'mdi-arrow-left' : 'mdi-script-text-outline'"
     :variant="uiStore.transcriptPanel ? 'outlined' : 'elevated'"
     @click="uiStore.setTranscriptPanel(!uiStore.transcriptPanel)"
@@ -13,10 +13,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Video } from '~/types';
-
 defineProps<{
-  subtitleMedia: Video | null;
+  loading: boolean;
   subtitleUrl: string | null;
 }>();
 

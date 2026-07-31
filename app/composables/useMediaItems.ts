@@ -5,6 +5,13 @@ import type { Video } from '~/types';
  * (`videoMedia`) and the subtitle-language media (`subtitleMedia`), refetched
  * when the selected video or either language changes.
  *
+ * A video is only released in some languages (`Video.availableLanguages`), so
+ * the persisted language preferences are reconciled against that list per video
+ * — asking for one the video was never translated into returns `media: []`,
+ * which used to leave the media `null` forever and park the dialog in a
+ * permanent spinner. The store is never written to: the preference survives,
+ * the substitution is scoped to this video.
+ *
  * `onBeforeLanguageReload` runs before a language switch clears the media —
  * the player uses it to capture the playback position it should restore.
  */
@@ -16,6 +23,43 @@ export function useMediaItems(onBeforeLanguageReload?: () => void) {
   const subtitleLoading = ref(false);
   const videoMedia = ref<Video | null>(null);
   const subtitleMedia = ref<Video | null>(null);
+
+  // The languages this video actually exists in — both pickers' item list
+  const availableLanguages = computed(() => {
+    const video = uiStore.selectedVideo;
+    if (!video) {
+      return [];
+    }
+    return languageStore.languages.filter(l => video.availableLanguages.includes(l.code));
+  });
+
+  const availableCodes = computed(() => uiStore.selectedVideo?.availableLanguages);
+
+  const resolvedVideoLanguage = computed(() =>
+    resolveAvailableLanguage(
+      languageStore.videoLanguageInfo,
+      [
+        languageStore.siteLanguageInfo,
+        languageStore.findLanguageByLocale('en'),
+        availableLanguages.value[0],
+      ],
+      availableCodes.value,
+    ),
+  );
+
+  // Falls back to the audio language, which has itself already landed on
+  // something the video exists in, so this chain always ends somewhere real
+  const resolvedSubtitleLanguage = computed(() =>
+    resolveAvailableLanguage(
+      languageStore.subtitleLanguageInfo,
+      [resolvedVideoLanguage.value],
+      availableCodes.value,
+    ),
+  );
+
+  const subtitleUnavailable = computed(
+    () => languageStore.subtitleLanguageInfo.locale !== resolvedSubtitleLanguage.value.locale,
+  );
 
   const captionUrl = computed(() => {
     const found = videoMedia.value?.files.find(f => f?.subtitles?.url);
@@ -44,7 +88,7 @@ export function useMediaItems(onBeforeLanguageReload?: () => void) {
 
     if (needVideo) {
       requests.push(
-        fetchMediaItem(languageStore.videoLanguageInfo.code, lank).then(media => {
+        fetchMediaItem(resolvedVideoLanguage.value.code, lank).then(media => {
           if (media) {
             videoMedia.value = media;
           }
@@ -53,7 +97,7 @@ export function useMediaItems(onBeforeLanguageReload?: () => void) {
     }
     if (needSubtitle) {
       requests.push(
-        fetchMediaItem(languageStore.subtitleLanguageInfo.code, lank).then(media => {
+        fetchMediaItem(resolvedSubtitleLanguage.value.code, lank).then(media => {
           if (media) {
             subtitleMedia.value = media;
           }
@@ -76,10 +120,10 @@ export function useMediaItems(onBeforeLanguageReload?: () => void) {
       videoMedia.value = null;
       subtitleMedia.value = null;
       // Pre-fill from selectedVideo if language matches
-      if (languageStore.siteLanguageInfo.locale === languageStore.videoLanguageInfo.locale) {
+      if (languageStore.siteLanguageInfo.locale === resolvedVideoLanguage.value.locale) {
         videoMedia.value = video;
       }
-      if (languageStore.siteLanguageInfo.locale === languageStore.subtitleLanguageInfo.locale) {
+      if (languageStore.siteLanguageInfo.locale === resolvedSubtitleLanguage.value.locale) {
         subtitleMedia.value = video;
       }
       loadMediaItems();
@@ -106,5 +150,16 @@ export function useMediaItems(onBeforeLanguageReload?: () => void) {
     },
   );
 
-  return { loading, subtitleLoading, videoMedia, subtitleMedia, captionUrl, subtitleUrl };
+  return {
+    loading,
+    subtitleLoading,
+    videoMedia,
+    subtitleMedia,
+    captionUrl,
+    subtitleUrl,
+    availableLanguages,
+    resolvedVideoLanguage,
+    resolvedSubtitleLanguage,
+    subtitleUnavailable,
+  };
 }
