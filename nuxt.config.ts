@@ -1,5 +1,16 @@
 import { prerenderLocales, seoFor, SITE_URL } from './app/config/seoMeta';
+import { COMPAT_PROBE_SCRIPT, LEGACY_POLYFILL_SCRIPT } from './build/legacy-runtime';
+import { installLegacyCssPasses } from './build/postcss-legacy';
 import { applyPrerenderSeo } from './build/prerender-seo';
+
+/**
+ * Oldest engine the built output is expected to run on: Chromium 85, the browser
+ * in Samsung's Tizen 6.5 TVs (2022 models). Later Tizen releases are newer
+ * (7.0 ≈ Cr 94, 8.0 ≈ Cr 108) but all of them sit below Vite's default
+ * `baseline-widely-available` target, and none of them support CSS cascade
+ * layers — which is why build/postcss-legacy.ts flattens those away.
+ */
+const LEGACY_TARGET = 'chrome85';
 
 const defaultSeo = seoFor('en');
 
@@ -77,6 +88,16 @@ export default defineNuxtConfig({
         { rel: 'shortcut icon', href: `${baseURL}favicon.ico` },
       ],
       script: [
+        {
+          // Must be first: it installs the error listeners that catch failures
+          // in everything after it, including the bundle failing to boot.
+          innerHTML: COMPAT_PROBE_SCRIPT,
+        },
+        {
+          // Methods Vue/Vuetify call during the first render that postdate the
+          // Chromium in a Samsung TV — see build/legacy-runtime.ts.
+          innerHTML: LEGACY_POLYFILL_SCRIPT,
+        },
         {
           // GitHub Pages SPA: restore the path encoded by 404.html (?p=/path&q=query).
           // Must run as an inline head script so the URL is fixed before the module
@@ -175,6 +196,12 @@ export default defineNuxtConfig({
   },
 
   hooks: {
+    // Flattens Vuetify's cascade layers out of every emitted stylesheet — see
+    // CLAUDE.md → Legacy browser support
+    'vite:extendConfig'(config) {
+      installLegacyCssPasses(config);
+    },
+
     'nitro:init'(nitro) {
       nitro.hooks.hook('prerender:generate', route => {
         if (typeof route.contents !== 'string' || !route.fileName?.endsWith('.html')) {
@@ -186,6 +213,13 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    build: {
+      // Vite's default target is roughly Chromium 107, which no Samsung TV
+      // browser reaches — see LEGACY_TARGET.
+      target: LEGACY_TARGET,
+      cssTarget: LEGACY_TARGET,
+    },
+
     define: {
       // config/seoMeta.ts reads this to build canonical/OG URLs. It runs both at
       // build time (nuxt.config, build/prerender-seo.ts) and in the client bundle,

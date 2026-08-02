@@ -69,6 +69,16 @@ html {
   overflow-y: auto;
 }
 
+/* color-mix() is Chromium 111+, so every Samsung TV browser resolves Vuetify's
+   elevation tint to an invalid value — which invalidates the background-image
+   that consumes it. Custom properties inherit, so neutralising it once at the
+   root covers the per-component declarations that were dropped. */
+@supports not (color: color-mix(in srgb, red, blue)) {
+  :root {
+    --v-elevation-overlay: transparent;
+  }
+}
+
 /* Vuetify 2's dense lists also used a smaller title font;
    Vuetify 3's compact density only reduces heights */
 .v-list--density-compact .v-list-item-title {

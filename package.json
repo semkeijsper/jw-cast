@@ -27,6 +27,7 @@
     "vuetify-nuxt-module": "1.0.0-rc.3"
   },
   "devDependencies": {
+    "@csstools/postcss-cascade-layers": "^6.0.0",
     "@nuxt/eslint": "^1.16.0",
     "@nuxt/fonts": "^0.14.0",
     "@nuxt/test-utils": "^4.0.3",
@@ -38,6 +39,7 @@
     "happy-dom": "^20.11.1",
     "nuxt-gtag": "^4.1.0",
     "playwright-core": "^1.62.0",
+    "postcss": "^8.5.25",
     "sass-embedded": "^1.100.0",
     "typescript": "^6.0.3",
     "vitest": "^4.1.10",

@@ -80,20 +80,26 @@ app/
 │   └── common/                      # Cross-domain building blocks
 │       ├── LanguageSelect.vue       # Shared language autocomplete (v-model, items, icon)
 │       ├── PageSection.vue          # Centered max-width section wrapper
+│       ├── CompatPanel.vue          # Browser-compat diagnostics overlay behind ?compat
 │       └── GetNotifiedDialog.vue    # WhatsApp channel promo dialog
 ├── composables/                     # Stateful / lifecycle-bound logic
 │   ├── useCast.ts                   # Google Cast SDK wrapper (module-level shared refs)
 │   ├── usePlyrPlayer.ts             # Plyr lifecycle, race guard, position restore, control injection
 │   ├── useMediaItems.ts             # videoMedia/subtitleMedia state + language watchers
 │   └── useVideoRoute.ts             # Single owner of /:language/:videoId URL sync
+├── plugins/
+│   └── vuetifyLayers.client.ts      # Flattens Vuetify's runtime theme stylesheet (see Legacy browser support)
 ├── utils/                           # Pure functions, auto-imported
 │   ├── api.ts                       # Typed $fetch wrappers + API base URLs + downloadableFiles
 │   ├── language.ts                  # languageLabel
 │   ├── time.ts                      # formatTime (H:MM:SS)
 │   ├── searchLink.ts                # parseVideoLink (finder/media-items parsing) + sortKeyOf
 │   ├── transcript.ts                # activeCueIndex + highlightSegments (transcript logic)
+│   ├── compat.ts                    # Browser feature matrix + UA parsing for CompatPanel
+│   ├── cssLayers.ts                 # flattenCssLayers (runtime half of the layer flattening)
 │   └── vtt.ts                       # parseVtt
 ├── config/                          # Hand-maintained data tables (NOT auto-imported — import explicitly)
+│   ├── cssLayers.ts                 # Vuetify cascade-layer order + specificity padding (see Legacy browser support)
 │   ├── uiStrings.ts                 # Locale-keyed UI string dictionary (see UI Strings below)
 │   ├── seoMeta.ts                   # Locale-keyed title/description + SITE_URL (see SEO)
 │   └── whatsappChannels.ts          # Per-language WhatsApp channel links
@@ -116,7 +122,9 @@ test/                                # Vitest suites (see Testing)
 ├── nuxt/                            # Store + component specs (Nuxt env, mountSuspended)
 └── e2e/                             # Real-browser player specs (opt-in, see Testing)
 build/
-└── prerender-seo.ts                 # Build-time head patcher for prerendered shells (see SEO)
+├── prerender-seo.ts                 # Build-time head patcher for prerendered shells (see SEO)
+├── postcss-legacy.ts                # Cascade-layer + viewport-unit PostCSS passes (see Legacy browser support)
+└── legacy-runtime.ts                # Inline head scripts: polyfills + error probe
 .github/workflows/
 └── staging.yml                      # Staging Pages deploy; inert here, runs only in the mirror repo
 patches/
@@ -368,6 +376,35 @@ Vitest, wired through `@nuxt/test-utils`. `vitest.config.ts` defines three proje
 - The specs share one player session and run in order (`fileParallelism: false`, `sequence.concurrent: false`); each starts from the previous one's end state.
 - Chromecast is still out of scope — exclusive-cast and handoff need real hardware.
 
+## Legacy browser support
+
+The site is watched on TVs, and Samsung's Tizen browser is years behind desktop Chromium (Tizen 6.5 ≈ Cr 85, 7.0 ≈ Cr 94, 8.0 ≈ Cr 108). `LEGACY_TARGET` in `nuxt.config.ts` pins the floor at **Chromium 85** and feeds both `vite.build.target` and `cssTarget` — Vite's own default is roughly Cr 107, which no TV reaches.
+
+**Cascade layers are the thing that breaks the site outright.** Vuetify 4 puts *all* of its CSS inside `@layer`, and an engine that does not know the at-rule discards the whole block — reset, components, utilities and the `:root { --v-theme-* }` variables alike. The page still boots and still fetches, so it looks like a styling bug; it is a total loss of the stylesheet.
+
+Layers are therefore flattened away into `:not(#\#)` specificity padding, in two halves that must agree:
+
+| Half | Where | Covers |
+|---|---|---|
+| Build time | `build/postcss-legacy.ts` → `@csstools/postcss-cascade-layers`, unshifted onto Nuxt's PostCSS chain from the `vite:extendConfig` hook | Every stylesheet Vite emits |
+| Runtime | `app/plugins/vuetifyLayers.client.ts` → `flattenCssLayers` (`app/utils/cssLayers.ts`) | `<style id="vuetify-theme-stylesheet">`, which Vuetify's theme composable builds as a string and injects, so PostCSS never sees it |
+
+`app/config/cssLayers.ts` is the single source of truth for both: `VUETIFY_LAYER_ORDER` (copied verbatim from `vuetify/lib/styles/generic/_layers.scss`) and `VUETIFY_LAYERS`, the flattened order whose index *is* the padding count. Vite runs PostCSS per file, so the order statement is prepended to **every** file — a file with no layers still needs it, because its unlayered rules have to outrank every layered one.
+
+- **The runtime half is not optional on old browsers only.** Once the built CSS carries padding, an unpadded theme stylesheet loses to it in *every* browser — `.bg-primary` stops colouring the app bar. Both halves ship to everyone.
+- `test/unit/cssLayers.test.ts` runs the real flattener over a probe sheet and asserts each layer's padding index, and checks `VUETIFY_LAYER_ORDER` against the Vuetify file it was copied from — so a Vuetify release that adds a layer fails the suite instead of silently reordering the cascade.
+- Cost: ~623 KB → ~2.0 MB of raw CSS (~94 KB → ~111 KB gzipped). Most of the raw growth is padding on `@mdi/font`'s ~7000 unlayered selectors.
+
+Other gaps, all handled without touching component code:
+
+- **Dynamic viewport units** (Cr 108) — `viewportUnitFallback` in `build/postcss-legacy.ts` emits a `vh`/`vw` fallback ahead of every `dvh`/`svh`/`lvh` declaration. Not cosmetic: `.v-main { height: 100dvh }` sits under `html { overflow-y: hidden }`, so losing it leaves the page with no scroll container at all.
+- **`color-mix()`** (Cr 111) — only used for Vuetify's elevation tint. `app/assets/styles/main.css` neutralises `--v-elevation-overlay` behind `@supports not (color: color-mix(…))`; custom properties inherit, so setting it once on `:root` covers the per-component declarations that were dropped.
+- **ES2022/2023 methods** — `Object.hasOwn` (Cr 93, Vuetify's defaults merge), `Array.prototype.at` (Cr 92, vue-router), `findLast` (Cr 97, Vuetify's ripple), `toSorted`/`toReversed`/`toSpliced` (Cr 110). Polyfilled non-enumerably by `LEGACY_POLYFILL_SCRIPT` in `build/legacy-runtime.ts`, injected as an inline head script so it runs before the bundle.
+
+### Diagnosing a device you do not have
+
+`?compat` (or `localStorage.compatDebug`) renders `common/CompatPanel.vue`: engine and Tizen version parsed from the UA, a red/green matrix of every feature the app depends on with the Chromium version each shipped in, the list of methods that had to be polyfilled, and any buffered errors. It is built from plain elements and scoped CSS on purpose — it has to stay readable on a browser that dropped every Vuetify stylesheet. Errors are captured by `COMPAT_PROBE_SCRIPT`, injected ahead of everything else so a failure that stops the app from mounting is still reported. Like `?castdebug`, the panel is diagnostics rather than product UI, and is deliberately untranslated; a TV has no clipboard, so it is sized to be photographed.
+
 ## Patches
 
 `patches/plyr.patch` (pnpm `patchedDependencies`) removes `"type": "module"` from Plyr 3.8.4's `package.json` so its CommonJS build resolves correctly under Nuxt/Vite. Keep the single-`vue` invariant when touching deps: `@nuxt/test-utils` can pull a second `vue` copy alongside the app's, which splits Vuetify onto a different Vue runtime and breaks its directives (`v-intersect` → blank `v-img`s, dead swiper); run `pnpm dedupe` if that recurs.
@@ -423,4 +460,5 @@ So: **keep staging-specific behavior in the workflow, never in a commit.** An ov
 - **Do not rename the persisted store fields or the `'app'` persist key** (see State Management)
 - **Do not downgrade to Vue 2 / Vuetify 2** — this is a Vue 3 / Vuetify 4 project
 - **Do not add SSR** — the app is intentionally client-side only (`ssr: false`)
+- **Do not reintroduce `@layer` into shipped CSS**, and do not change one half of the layer flattening without the other — see Legacy browser support
 - **Do not add comments** to self-explanatory code

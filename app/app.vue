@@ -37,6 +37,7 @@
     <CastBar />
     <CastErrorSnackbar />
     <CastDebugPanel />
+    <CompatPanel />
 
     <SearchDialog />
     <VideoDialog />
