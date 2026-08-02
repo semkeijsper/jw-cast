@@ -88,7 +88,7 @@ app/
 │   ├── useMediaItems.ts             # videoMedia/subtitleMedia state + language watchers
 │   └── useVideoRoute.ts             # Single owner of /:language/:videoId URL sync
 ├── plugins/
-│   └── vuetifyLayers.client.ts      # Flattens Vuetify's runtime theme stylesheet (see Legacy browser support)
+│   └── vuetifyLayers.client.ts      # Flattens Vuetify's runtime theme stylesheet on old engines (see Legacy browser support)
 ├── utils/                           # Pure functions, auto-imported
 │   ├── api.ts                       # Typed $fetch wrappers + API base URLs + downloadableFiles
 │   ├── language.ts                  # languageLabel
@@ -123,8 +123,8 @@ test/                                # Vitest suites (see Testing)
 └── e2e/                             # Real-browser player specs (opt-in, see Testing)
 build/
 ├── prerender-seo.ts                 # Build-time head patcher for prerendered shells (see SEO)
-├── postcss-legacy.ts                # Cascade-layer + viewport-unit PostCSS passes (see Legacy browser support)
-└── legacy-runtime.ts                # Inline head scripts: polyfills + error probe
+├── legacy-css.ts                    # Emits the .nolayers.css twins (see Legacy browser support)
+└── legacy-runtime.ts                # Inline head scripts: stylesheet swap + error/feature probe
 .github/workflows/
 └── staging.yml                      # Staging Pages deploy; inert here, runs only in the mirror repo
 patches/
@@ -378,32 +378,39 @@ Vitest, wired through `@nuxt/test-utils`. `vitest.config.ts` defines three proje
 
 ## Legacy browser support
 
-The site is watched on TVs, and Samsung's Tizen browser is years behind desktop Chromium (Tizen 6.5 ≈ Cr 85, 7.0 ≈ Cr 94, 8.0 ≈ Cr 108). `LEGACY_TARGET` in `nuxt.config.ts` pins the floor at **Chromium 85** and feeds both `vite.build.target` and `cssTarget` — Vite's own default is roughly Cr 107, which no TV reaches.
+The site is watched on TVs, and Samsung's Tizen browser is years behind desktop Chromium (Tizen 6.5 ≈ Cr 85, 7.0 ≈ Cr 94, 8.0 ≈ Cr 108). `LEGACY_TARGET` in `nuxt.config.ts` pins the floor at **Chromium 85** and feeds `vite.build.target`/`cssTarget` — Vite's own default is roughly Cr 107, which no TV reaches.
 
-**Cascade layers are the thing that breaks the site outright.** Vuetify 4 puts *all* of its CSS inside `@layer`, and an engine that does not know the at-rule discards the whole block — reset, components, utilities and the `:root { --v-theme-* }` variables alike. The page still boots and still fetches, so it looks like a styling bug; it is a total loss of the stylesheet.
+**Cascade layers are the thing that breaks the site outright.** Vuetify 4 puts *all* of its CSS inside `@layer`, and an engine that does not know the at-rule discards the whole block — reset, components, utilities and the `:root { --v-theme-* }` variables alike. The page still boots and still fetches, so it looks like a styling bug; it is a total loss of the stylesheet. Vuetify 3.6 had a `$layers` opt-out; [v4 removed it](https://github.com/vuetifyjs/vuetify/issues/20232), and no bundler setting can lower `@layer` — layers invert specificity, so lowering it means rewriting every selector.
 
-Layers are therefore flattened away into `:not(#\#)` specificity padding, in two halves that must agree:
+### Two stylesheets, one build
 
-| Half | Where | Covers |
+Flattening layers into `:not(#\#)` specificity padding roughly triples the raw CSS, so it is **not** shipped to everyone. Each built stylesheet gets a flattened twin, and only browsers that need it ever ask for one:
+
+| Piece | Where | What it does |
 |---|---|---|
-| Build time | `build/postcss-legacy.ts` → `@csstools/postcss-cascade-layers`, unshifted onto Nuxt's PostCSS chain from the `vite:extendConfig` hook | Every stylesheet Vite emits |
-| Runtime | `app/plugins/vuetifyLayers.client.ts` → `flattenCssLayers` (`app/utils/cssLayers.ts`) | `<style id="vuetify-theme-stylesheet">`, which Vuetify's theme composable builds as a string and injects, so PostCSS never sees it |
+| Build | `build/legacy-css.ts`, from nitro's `compiled` hook | Writes `<name>.nolayers.css` beside every `_nuxt/**/*.css` using `@csstools/postcss-cascade-layers` |
+| Runtime | `legacyCssSwapScript` in `build/legacy-runtime.ts`, first inline head script | On engines without `CSSLayerBlockRule`, rewrites stylesheet hrefs to the twin |
+| Runtime | `app/plugins/vuetifyLayers.client.ts` → `flattenCssLayers` (`app/utils/cssLayers.ts`) | Flattens `<style id="vuetify-theme-stylesheet">`, which has no twin to swap to |
 
-`app/config/cssLayers.ts` is the single source of truth for both: `VUETIFY_LAYER_ORDER` (copied verbatim from `vuetify/lib/styles/generic/_layers.scss`) and `VUETIFY_LAYERS`, the flattened order whose index *is* the padding count. Vite runs PostCSS per file, so the order statement is prepended to **every** file — a file with no layers still needs it, because its unlayered rules have to outrank every layered one.
+`app/config/cssLayers.ts` is the source of truth for both halves: `VUETIFY_LAYER_ORDER` (copied verbatim from `vuetify/lib/styles/generic/_layers.scss`) and `VUETIFY_LAYERS`, the flattened order whose index *is* the padding count.
 
-- **The runtime half is not optional on old browsers only.** Once the built CSS carries padding, an unpadded theme stylesheet loses to it in *every* browser — `.bg-primary` stops colouring the app bar. Both halves ship to everyone.
-- `test/unit/cssLayers.test.ts` runs the real flattener over a probe sheet and asserts each layer's padding index, and checks `VUETIFY_LAYER_ORDER` against the Vuetify file it was copied from — so a Vuetify release that adds a layer fails the suite instead of silently reordering the cascade.
-- Cost: ~623 KB → ~2.0 MB of raw CSS (~94 KB → ~111 KB gzipped). Most of the raw growth is padding on `@mdi/font`'s ~7000 unlayered selectors.
+- **The flattening runs after the build, not in Vite's PostCSS chain.** `@csstools/postcss-cascade-layers` documents that it "assumes to process your complete CSS bundle"; Vite hands PostCSS one *source* file at a time. Running over the finished bundles means 5 files instead of hundreds. Nuxt still emits several bundles, so `VUETIFY_LAYER_ORDER` is prepended to each — a file with no layers of its own needs it too, or its unlayered rules lose the padding that keeps them above every layer.
+- **The swap script resolves hrefs before matching them.** The prerendered `<link>`s are root-relative, but Vite's preload helper assigns an absolute URL via `import.meta.resolve`, so a raw prefix test silently misses every lazily-loaded route chunk. A `MutationObserver` covers both those and the parser's own links.
+- **Vuetify's theme stylesheet is the one thing no build tool can reach** — the theme composable builds it as a string in the browser (`vuetify/lib/composables/theme.js`). It carries `:root { --v-theme-* }`, so losing it leaves the whole app uncoloured. The plugin no-ops where layers work: padding it there would rank it against the layered stylesheets it has to cooperate with.
+- **The twins only exist in a build.** `nuxt dev` serves layered CSS and no twins; the swap script exits immediately on any browser that supports layers, so this only matters if you point an old browser at the dev server. Test legacy behaviour against `pnpm build` output.
+- `test/unit/cssLayers.test.ts` runs the real flattener over a probe sheet and asserts each layer's padding index, and checks `VUETIFY_LAYER_ORDER` against the Vuetify file it was copied from — so a Vuetify release that adds a layer fails the suite instead of silently reordering the cascade. `test/unit/legacyCssSwap.test.ts` holds the ES5 swap script to the same href mapping the build used to name the files.
 
-Other gaps, all handled without touching component code:
+### Gaps that do not line up with the layer cutoff
 
-- **Dynamic viewport units** (Cr 108) — `viewportUnitFallback` in `build/postcss-legacy.ts` emits a `vh`/`vw` fallback ahead of every `dvh`/`svh`/`lvh` declaration. Not cosmetic: `.v-main { height: 100dvh }` sits under `html { overflow-y: hidden }`, so losing it leaves the page with no scroll container at all.
-- **`color-mix()`** (Cr 111) — only used for Vuetify's elevation tint. `app/assets/styles/main.css` neutralises `--v-elevation-overlay` behind `@supports not (color: color-mix(…))`; custom properties inherit, so setting it once on `:root` covers the per-component declarations that were dropped.
-- **ES2022/2023 methods** — `Object.hasOwn` (Cr 93, Vuetify's defaults merge), `Array.prototype.at` (Cr 92, vue-router), `findLast` (Cr 97, Vuetify's ripple), `toSorted`/`toReversed`/`toSpliced` (Cr 110). Polyfilled non-enumerably by `LEGACY_POLYFILL_SCRIPT` in `build/legacy-runtime.ts`, injected as an inline head script so it runs before the bundle.
+`@layer` is Cr 99, but some things the app needs are newer — so Chromium 99–110 takes the *modern* path and still needs help. These ship to everyone:
+
+- **Dynamic viewport units** (Cr 108) — `postcss-viewport-unit-fallback`, declared in `nuxt.config.ts` under `postcss.plugins`. Not cosmetic: `.v-main { height: 100dvh }` sits under `html { overflow-y: hidden }`, so losing it leaves the page with no scroll container at all.
+- **`color-mix()`** (Cr 111) — only Vuetify's elevation tint. `app/assets/styles/main.css` neutralises `--v-elevation-overlay` behind `@supports not (color: color-mix(…))`; custom properties inherit, so setting it once on `:root` covers the per-component declarations that were dropped.
+- **ES2022/2023 methods** — `Object.hasOwn` (Cr 93, Vuetify's defaults merge), `Array.at` (Cr 92, vue-router), `findLast` (Cr 97, Vuetify's ripple), `toSorted`/`toReversed`/`toSpliced`/`with` (Cr 110). Supplied by `@teages/nuxt-legacy` → `@vitejs/plugin-legacy` as core-js `modernPolyfills` (~6 KB gzipped), in a chunk the entry loads first. `renderLegacyChunks` is off on purpose: the `nomodule` bundle would never run, since every browser in range supports ES modules and takes the modern chunks. The core-js modules are listed explicitly because `modernPolyfills: true` infers them from plugin-legacy's own modern baseline (~Cr 105) and would miss the ones Tizen 6.5/7 actually lack.
 
 ### Diagnosing a device you do not have
 
-`?compat` (or `localStorage.compatDebug`) renders `common/CompatPanel.vue`: engine and Tizen version parsed from the UA, a red/green matrix of every feature the app depends on with the Chromium version each shipped in, the list of methods that had to be polyfilled, and any buffered errors. It is built from plain elements and scoped CSS on purpose — it has to stay readable on a browser that dropped every Vuetify stylesheet. Errors are captured by `COMPAT_PROBE_SCRIPT`, injected ahead of everything else so a failure that stops the app from mounting is still reported. Like `?castdebug`, the panel is diagnostics rather than product UI, and is deliberately untranslated; a TV has no clipboard, so it is sized to be photographed.
+`?compat` (or `localStorage.compatDebug`) renders `common/CompatPanel.vue`: engine and Tizen version parsed from the UA, a red/green matrix of every feature the app depends on with the Chromium version each shipped in, the methods that had to be polyfilled, and any buffered errors. It is built from plain elements and scoped CSS on purpose — it has to stay readable on a browser that dropped every Vuetify stylesheet. `COMPAT_PROBE_SCRIPT` runs ahead of everything else so a failure that stops the app from mounting is still reported; it also takes the census of missing methods *before* the polyfills fill them in, since a later probe would report every engine as complete. Like `?castdebug`, the panel is diagnostics rather than product UI, and is deliberately untranslated; a TV has no clipboard, so it is sized to be photographed.
 
 ## Patches
 
@@ -460,5 +467,5 @@ So: **keep staging-specific behavior in the workflow, never in a commit.** An ov
 - **Do not rename the persisted store fields or the `'app'` persist key** (see State Management)
 - **Do not downgrade to Vue 2 / Vuetify 2** — this is a Vue 3 / Vuetify 4 project
 - **Do not add SSR** — the app is intentionally client-side only (`ssr: false`)
-- **Do not reintroduce `@layer` into shipped CSS**, and do not change one half of the layer flattening without the other — see Legacy browser support
+- **Do not change one half of the layer flattening without the other** — the build-time twins, the runtime href swap and the theme-stylesheet plugin all rank against the same padding scale in `app/config/cssLayers.ts`. See Legacy browser support
 - **Do not add comments** to self-explanatory code

@@ -1,6 +1,7 @@
+import { join } from 'node:path';
 import { prerenderLocales, seoFor, SITE_URL } from './app/config/seoMeta';
-import { COMPAT_PROBE_SCRIPT, LEGACY_POLYFILL_SCRIPT } from './build/legacy-runtime';
-import { installLegacyCssPasses } from './build/postcss-legacy';
+import { emitLegacyStylesheets } from './build/legacy-css';
+import { COMPAT_PROBE_SCRIPT, legacyCssSwapScript } from './build/legacy-runtime';
 import { applyPrerenderSeo } from './build/prerender-seo';
 
 /**
@@ -8,9 +9,13 @@ import { applyPrerenderSeo } from './build/prerender-seo';
  * in Samsung's Tizen 6.5 TVs (2022 models). Later Tizen releases are newer
  * (7.0 ≈ Cr 94, 8.0 ≈ Cr 108) but all of them sit below Vite's default
  * `baseline-widely-available` target, and none of them support CSS cascade
- * layers — which is why build/postcss-legacy.ts flattens those away.
+ * layers — which is why build/legacy-css.ts emits flattened twins for them.
  */
 const LEGACY_TARGET = 'chrome85';
+
+// Nuxt's default buildAssetsDir. A directory under the public root, and — with
+// baseURL prepended — the URL prefix the swap script matches on.
+const BUILD_ASSETS_DIR = '_nuxt';
 
 const defaultSeo = seoFor('en');
 
@@ -33,7 +38,38 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/test-utils/module',
     'nuxt-gtag',
+    '@teages/nuxt-legacy',
   ],
+
+  /**
+   * plugin-legacy's `nomodule` bundle is no help here: Chromium 85–110 supports
+   * ES modules, so every browser we care about takes the *modern* chunks. Only
+   * `modernPolyfills` reaches them, so the legacy chunks are turned off and the
+   * core-js modules are listed explicitly — `modernPolyfills: true` would infer
+   * them from plugin-legacy's own modern baseline (~Cr 105) and miss the ones
+   * Tizen 6.5/7 actually lack.
+   *
+   * Each is called by Vue, Vuetify or vue-router during the first render:
+   * `Object.hasOwn` (Cr 93, defaults merge), `Array.at` (Cr 92, vue-router),
+   * `findLast` (Cr 97, ripple), `toSorted`/`toReversed`/`toSpliced`/`with`
+   * (Cr 110, text highlighting and Vue's reactive array instrumentation).
+   */
+  legacy: {
+    vite: {
+      renderLegacyChunks: false,
+      modernPolyfills: [
+        'es.object.has-own',
+        'es.array.at',
+        'es.string.at-alternative',
+        'es.array.find-last',
+        'es.array.find-last-index',
+        'es.array.to-sorted',
+        'es.array.to-reversed',
+        'es.array.to-spliced',
+        'es.array.with',
+      ],
+    },
+  },
 
   gtag: {
     id: 'G-EBSJ0TYTPY',
@@ -90,13 +126,15 @@ export default defineNuxtConfig({
       script: [
         {
           // Must be first: it installs the error listeners that catch failures
-          // in everything after it, including the bundle failing to boot.
+          // in everything after it, and takes the census of missing methods
+          // before the polyfills fill them in.
           innerHTML: COMPAT_PROBE_SCRIPT,
         },
         {
-          // Methods Vue/Vuetify call during the first render that postdate the
-          // Chromium in a Samsung TV — see build/legacy-runtime.ts.
-          innerHTML: LEGACY_POLYFILL_SCRIPT,
+          // Redirects browsers without cascade layers to the flattened
+          // stylesheets — must run before the parser reaches the <link> tags,
+          // which head scripts do. See build/legacy-css.ts.
+          innerHTML: legacyCssSwapScript(`${baseURL}${BUILD_ASSETS_DIR}/`),
         },
         {
           // GitHub Pages SPA: restore the path encoded by 404.html (?p=/path&q=query).
@@ -195,14 +233,31 @@ export default defineNuxtConfig({
     },
   },
 
-  hooks: {
-    // Flattens Vuetify's cascade layers out of every emitted stylesheet — see
-    // CLAUDE.md → Legacy browser support
-    'vite:extendConfig'(config) {
-      installLegacyCssPasses(config);
+  postcss: {
+    plugins: {
+      // dvh/svh/lvh are Chromium 108+, cascade layers are 99+ — so Chromium
+      // 99–107 takes the modern stylesheet and still needs this. Not cosmetic:
+      // `.v-main { height: 100dvh }` sits under `html { overflow-y: hidden }`,
+      // so losing it leaves the page with no scroll container at all.
+      'postcss-viewport-unit-fallback': {},
     },
+  },
 
+  hooks: {
     'nitro:init'(nitro) {
+      // Cascade-layer-free twins for browsers that cannot read @layer. Runs on
+      // the finished bundles rather than in Vite's per-file PostCSS chain — see
+      // CLAUDE.md → Legacy browser support.
+      nitro.hooks.hook('compiled', async() => {
+        const emitted = await emitLegacyStylesheets(
+          join(nitro.options.output.publicDir, BUILD_ASSETS_DIR),
+        );
+        for (const { warnings } of emitted) {
+          warnings.forEach(warning => nitro.logger.warn(`[legacy-css] ${warning}`));
+        }
+        nitro.logger.success(`Emitted ${emitted.length} legacy stylesheets`);
+      });
+
       nitro.hooks.hook('prerender:generate', route => {
         if (typeof route.contents !== 'string' || !route.fileName?.endsWith('.html')) {
           return;
